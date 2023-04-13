@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" itemscope="itemscope" itemtype="http://schema.org/WebPage" xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions">
+ <head profile="http://www.w3.org/2005/11/profile">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="/skin-iODBC/css/style.css" type="text/css" />
+  <title property="dc:title">iODBC Driver Manager:
+                     ODBC Bench</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+          </script>
+  <script type="text/javascript">
+                    _uacct = &quot;UA-139779-5&quot;;
+                    urchinTracker();
+                </script>
+  <script type="text/javascript"><!--
+                        function fixcopyright() {
+                        var nw=new Date();
+                        var el=document.getElementById('ftcopyyear');
+                        el.innerHTML=nw.getFullYear();
+                        }
+                        //
+                    -->
+  </script>
+  <link rel="canonical" href="http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/ODBCBench" />
+ </head>
+<body onload="fixcopyright()">
+  <div id="outer">
+   <div id="header">
+    <div id="headleft">
+     <a href="http://www.iodbc.org/">
+          <img src="/skin-iODBC/images/iodbc-logo.png" alt="iODBC logo" id="logo" title="iODBC" />
+          <h1>iODBC.org</h1>
+          <p>
+                                    Independent Open DataBase Connectivity for Linux, MacOS X and
+                                    Unix systems
+                                </p>
+     </a>
+    </div>
+    <div id="headright">
+     <ul>
+      <li>
+            <a href="/">Home</a>
+      </li>
+      <li>
+            <a href="About">About</a>
+      </li>
+      <li>
+            <a href="Downloads">Downloads</a>
+      </li>
+      <li>
+            <a href="GitSource">Git</a>
+      </li>
+      <li>
+            <a href="MailingLists">Forums</a>
+      </li>
+      <li>
+            <a href="IODBCPerl">Perl</a>
+      </li>
+      <li>
+            <a href="IODBCPython">Python</a>
+      </li>
+      <li>
+            <a href="IODBCPHP">PHP</a>
+      </li>
+      <li>
+            <a href="IODBCRuby">Ruby</a>
+      </li>
+      <li>
+            <a href="MySQL2ODBC">MySQL2ODBC</a>
+      </li>
+      <li>
+            <a href="ODBCBench">ODBCBench</a>
+      </li>
+      <li>
+            <a href="http://www.openlinksw.com/">OpenLink</a>
+      </li>
+          <li>
+                                    [
+                                    <a href="https://www.iodbc.org/wiki/resources/gems.vsp?cluster=iodbcWiki&amp;type=rss20" id="rss">
+                                        RSS
+                                    </a>
+                                    ]
+                                </li>
+     </ul>
+    </div>
+   </div>
+   <div id="content">
+      <div class="topic-text">
+<div class="MACRO_TOC">  <h2 class="toc">Table of Contents</h2>   <ul> <li>
+              <a href="#Introduction">Introduction</a>
+            </li> <li>
+              <a href="#Releases">Releases</a>
+            </li>
+<ul>
+        <li>
+                <a href="#Latest%20release%3A%20v1.1%2C%20April%202%2C%202012">Latest release: v1.1, April 2, 2012</a>
+        </li> <li>
+                <a href="#Previous%20Release%201.0.0%2C%20November%204%2C%202005">Previous Release 1.0.0, November 4, 2005</a>
+              </li> <li>
+                <a href="#Previous%20release%3A%200.99.21%2C%20June%206%2C%202004">Previous release: 0.99.21, June 6, 2004</a>
+              </li> </ul>
+       <li>
+              <a href="#HOWTO">HOWTO</a>
+       </li> <li>
+              <a href="#Git%20Access">Git Access</a>
+            </li> <li>
+              <a href="#Bug%20Fixes">Bug Fixes</a>
+            </li> <li>
+              <a href="#License">License</a>
+            </li>
+          </ul>   </div>
+<h2>
+          <a id="Introduction">
+      </a> Introduction</h2>
+<p>OpenLink ODBC Bench is an open-source ODBC Benchmarking tool providing real-time comparative benchmarking for ODBC Drivers, Database Engines, and Operating Systems combinations.
+ The Benchmarks in this application are loosely based on the TPC-A and TPC-C standard benchmarks, with modifications to specifically test the performance of an ODBC Driver and/or Database Engine in a client/server environment.
+ The benchmark results can be automatically stored to an ODBC Datasource or XML file for further analysis and comparisons to be made.</p>
+
+<h2>
+          <a id="Releases">
+      </a> Releases</h2>
+<p>All releases can be found on the SourceForge.net Project <a href="http://sourceforge.net/project/showfiles.php?group_id=90508" class="absuri">File-List</a> page.</p>
+
+<h3>
+          <a id="Latest%20release%3A%20v1.1%2C%20April%202%2C%202012">
+      </a> Latest release: v1.1, April 2, 2012</h3>
+<p>This release contains </p>
+<ul>
+          <li>Support for MacOS X 10.5 and 10.6 </li>
+<li>Converted MacOS X UI from NIB for XIB </li>
+<li>Added initial ReadMe.rtf for Mac OS X 10.5 installer </li>
+<li>Small bugfixes</li>
+</ul>
+        <p>Additionally, while files will continue to be hosted on sourceforge for the time being, the project development hosting has moved to <a href="https://github.com/openlink/odbc-bench" class="absuri">Github</a>.</p>
+<p>Downloads: </p>
+<ul>
+          <li>
+            <a href="http://sourceforge.net/projects/odbc-bench/files/odbc-bench/1.1/odbc-bench-1.1.tar.gz/download" class="absuri">source v1.1 tarball</a> (Sourceforge) </li>
+<li>
+            <a href="http://sourceforge.net/projects/odbc-bench/files/odbc-bench/1.1/ODBC-Bench-1.1-MacOSX-10.5-Universal.dmg/download" class="absuri">MacOS X 10.5+ installer</a> (Sourceforge)</li>
+</ul>
+<h3>
+          <a id="Previous%20Release%201.0.0%2C%20November%204%2C%202005">
+      </a> Previous Release 1.0.0, November 4, 2005</h3>
+<p>This contains these improvements over previous releases:</p>
+<ul>
+          <li>added native Carbon support for MacOS X </li>
+<li>various stability bug-fixes (concerning memory-allocation and saving of XML files) </li>
+<li>various bug-fixes related to file-system case-sensitivity and directories with spaces in the name </li>
+<li>documentation improvements</li>
+</ul>
+        <h3>
+          <a id="Previous%20release%3A%200.99.21%2C%20June%206%2C%202004">
+      </a> Previous release: 0.99.21, June 6, 2004</h3>
+<p>This was the first release of ODBC-Bench on SourceForge.net.</p>
+<p>Download the  <a href="http://prdownloads.sourceforge.net/odbc-bench/odbc-bench-0.99.21.tar.gz?download" class="absuri">source tarball</a> from sourceforge.</p>
+
+<h2>
+          <a id="HOWTO">
+      </a> HOWTO</h2>
+<p>
+          <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCBenchHOWTO" class="wikiword">This document</a> walks you through installing and using ODBC Bench.</p>
+<h2>
+          <a id="Git%20Access">
+      </a>Git Access</h2>
+<p>To check out a copy of the Git repository, run</p>
+<pre>$ git clone git://github.com/openlink/odbc-bench.git
+</pre>
+        <p> Related pages:</p>
+<ul>
+          <li>
+            <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/GitStrategy" class="wikiword">branching and development strategy</a>.
+</li>
+<li>
+            <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/GitSource" class="wikiword">iODBC Git Instructions</a> including GPG keys for tag signing </li>
+<li>
+            <a href="http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/GitQuickstartTips" class="absuri">Quickstart and Tips Guide</a> (virtuoso.openlinksw.com)</li>
+</ul>
+        <h2>
+          <a id="Bug%20Fixes">
+      </a> Bug Fixes</h2>
+<p>If you find a bug and have the know-how to fix it, please create a &quot;diff file&quot; using GNU&#39;s &quot;diff&quot;, preferably with &quot;context&quot; (diff -c or diff -u).</p>
+<p>If the patch is small, add the patch file as an attachment to your mail if possible, otherwise tell us where we can pick it up.
+ This will reduce the turnaround time for new updates etc.</p>
+<p>Patches and new contributions can be submitted as diffs from the current archive by running the command: <tt>git format-patch</tt>; these may then be emailed to the OpenLink iODBC source archive manager at iodbc@openlinksw.com to be included the next distribution.
+ Please provide accompanying documentation on which bugs are fixed or new features are introduced.</p>
+
+<h2>
+          <a id="License">
+      </a> License</h2>
+<p>ODBC-Bench is licensed under the terms of the <a href="http://www.gnu.org/licenses/gpl.html" class="absuri">GNU General Public License</a> version 2.</p>
+
+</div>
+   </div>
+    <div class="reset" />
+   <footer id="footer" about="http://www.iodbc.org/">
+    <a href="http://virtuoso.openlinksw.com/">
+        <img style="float: left; margin-left: 1em" src="/skin-iODBC/images/PoweredByVirtuoso.png" alt="Powered by Virtuoso" title="Powered by Virtuoso" />
+    </a>
+    <a href="https://github.com/openlink/iODBC">
+        <img style="float:right; margin-right: 1em; " src="/skin-iODBC/images/GitHub_Logo.png" alt="Fork iODBC on GitHub" />
+    </a>
+    <a href="http://sourceforge.net/projects/iodbc">
+        <img style="float: right; margin-right: 1em" src="http://sflogo.sourceforge.net/sflogo.php?group_id=90493&amp;type=13" width="120" height="30" alt="Get iODBC at SourceForge.net" />
+    </a>
+      <div class="footertext">
+                            Copyright (C)
+                            <a href="http://www.openlinksw.com/">
+          <span property="dct:creator" resource="http://www.openlinksw.com/dataspace/organization/openlink#this">OpenLink
+                                    Software
+                                </span>
+        </a>
+        <span id="ftcopyyear" property="dct:date">2009</span>
+                            .
+                            All rights reserved.
+                        </div>
+   </footer>
+  </div><!--Start OSDI Data Islands-->
+  <script type="text/turtle">@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/> .
+@prefix schema:	<http://schema.org/> .
+ns1:ODBCBench	rdf:type	schema:WebPage ;
+	schema:name	"ODBC Bench" .
+@prefix ns3:	<http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/> .
+ns1:ODBCBench	schema:url	ns3:ODBCBench ;
+	schema:publisher	_:b11644 ;
+	schema:keywords	"iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS" .
+_:b11644	rdf:type	schema:Organization ;
+	schema:name	"OpenLink Software" .
+@prefix ns4:	<http://www.openlinksw.com/#> .
+_:b11644	schema:url	ns4:this .
+
+  </script>
+  <script type="application/ld+json">{ "@context": {
+    "publisher": { "@id": "http://schema.org/publisher", "@type": "@id" },
+    "name": { "@id": "http://schema.org/name" },
+    "keywords": { "@id": "http://schema.org/keywords" },
+    "url": { "@id": "http://schema.org/url", "@type": "@id" } },
+  "@graph": [
+    { "@id": "http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/ODBCBench",
+      "@type": "http://schema.org/WebPage",
+      "name": "ODBC Bench",
+      "url": "http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/ODBCBench",
+      "publisher": 
+	{ "@id": "_:vb11644",
+	  "@type": "http://schema.org/Organization",
+	  "name": "OpenLink Software",
+	  "url": "http://www.openlinksw.com/#this" },
+      "keywords": "iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS" }
+] }
+
+
+  </script>
+  <div class="microdata html5md hidden" style="display: none">
+    <p>This HTML5 document contains 8 embedded RDF statements represented using HTML+Microdata notation.</p>
+    <p>The embedded RDF content will be recognized by any processor of HTML5 Microdata.</p>
+   <table>
+    <tr>
+        <th>Prefix</th>
+        <th>Namespace IRI</th>
+    </tr>
+<tr>
+        <td>schema</td>
+        <td>http://schema.org/</td>
+      </tr>
+<tr>
+        <td>n4</td>
+        <td>http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+<tr>
+        <td>rdf</td>
+        <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+      </tr>
+<tr>
+        <td>n3</td>
+        <td>http://www.openlinksw.com/#</td>
+      </tr>
+<tr>
+        <td>xsdh</td>
+        <td>http://www.w3.org/2001/XMLSchema#</td>
+      </tr>
+<tr>
+        <td>n5</td>
+        <td>http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+   </table>
+   <div parentelement2="http://www.w3.org/1999/xhtml:body">
+      <dt>Subject Item</dt>
+      <dd>n4:ODBCBench</dd>
+      <dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/WebPage">schema:WebPage</a>
+</dd>
+      <dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">ODBC Bench</span>
+</dd>
+      <dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/ODBCBench">n5:ODBCBench</a>
+</dd>
+      <dt>schema:publisher</dt>
+      <dd>
+<a itemprop="http://schema.org/publisher" href="nodeID://b11644">_:vb11644</a>
+</dd>
+      <dt>schema:keywords</dt>
+      <dd>
+<span itemprop="http://schema.org/keywords">iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS</span>
+</dd>
+   </div>
+   <dl itemscope="itemscope" itemid="nodeID://b11644">
+<dt>Subject Item</dt>
+      <dd>_:vb11644</dd>
+<dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/Organization">schema:Organization</a>
+</dd>
+<dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">OpenLink Software</span>
+</dd>
+<dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.openlinksw.com/#this">n3:this</a>
+</dd>
+   </dl>
+  </div>
+<div class="microdata rdfa hidden" style="display: none">
+
+
+
+RDFa+XHTML document
+This HTML document contains 8 embedded RDF statements represented using (X)HTML+RDFa notation.The embedded RDF content will be recognized by any processor of (X)HTML+RDFa.
+
+Namespace PrefixNamespace URI
+xmlns:schemahttp://schema.org/
+xmlns:n4http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/
+xmlns:rdfhttp://www.w3.org/1999/02/22-rdf-syntax-ns#
+xmlns:n3http://www.openlinksw.com/#
+xmlns:xsdhhttp://www.w3.org/2001/XMLSchema#
+xmlns:n5http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/
+
+
+SubjectPredicateObject
+
+n4:ODBCBenchrdf:typeschema:WebPage
+n4:ODBCBenchschema:nameODBC Bench
+n4:ODBCBenchschema:urln5:ODBCBench
+n4:ODBCBenchschema:publisher_:vb11644
+n4:ODBCBenchschema:keywordsiODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS
+
+
+_:vb11644rdf:typeschema:Organization
+_:vb11644schema:nameOpenLink Software
+_:vb11644schema:urln3:this
+
+
+
+</div>0<!--End OSDI Data Islands-->
+</body>
+</html>

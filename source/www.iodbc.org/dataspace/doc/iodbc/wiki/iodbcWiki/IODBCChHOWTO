@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" itemscope="itemscope" itemtype="http://schema.org/TechArticle" xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions">
+ <head profile="http://www.w3.org/2005/11/profile">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="/skin-iODBC/css/style.css" type="text/css" />
+  <title property="dc:title">iODBC Driver Manager:
+                     iODBC+Ch HOWTO for Linux/UNIX Systems</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+          </script>
+  <script type="text/javascript">
+                    _uacct = &quot;UA-139779-5&quot;;
+                    urchinTracker();
+                </script>
+  <script type="text/javascript"><!--
+                        function fixcopyright() {
+                        var nw=new Date();
+                        var el=document.getElementById('ftcopyyear');
+                        el.innerHTML=nw.getFullYear();
+                        }
+                        //
+                    -->
+  </script>
+  <link rel="canonical" href="http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/IODBCChHOWTO" />
+ </head>
+<body onload="fixcopyright()">
+  <div id="outer">
+   <div id="header">
+    <div id="headleft">
+     <a href="http://www.iodbc.org/">
+          <img src="/skin-iODBC/images/iodbc-logo.png" alt="iODBC logo" id="logo" title="iODBC" />
+          <h1>iODBC.org</h1>
+          <p>
+                                    Independent Open DataBase Connectivity for Linux, MacOS X and
+                                    Unix systems
+                                </p>
+     </a>
+    </div>
+    <div id="headright">
+     <ul>
+      <li>
+            <a href="/">Home</a>
+      </li>
+      <li>
+            <a href="About">About</a>
+      </li>
+      <li>
+            <a href="Downloads">Downloads</a>
+      </li>
+      <li>
+            <a href="GitSource">Git</a>
+      </li>
+      <li>
+            <a href="MailingLists">Forums</a>
+      </li>
+      <li>
+            <a href="IODBCPerl">Perl</a>
+      </li>
+      <li>
+            <a href="IODBCPython">Python</a>
+      </li>
+      <li>
+            <a href="IODBCPHP">PHP</a>
+      </li>
+      <li>
+            <a href="IODBCRuby">Ruby</a>
+      </li>
+      <li>
+            <a href="MySQL2ODBC">MySQL2ODBC</a>
+      </li>
+      <li>
+            <a href="ODBCBench">ODBCBench</a>
+      </li>
+      <li>
+            <a href="http://www.openlinksw.com/">OpenLink</a>
+      </li>
+          <li>
+                                    [
+                                    <a href="https://www.iodbc.org/wiki/resources/gems.vsp?cluster=iodbcWiki&amp;type=rss20" id="rss">
+                                        RSS
+                                    </a>
+                                    ]
+                                </li>
+     </ul>
+    </div>
+   </div>
+   <div id="content">
+    <div class="topic-text">
+
+<h2>
+          <a id="Disclaimer">
+      </a> Disclaimer</h2>
+<p>The following is a HOWTO document for installing Ch with iODBC on Linux or Unix.
+ Feel free to criticize, suggest modifications, or ask further questions.
+ It is currently maintained by Tim Haynes of Openlink Software (iodbc@openlinksw.com)</p>
+<p>Prerequisites include basic Unix familiarity, such as creating directories and users, using an editor, etc.</p>
+<p>This HOWTO is intended to assist in connecting Ch to back-end databases via ODBC in a development environment and should not take the place of thorough testing before deployment on a production system.</p>
+
+<h2>
+          <a id="ODBC%20Overview">
+      </a> ODBC Overview</h2>
+<p>ODBC (Open Database Connectivity) is an operating system- and database- independent communication API for database connectivity.
+ It enables ODBC compliant client applications to connect transparently to back-end databases via ODBC function calls which are implemented by ODBC Drivers for target back-end databases.</p>
+<p>ODBC provides your applications with database independence; consequentially, you no longer have to incur the development and maintenance cost of inextricably binding your application to backend database engines via their proprietary data-access (aka native) APIs.</p>
+<p>ODBC connections involve an ODBC-compliant Application or Data Access Layer, ODBC Driver Manager, ODBC Driver, and back-end Database.
+ The ODBC Driver Manager for Microsoft Windows platforms is administered via the ODBC Administrator Control Panel applet at setup and configuration time.
+ The Driver Manager registers a set of ODBC driver connection parameters called a Data Source Name (DSN), and maintains (in persistent form) a relationship between the DSN and an underlying ODBC Driver that will honor data access request via that DSN.</p>
+<p>At runtime an application looks to the driver manager for a DSN, and then passes the connection parameters specified in the DSN to the appropriate driver, which makes the actual database connection.
+ Under non-Windows platforms you may need to install a Driver Manager if this isn&#39;t delivered as an integral part of your operating environment.
+ Platform independent ODBC (aka iODBC) is an Open Source ODBC project (dual license LGPL / BSD)for non Windows platforms maintained by OpenLink Software that consists of an ODBC SDK (libraries and header files) and ODBC Runtime components (Administrator and Driver Manager).</p>
+
+<h2>
+          <a id="HOWTO%20Preface%3A">
+      </a> HOWTO Preface:</h2>
+<p>You will also need an ODBC Driver and Database to complete the architecture.</p>
+<p>If you need ODBC drivers to connect to a third-party database on the same or another machine, OpenLink ODBC Drivers are available, and may be downloaded from <a href="http://www.openlinksw.com" class="absuri">http://www.openlinksw.com</a>
+        </p>
+<p>The Virtuoso database may also be downloaded from <a href="http://virtuoso.openlinksw.com/" class="absuri">http://virtuoso.openlinksw.com/</a>
+        </p>
+<p>Both sets of ODBC Drivers are available on a free 30-day evaluation basis.</p>
+<p>Support for setting up the OpenLink Drivers may be obtained at <a href="http://support.openlinksw.com/" class="absuri">http://support.openlinksw.com/</a>
+        </p>
+
+<h2>
+          <a id="Installing%20Ch">
+      </a> Installing Ch</h2>
+<p>If you already have Ch installed and running, you probably do not need to rebuild it.
+ Otherwise, you should install it, thus:</p>
+<p>First, download the latest distribution appropriate to your OS from <a href="http://www.softintegration.com/" class="absuri">http://www.softintegration.com/</a> - currently this is version 4.0.</p>
+<p>Unpack it with a command like</p>
+<pre>gzip -cd &lt; chstandard-4.0.0.linux2.2.5.intel.tar.gz | tar xvpf -
+</pre>
+        <p> Enter the resultant directory, and run the install script:</p>
+<pre>zsh, purple  1:05PM chstandard-4.0.0.linux2.2.5.intel/ % ls
+README  ch.bin  install.sh*  license.txt
+zsh, purple  1:05PM chstandard-4.0.0.linux2.2.5.intel/ % ./install.sh
+</pre>
+        <p> You will also probably need to set the CHHOME environment variable to the base directory you chose as Ch&#39;s installation destination - depending on your current shell, choose one or other of the following:</p>
+
+<pre>echo &#39;setenv CHHOME $HOME/ch4&#39; &gt;&gt; .tcshrc
+</pre>
+        <p> or </p>
+<pre>echo &#39;export CHHOME=$HOME/ch4&#39; &gt;&gt; .bashrc
+</pre>
+        <p> These are not necessary if Ch is installed as root into a default system-wide location.</p>
+<p>After installation, if you run the command</p>
+<pre>ch -d
+</pre>
+        <p> It will create a ~/.chrc file for you with useful default settings.</p>
+
+<h3>
+          <a id="Installing%20Ch%20on">
+      </a> Installing Ch on MacOS X</h3>
+<p>First, download the compressed Ch from <a href="http://www.softintegration.com/download" class="absuri">http://www.softintegration.com/download</a>
+        </p>
+<p>Your Mac OS X shuttle will uncompress the file and create a directory such as chsandard-4.0.0.macosx in your Desktop.
+ If not, you can decompress and untar the downloaded file with the command:</p>
+
+<pre>gzip -cd chstandard-4.0.0.macosx.tgz |tar xvf -
+</pre>
+        <p> Goto the chstandard-4.0.0.macosx folder on the Mac OS X Desktop, double-click chstandard-4.0.0.pkg, then follow the instructions to install.</p>
+<h2>
+          <a id="Installing%20iODBC">
+      </a> Installing iODBC</h2>
+<p>If you do not already have iODBC installed, either install an RPM from <a href="http://www.iodbc.org/," class="absuri">http://www.iodbc.org/,</a> or install from source:</p>
+
+<h3>
+          <a id="Compiling%20iODBC%20from%20source">
+      </a> Compiling iODBC from source</h3>
+<p>Requirements: C-compiler; optionally gtk+-1.2 (required if building from CVS).</p>
+<p>As before, unpack the iODBC sources, enter the build directory, configure, make and make install:</p>
+<pre>zsh, purple  4:13PM C/ % tar xvpfz libiodbc-3.51.1.tar.gz
+libiodbc-3.51.1/
+libiodbc-3.51.1/admin/
+libiodbc-3.51.1/admin/Makefile.am
+libiodbc-3.51.1/admin/Makefile.in
+libiodbc-3.51.1/admin/acinclude.m4
+[snip]
+libiodbc-3.51.1/samples/Makefile.in
+libiodbc-3.51.1/samples/iodbctest.c
+zsh, purple  4:14PM C/ % cd libiodbc-3.51.1
+zsh, purple  4:14PM libiodbc-3.51.1/ % ./configure --prefix=/usr/local/stow/iodbc-3.51.1
+checking for a BSD-compatible install... /bin/install -c
+checking whether build environment is sane... yes
+checking for gawk... gawk
+[snip]
+config.status: executing depfiles commands
+config.status: executing default commands
+zsh, purple  4:15PM libiodbc-3.51.1/ % make
+Making all in admin
+make[1]: Entering directory `/home/tim/C/libiodbc-3.51.1/admin&#39;
+[snip]
+make[1]: Leaving directory `/home/tim/C/libiodbc-3.51.1&#39;
+zsh, purple  4:15PM libiodbc-3.51.1/ % su root -c &#39;make install&#39;
+</pre>
+        <p> It&#39;s advisable to install into /usr/local, or stow your installation into /usr/local, as that is searched by most other applications trying to locate iODBC.</p>
+<h3>
+          <a id="Testing%20iODBC">
+      </a> Testing iODBC</h3>
+<p>Now is a good time to configure iODBC, by adding a DSN - create a file ~/.odbc.ini, edit it to look something like this:</p>
+<pre>[ODBC Data Sources]
+PostgreSQL native localhost = PostgreSQL native driver
+Local Virtuoso Demo = localhost virtuoso (demo instance)
+Local Virtuoso = localhost virtuoso
+
+[Local Virtuoso Demo]
+Description = Virtuoso 3.2
+Driver      = /home/tim/virtuoso/lib/virtodbc32.so
+Address     = localhost:1112
+UserName    = dba
+User        = dba
+
+[Local Virtuoso]
+Description = Virtuoso 3.2
+Driver      = /home/tim/virtuoso/lib/virtodbc32.so
+Address     = localhost:1111
+UserName    = dba
+User        = dba
+
+[PostgreSQL native localhost]
+Driver     = /usr/lib/postgresql/lib/libodbcpsql.so
+Host       = localhost
+Server     = localhost
+ServerName = localhost
+Database   = tim
+UserName   = tim
+UID        = tim
+Port       = 5432
+</pre>
+        <p> It is advisable to export the environment variable ODBCINI to point to this file, too - depending on your shell, either:</p>
+
+<pre>echo &#39;export ODBCINI=$HOME/.odbc.ini&#39; &gt;&gt; .bashrc
+</pre>
+        <p> or</p>
+<pre>echo &#39;setenv ODBCINI $HOME/.odbc.ini&#39; &gt;&gt; .tcshrc
+</pre>
+        <p> as appropriate.</p>
+<p>You can now make a test connection with the <u>iodbctest</u> utility, thus:</p>
+
+<pre>zsh, purple  4:54PM libiodbc-3.51.1/ % which iodbctest
+/usr/local/bin//iodbctest
+zsh, purple  4:54PM libiodbc-3.51.1/ % iodbctest      
+iODBC Demonstration program
+This program shows an interactive SQL processor
+Driver Manager: 03.51.0001.0908
+
+Enter ODBC connect string (? shows list): ?
+
+DSN                            | Description                   
+---------------------------------------------------------------
+Local Virtuoso                 | localhost virtuoso 
+Local Virtuoso Demo            | localhost virtuoso (demo instance)
+MySQL                          | MySQL native driver           
+PostgreSQL native localhost    | PostgreSQL native driver      
+PostgreSQL OpenLink localhost  | PostgreSQL over OpenLink multi-tier
+Virtuoso30                     | OpenLink Virtuoso 3.0         
+
+Enter ODBC connect string (? shows list): DSN=Local Virtuoso Demo;UID=dba;PWD=cens0red
+Driver: 03.50.2505 OpenLink Virtuoso ODBC Driver
+
+SQL&gt;
+</pre>
+        <p> If you see the SQL&gt; prompt there, then all has gone well.</p>
+
+<h2>
+          <a id="Interfacing%20with%20Ch">
+      </a> Interfacing with Ch</h2>
+<p>SoftIntegration.com provide a module for Ch to interface with iODBC - you should download the chiodbc module from <a href="http://www.softintegration.com/." class="absuri">http://www.softintegration.com/.</a>
+        </p>
+<p>Installing this is simple; unpack the tarball into $CHHOME/package/ directory, thus:</p>
+
+<pre>zsh, purple  1:49PM chstandard-4.0.0.linux2.2.5.intel/ % cd ~/ch4/package 
+zsh, purple  1:49PM package/ % gzip -cd &lt; ~/Downloads/chiodbc-3.5.0.linux2.2.5.intel.tar.gz| tar xvpf -
+</pre>
+        <p> Now you need to set two variables in Ch&#39;s startup script to tell it where to find the system-wide installation of iODBC - edit $CHHOME/config/chrc or ~/.chrc and insert the following two lines:</p>
+<pre>_ppath = stradd(_ppath, &quot;/home/tim/ch4/package/iodbc;&quot;);
+_ipath = stradd(_ipath, &quot;/home/tim/ch4/package/iodbc/include;&quot;);
+</pre>
+        <p> You can also export the ODBCINI environment variable from within Ch, thus:</p>
+<pre>echo &#39;putenv(&quot;ODBCINI=$HOME/.odbc.ini&quot;);&#39; &gt;&gt; .chrc
+</pre>
+        <h2>
+          <a id="Sample%20script%20combining%20Ch%20and%20iODBC">
+      </a> Sample script combining Ch and iODBC</h2>
+<p>Having configured a DSN above, you should be able to use both the simple.c and odbctest.c scripts, thus:</p>
+
+<pre>zsh, purple  2:05PM demos/ % ch
+Ch 
+Standard edition, version 4.0.0.11291 
+(C) Copyright 2001-2003 SoftIntegration, Inc.
+http://www.softintegration.com
+/home/tim/ch4/package/iodbc/demos&gt; cd $CHHOME/package/iodbc/demos
+/home/tim/ch4/package/iodbc/demos&gt; ls
+odbctest.c  simple.c
+/home/tim/ch4/package/iodbc/demos&gt; ./simple.c
+SQLAllocHandle() OK
+SQLSetEnvAttr() ok
+SQLAllocHandle() ok
+SQLSetConnectAttr() ok
+
+/home/tim/ch4/package/iodbc/demos&gt; ./odbctest.c
+OpenLink ODBC Demonstration program
+This program shows an interactive SQL processor
+
+Enter ODBC connect string (? shows list): DSN=Local Virtuoso Demo;UID=dba;PWD=cens0red
+Driver: 03.50.2604 OpenLink Virtuoso ODBC Driver (virtodbc.so)
+
+SQL&gt;select * from Demo.demo.Shippers
+
+ShipperID  |CompanyName                             |Phone                   
+-----------+----------------------------------------+------------------------
+1          |Speedy Express                          |(503) 555-9831          
+2          |United Package                          |(503) 555-3199          
+3          |Federal Shipping                        |(503) 555-9931          
+
+result set 1 returned 3 rows.
+</pre>
+<h2>
+          <a id="Additional%20Resources">
+      </a> Additional Resources</h2>
+<ul>
+          <li>
+            <a href="http://www.iodbc.org" class="absuri">iodbc.org</a> , the home of iODBC </li>
+<li>
+            <a href="http://www.softintegration.com/" class="absuri">SoftIntegration.com</a> , authors of Ch </li>
+<li>
+            <a href="http://www.softintegration.com/products/toolkit/odbc/" class="absuri">Ch iODBC home</a> </li>
+<li>History of  <a href="index.php?page=docs/odbcstory" style="reluri">ODBC on Unix</a> </li>
+<li>
+            <a href="http://www.openlinksw.com/" class="absuri">OpenLink Software</a> -  <a href="http://www.openlinksw.com/support/suppindx.htm" class="absuri">Support</a> ,  <a href="http://www.openlinksw.com/support/teclinks.htm" class="absuri">links</a> and  <a href="http://www.openlinksw.com/info/docs/odbcwhp/tableof.htm" class="absuri">white-papers</a>
+          </li>
+</ul>
+    </div>
+   </div>
+    <div class="reset" />
+   <footer id="footer" about="http://www.iodbc.org/">
+    <a href="http://virtuoso.openlinksw.com/">
+        <img style="float: left; margin-left: 1em" src="/skin-iODBC/images/PoweredByVirtuoso.png" alt="Powered by Virtuoso" title="Powered by Virtuoso" />
+    </a>
+    <a href="https://github.com/openlink/iODBC">
+        <img style="float:right; margin-right: 1em; " src="/skin-iODBC/images/GitHub_Logo.png" alt="Fork iODBC on GitHub" />
+    </a>
+    <a href="http://sourceforge.net/projects/iodbc">
+        <img style="float: right; margin-right: 1em" src="http://sflogo.sourceforge.net/sflogo.php?group_id=90493&amp;type=13" width="120" height="30" alt="Get iODBC at SourceForge.net" />
+    </a>
+      <div class="footertext">
+                            Copyright (C)
+                            <a href="http://www.openlinksw.com/">
+          <span property="dct:creator" resource="http://www.openlinksw.com/dataspace/organization/openlink#this">OpenLink
+                                    Software
+                                </span>
+        </a>
+        <span id="ftcopyyear" property="dct:date">2009</span>
+                            .
+                            All rights reserved.
+                        </div>
+   </footer>
+  </div><!--Start OSDI Data Islands-->
+  <script type="text/turtle">@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/> .
+@prefix schema:	<http://schema.org/> .
+ns1:IODBCChHOWTO	rdf:type	schema:TechArticle ;
+	schema:name	"iODBC+Ch HOWTO for Linux/UNIX Systems" .
+@prefix ns3:	<http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/> .
+ns1:IODBCChHOWTO	schema:url	ns3:IODBCChHOWTO ;
+	schema:publisher	_:b11628 .
+_:b11628	rdf:type	schema:Organization ;
+	schema:name	"OpenLink Software" .
+@prefix ns4:	<http://www.openlinksw.com/#> .
+_:b11628	schema:url	ns4:this .
+
+  </script>
+  <script type="application/ld+json">{ "@context": {
+    "publisher": { "@id": "http://schema.org/publisher", "@type": "@id" },
+    "name": { "@id": "http://schema.org/name" },
+    "url": { "@id": "http://schema.org/url", "@type": "@id" } },
+  "@graph": [
+    { "@id": "http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/IODBCChHOWTO",
+      "@type": "http://schema.org/TechArticle",
+      "name": "iODBC+Ch HOWTO for Linux/UNIX Systems",
+      "url": "http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/IODBCChHOWTO",
+      "publisher": 
+	{ "@id": "_:vb11628",
+	  "@type": "http://schema.org/Organization",
+	  "name": "OpenLink Software",
+	  "url": "http://www.openlinksw.com/#this" } }
+] }
+
+
+  </script>
+  <div class="microdata html5md hidden" style="display: none">
+    <p>This HTML5 document contains 7 embedded RDF statements represented using HTML+Microdata notation.</p>
+    <p>The embedded RDF content will be recognized by any processor of HTML5 Microdata.</p>
+   <table>
+    <tr>
+        <th>Prefix</th>
+        <th>Namespace IRI</th>
+    </tr>
+<tr>
+        <td>schema</td>
+        <td>http://schema.org/</td>
+      </tr>
+<tr>
+        <td>n4</td>
+        <td>http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+<tr>
+        <td>rdf</td>
+        <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+      </tr>
+<tr>
+        <td>n3</td>
+        <td>http://www.openlinksw.com/#</td>
+      </tr>
+<tr>
+        <td>xsdh</td>
+        <td>http://www.w3.org/2001/XMLSchema#</td>
+      </tr>
+<tr>
+        <td>n5</td>
+        <td>http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+   </table>
+   <div parentelement2="http://www.w3.org/1999/xhtml:body">
+      <dt>Subject Item</dt>
+      <dd>n4:IODBCChHOWTO</dd>
+      <dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/TechArticle">schema:TechArticle</a>
+</dd>
+      <dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">iODBC+Ch HOWTO for Linux/UNIX Systems</span>
+</dd>
+      <dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/IODBCChHOWTO">n5:IODBCChHOWTO</a>
+</dd>
+      <dt>schema:publisher</dt>
+      <dd>
+<a itemprop="http://schema.org/publisher" href="nodeID://b11628">_:vb11628</a>
+</dd>
+   </div>
+   <dl itemscope="itemscope" itemid="nodeID://b11628">
+<dt>Subject Item</dt>
+      <dd>_:vb11628</dd>
+<dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/Organization">schema:Organization</a>
+</dd>
+<dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">OpenLink Software</span>
+</dd>
+<dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.openlinksw.com/#this">n3:this</a>
+</dd>
+   </dl>
+  </div>
+<div class="microdata rdfa hidden" style="display: none">
+
+
+
+RDFa+XHTML document
+This HTML document contains 7 embedded RDF statements represented using (X)HTML+RDFa notation.The embedded RDF content will be recognized by any processor of (X)HTML+RDFa.
+
+Namespace PrefixNamespace URI
+xmlns:schemahttp://schema.org/
+xmlns:n4http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/
+xmlns:rdfhttp://www.w3.org/1999/02/22-rdf-syntax-ns#
+xmlns:n3http://www.openlinksw.com/#
+xmlns:xsdhhttp://www.w3.org/2001/XMLSchema#
+xmlns:n5http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/
+
+
+SubjectPredicateObject
+
+n4:IODBCChHOWTOrdf:typeschema:TechArticle
+n4:IODBCChHOWTOschema:nameiODBC+Ch HOWTO for Linux/UNIX Systems
+n4:IODBCChHOWTOschema:urln5:IODBCChHOWTO
+n4:IODBCChHOWTOschema:publisher_:vb11628
+
+
+_:vb11628rdf:typeschema:Organization
+_:vb11628schema:nameOpenLink Software
+_:vb11628schema:urln3:this
+
+
+
+</div>0<!--End OSDI Data Islands-->
+</body>
+</html>

@@ -1,0 +1,1957 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" itemscope="itemscope" itemtype="http://schema.org/WebPage" xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions">
+ <head profile="http://www.w3.org/2005/11/profile">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="/skin-iODBC/css/style.css" type="text/css" />
+  <title property="dc:title">iODBC Driver Manager:
+                     ODBC and Mac OS X a/k/a macOS</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+          </script>
+  <script type="text/javascript">
+                    _uacct = &quot;UA-139779-5&quot;;
+                    urchinTracker();
+                </script>
+  <script type="text/javascript"><!--
+                        function fixcopyright() {
+                        var nw=new Date();
+                        var el=document.getElementById('ftcopyyear');
+                        el.innerHTML=nw.getFullYear();
+                        }
+                        //
+                    -->
+  </script>
+  <link rel="canonical" href="http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/ODBCMacOSX" />
+ </head>
+<body onload="fixcopyright()">
+  <div id="outer">
+   <div id="header">
+    <div id="headleft">
+     <a href="http://www.iodbc.org/">
+          <img src="/skin-iODBC/images/iodbc-logo.png" alt="iODBC logo" id="logo" title="iODBC" />
+          <h1>iODBC.org</h1>
+          <p>
+                                    Independent Open DataBase Connectivity for Linux, MacOS X and
+                                    Unix systems
+                                </p>
+     </a>
+    </div>
+    <div id="headright">
+     <ul>
+      <li>
+            <a href="/">Home</a>
+      </li>
+      <li>
+            <a href="About">About</a>
+      </li>
+      <li>
+            <a href="Downloads">Downloads</a>
+      </li>
+      <li>
+            <a href="GitSource">Git</a>
+      </li>
+      <li>
+            <a href="MailingLists">Forums</a>
+      </li>
+      <li>
+            <a href="IODBCPerl">Perl</a>
+      </li>
+      <li>
+            <a href="IODBCPython">Python</a>
+      </li>
+      <li>
+            <a href="IODBCPHP">PHP</a>
+      </li>
+      <li>
+            <a href="IODBCRuby">Ruby</a>
+      </li>
+      <li>
+            <a href="MySQL2ODBC">MySQL2ODBC</a>
+      </li>
+      <li>
+            <a href="ODBCBench">ODBCBench</a>
+      </li>
+      <li>
+            <a href="http://www.openlinksw.com/">OpenLink</a>
+      </li>
+          <li>
+                                    [
+                                    <a href="https://www.iodbc.org/wiki/resources/gems.vsp?cluster=iodbcWiki&amp;type=rss20" id="rss">
+                                        RSS
+                                    </a>
+                                    ]
+                                </li>
+     </ul>
+    </div>
+   </div>
+   <div id="content">
+    <div class="topic-text">
+<div class="MACRO_TOC">  <h2 class="toc">Table of Contents</h2>   <ul> <li>
+              <a href="#Standard%20ODBC%20Architecture">Standard ODBC Architecture</a>
+            </li>
+<ul>
+        <li>
+                <a href="#Application">Application</a>
+        </li> <li>
+                <a href="#Driver%20Manager">Driver Manager</a>
+              </li> <li>
+                <a href="#ODBC%20Drivers">ODBC Drivers</a>
+              </li> <li>
+                <a href="#Data%20sources">Data sources</a>
+              </li> </ul>
+       <li>
+              <a href="#ODBC%20Driver%20Architecture%20with%20Driver%20Manager">ODBC Driver Architecture with Driver Manager</a>
+       </li> <li>
+              <a href="#ODBC%20Driver%20Architecture%20without%20Driver%20Manager">ODBC Driver Architecture without Driver Manager</a>
+            </li> <li>
+              <a href="#" />
+            </li>
+            <ul>
+        <li>
+                <a href="#Environment%20Variables">Environment Variables</a>
+        </li> <li>
+                <a href="#Setting%20Environment%20Variables%20on%20Darwin">Setting Environment Variables on Darwin</a>
+              </li> <li>
+                <a href="#Client%20Libraries">Client Libraries</a>
+              </li> <li>
+                <a href="#Header%20Files">Header Files</a>
+              </li> <li>
+                <a href="#Configuration%20Files">Configuration Files</a>
+              </li> <li>
+                <a href="#Administrative%20Assistants">Administrative Assistants</a>
+              </li> <li>
+                <a href="#Server%20Components">Server Components</a>
+              </li> </ul>
+       <li>
+              <a href="#Configuring">Configuring</a>
+       </li>
+            <ul>
+        <li>
+                <a href="#Configuring%20Darwin%20Data%20Source%20Names">Configuring Darwin Data Source Names</a>
+        </li> <li>
+                <a href="#The%20odbc.ini%20File">The odbc.ini File</a>
+              </li> <li>
+                <a href="#ODBC%20Data%20Sources">ODBC Data Sources</a>
+              </li> <li>
+                <a href="#Data%20Source%20Specification">Data Source Specification</a>
+              </li> <li>
+                <a href="#The%20Multi-Tier%20Administrative%20Assistant">The Multi-Tier Administrative Assistant</a>
+              </li> <li>
+                <a href="#Configuring%20Mac%20Classic%20Data%20Source%20Names">Configuring Mac Classic Data Source Names</a>
+              </li> <li>
+                <a href="#Configuring%20Mac%20OS%20X%20Data%20Source%20Names">Configuring Mac OS X Data Source Names</a>
+              </li> <li>
+                <a href="#ODBC%20Data%20Sources">ODBC Data Sources</a>
+              </li> <li>
+                <a href="#Data%20Source%20Specification">Data Source Specification</a>
+              </li>
+              <ul>
+         <li>
+                  <a href="#MS%20SQL%20Server%20Single-Tier%20drivers%20recognize%20these%20specialized%20parameters.">MS SQL Server Single-Tier drivers recognize these specialized parameters.</a>
+         </li> <li>
+                  <a href="#" />
+                </li> <li>
+                  <a href="#Oracle%20Single-Tier%20drivers%20recognize%20these%20specialized%20parameters.">Oracle Single-Tier drivers recognize these specialized parameters.</a>
+                </li> <li>
+                  <a href="#" />
+                </li> </ul>
+        <li>
+                <a href="#Aqua%20GUI%20ODBC%20Administrators">Aqua GUI ODBC Administrators</a>
+        </li> </ul>
+       <li>
+              <a href="#Developing%20ODBC%20Compliant%20Applications">Developing ODBC Compliant Applications</a>
+       </li> <li>
+              <a href="#" />
+            </li> <li>
+              <a href="#" />
+            </li>
+            <ul>
+        <li>
+                <a href="#Single-Tier%20Drivers">Single-Tier Drivers</a>
+        </li> <li>
+                <a href="#Multi-Tier%20Drivers">Multi-Tier Drivers</a>
+              </li> </ul>
+          </ul>   </div>
+<h3>
+          <a id="Standard%20ODBC%20Architecture">
+      </a> Standard ODBC Architecture</h3>
+<p>ODBC data access comprises the following, four components:</p>
+
+<h4>
+          <a id="Application">
+      </a> Application</h4>
+<p>Most end users use ODBC-compliant applications to access their data stores.
+ODBC-compliant applications are executables, which issue ODBC API calls.
+These API calls are implemented by ODBC drivers that are customized for use with the data store.
+ These calls enable the application to connect to the data store and query the data store via the ODBC driver.</p>
+
+<h4>
+          <a id="Driver%20Manager">
+      </a> Driver Manager</h4>
+<p>The driver manager is a library, which manages communications between applications and ODBC drivers.
+ It responds to all ODBC connection requests made by applications, and it loads the ODBC drivers that are associated with the requests.
+ Once the drivers are loaded, the driver manager translates applications&#39; function calls into the corresponding ODBC API calls, and it issues these calls to the drivers.
+ When the applications complete their requests, the driver manager terminates the connections and unloads the drivers.</p>
+<p>Users may encounter the following driver managers on Mac client systems:</p>
+
+<table class="wikitable">
+      <tr>
+       <th id="0">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=0&amp;col=1">Platform </a>
+       </th>
+       <th id="1">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=1&amp;col=2">Driver Manager </a>
+       </th>
+      </tr>
+      <tr>
+            <td> Darwin </td>
+            <td> OpenLink&#39;s Darwin client installer provides the iODBC driver manager. Users may also encounter unixODBC, mac:ODBC, and other driver managers.</td>
+      </tr>
+      <tr>
+            <td> Mac Classic a/k/a Mac OS 9 </td>
+            <td> OpenLink&#39;s Mac Classic client installer provides its own driver manager for this platform. Users may also encounter another driver manager created by Visigenic and maintained by Intersolv, Merant, and Data Direct respectively.</td>
+      </tr>
+      <tr>
+            <td> Mac OS X </td>
+            <td> OpenLink&#39;s default Mac OS X client installer provides an iODBC frameworks-based driver manager. Apple&#39;s Jaguar installer provides an iODBC dylibs-based driver manager. Users may also encounter unixODBC, mac:ODBC, and other driver managers.</td>
+      </tr>
+        </table>
+
+<h4>
+          <a id="ODBC%20Drivers">
+      </a> ODBC Drivers</h4>
+<p>ODBC drivers are libraries.
+ These libraries implement ODBC API functions, which enable applications to speak to databases.
+ Typically, applications are linked against driver managers, which load the appropriate driver libraries.
+ However, applications may be linked directly to drivers.
+ In this instance, driver libraries perform driver manager library functions.</p>
+
+<h4>
+          <a id="Data%20sources">
+      </a> Data sources</h4>
+<p>The term data source has two, distinct meanings.
+ First, data source refers to the actual flat files, spreadsheets, or database management systems, which store data.
+ Second, data source refers to the collection of parameters that applications use to establish connections to data stores.
+This data source passes a driver name, database name, server hostname, and other parameters, which are necessary to identify a database or similar storage entity.</p>
+
+<h3>
+          <a id="ODBC%20Driver%20Architecture%20with%20Driver%20Manager">
+      </a> ODBC Driver Architecture with Driver Manager</h3>
+<p>Figure 1-1 illustrates the default architecture for ODBC connectivity.
+ The default architecture employs both a driver manager and ODBC drivers.</p>
+<img src="ODBCMacOSX/Macfig1.jpg" alt="Macfig1.jpg" />
+<h3>
+          <a id="ODBC%20Driver%20Architecture%20without%20Driver%20Manager">
+      </a> ODBC Driver Architecture without Driver Manager</h3>
+<p>Figure 1-2 illustrates ODBC connectivity without a driver manager component.
+ ODBC connectivity is possible, in the absence of a driver manager, if the client application is linked directly to the ODBC driver.
+In some instances, a symbolic link is created, which uses a driver manager library name to point to an ODBC driver library.</p>
+<img src="ODBCMacOSX/Macfig2.jpg" alt="Macfig2.jpg" />
+<h3>
+          <a id="">
+      </a> OpenLink ODBC Driver Architecture</h3>
+<p>OpenLink Software provides two ODBC driver formats.
+ Use of these drivers requires knowledge of the following items:</p>
+<ul>
+          <li>Environment Variables </li>
+<li>Client Libraries </li>
+<li>Header Files </li>
+<li>Configuration Files </li>
+<li>Administrative Assistants </li>
+<li>Server Components</li>
+</ul>
+        <h4>
+          <a id="Environment%20Variables">
+      </a>Environment Variables</h4>
+<p>Environment variables pass the locations of files and directories, which the operating system or applications need to accomplish tasks.
+ Users do not need to set environment variables on Mac Classic and Mac OS X operating systems.
+ Users do need to set environment variables on Darwin.</p>
+<p>The following table lists environment variables, which must be set on Darwin clients.</p>
+
+<table class="wikitable">
+<tr>
+       <th id="2">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=2&amp;col=1">Environment Variable </a>
+       </th>
+       <th id="3">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=3&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> <code>CLASSPATH</code> </td>
+            <td> Passes the full path to OpenLink&#39;s Java archive (.jar) files. These files comprise the OpenLink JDBC client. This variable is not required for ODBC connectivity.</td>
+          </tr>
+<tr>
+            <td> <code>LD_LIBRARY_PATH</code> </td>
+            <td> Passes the full path to various library directories on Darwin computers. This variable must include the OpenLink /lib sub-directory.</td>
+          </tr>
+<tr>
+            <td> <code>ODBCINI</code>  </td>
+            <td> Passes the full path to the odbc.ini file, which resides in the OpenLink /bin sub-directory.</td>
+          </tr>
+<tr>
+            <td> <code>ODBCINSTINI</code>  </td>
+            <td> Passes the full path to the odbcinst.ini file, which resides in the OpenLink /bin sub-directory.</td>
+          </tr>
+<tr>
+            <td> <code>OPENLINKINI</code>  </td>
+            <td> Passes the full path to the openlink.ini file, which resides in the OpenLink /bin sub-directory.</td>
+          </tr>
+<tr>
+            <td> <code>PATH</code>  </td>
+            <td> Passes the full path to directories, which contain executables. This variable must include the OpenLink /bin sub-directory.</td>
+          </tr>
+</table>
+<h4>
+          <a id="Setting%20Environment%20Variables%20on%20Darwin">
+      </a>Setting Environment Variables on Darwin</h4>
+<p>OpenLink&#39;s Darwin installers create openlink.sh and openlink.csh files in the root of the installation.
+ These files contain all the environment variables, which need to be set for OpenLink client connectivity.
+ Users must execute these files in the appropriate shell.
+ C shell users may execute openlink.csh.
+ Bash and Bourne shell users may execute openlink.sh.
+Users with different shells are encouraged to switch to C, Bash, or Bourne before executing the files.</p>
+<p>Expert users may set and export the appropriate variables using the Darwin command line.
+ For example:</p>
+<pre>export ODBCINI=/usr/openlink/bin/odbc.ini
+</pre>
+        <p> Users may also add the variables to their .profiles to insure that the variables are set at login to their client systems.</p>
+<h4>
+          <a id="Client%20Libraries">
+      </a> Client Libraries</h4>
+<p>OpenLink&#39;s drivers and iODBC driver manager are library files.
+ Users will encounter a variety of library file formats and installation locals on different, client operating systems.</p>
+<p>The following table holds a list of common Darwin libraries.
+ Each of these files appears in the <code>/lib</code> sub-directory of the OpenLink client installation.
+ Click here to see a complete list of OpenLink libraries by platform.</p>
+
+
+<table class="wikitable">
+<tr>
+       <th id="4">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=4&amp;col=1">Filename                     </a>
+       </th>
+       <th id="5">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=5&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> <code>libiodbc.la</code>       </td>
+            <td> Static, iODBC driver manager library   </td>
+          </tr>
+<tr>
+            <td> <code>libiodbc.so</code>       </td>
+            <td> Shared, iODBC driver manager library. Older, iODBC driver manager libraries are linked to the latest revision   </td>
+          </tr>
+<tr>
+            <td> <code>libiodbc.so.2</code>     </td>
+            <td> Revised, iODBC driver manager library. Older, iODBC driver manager libraries are linked to the latest revision   </td>
+          </tr>
+<tr>
+            <td> <code>libiodbc.so.2.1.2</code> </td>
+            <td> Revised, iODBC driver manager library. Older, iODBC driver manager libraries are linked to the latest revision   </td>
+          </tr>
+<tr>
+       <td> <code>mys3 <u>st_lt.la     </u>
+              </code>
+       </td>
+            <td> Static, single-threaded MySQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>mys3_st_lt.so</code>     </td>
+            <td> Shared, single-threaded MySQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>oplodbc.la</code>        </td>
+            <td> Static, Multi-Tier ODBC driver   </td>
+          </tr>
+<tr>
+            <td> <code>oplodbc.so</code>        </td>
+            <td> Shared, Multi-Tier ODBC driver. Older, Multi-Tier ODBC driver library files are linked to the latest revision   </td>
+          </tr>
+<tr>
+            <td> <code>oplodbc.so.1</code>      </td>
+            <td> Revised, Multi-Tier ODBC driver library. Older, Multi-Tier ODBC driver library files are linked to the latest revision   </td>
+          </tr>
+<tr>
+            <td> <code>oplodbc.so.1.0.0</code>  </td>
+            <td> Revised, Multi-Tier ODBC driver library. Older, Multi-Tier ODBC driver library files are linked to the latest revision   </td>
+          </tr>
+<tr>
+            <td> <code>ora81_st_lt.la</code>    </td>
+            <td> Static, single-threaded Oracle 8.1.x Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>ora81_st_lt.so</code>    </td>
+            <td> Shared, single-threaded Oracle 8.1.x Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>pgr7_mt_lt.la</code>     </td>
+            <td> Static, multi-threaded PostgreSQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>pgr7_mt_lt.so</code>     </td>
+            <td> Shared, multi-threaded PostgreSQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>pgr7_st_lt.la</code>     </td>
+            <td> Static, single-threaded PostgreSQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>pgr7_st_lt.so</code>     </td>
+            <td> Shared, single-threaded PostgreSQL Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>sql_st_lt.la</code>      </td>
+            <td> Static, single-threaded MS SQLServer Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>sql_st_lt.so</code>      </td>
+            <td> Shared, single-threaded MS SQLServer Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>syb12_st_lt.la</code>    </td>
+            <td> Static, single-threaded Sybase Single-Tier driver   </td>
+          </tr>
+<tr>
+            <td> <code>syb12_st_lt.so</code>    </td>
+            <td> Shared, single-threaded Sybase Single-Tier driver   </td>
+          </tr>
+</table>
+<h4>
+          <a id="Header%20Files">
+      </a> Header Files</h4>
+<p>OpenLink Software provides a separate iODBC SDK product installer for Mac Classic and Mac OS X platforms.
+ These installers contain the <code>sql.h</code>, <code>sqlext.h</code>, and <code>sqltypes.h</code> header files.
+ Developers may use these files to build ODBC-compliant applications.</p>
+<h4>
+          <a id="Configuration%20Files">
+      </a> Configuration Files</h4>
+<p>OpenLink&#39;s Darwin-based Single-Tier drivers use the <code>openlink.ini</code> file to obtain database-specific environment variable settings.
+ The <code>openlink.ini</code> file resides in the <code>/bin</code> sub-directory of Single-Tier client installations.</p>
+<p>OpenLink&#39;s Multi-Tier brokers read the <code>oplrqb.ini</code> file to resolve ODBC connection requests and to enforce OpenLink&#39;s sophisticated, rule-based security.
+ The <code>oplrqb.ini</code> file resides in the <code>/bin</code> sub-directory of OpenLink&#39;s server components installations.</p>
+<h4>
+          <a id="Administrative%20Assistants">
+      </a> Administrative Assistants</h4>
+<p>OpenLink Software produces two, graphical Administrative Assistants.
+ The Multi-Tier Administrative Assistant is a web-based GUI, which allows users to configure all aspects of Multi-Tier connectivity.
+ This assistant allows users to create Multi-Tier data source names, configure Multi-Tier Server components, configure rules-based security, and debug ODBC connectivity problems.</p>
+<p>OpenLink Software also produces the independent, HTTP-based iODBC Data Sources Administrator.
+ This web-based GUI enables users to create and administer OpenLink and non-OpenLink ODBC data source names using one, user-friendly interface.</p>
+<h4>
+          <a id="Server%20Components">
+      </a> Server Components</h4>
+<p>OpenLink&#39;s Multi-Tier drivers implement a client/server connectivity model.
+The Multi-Tier client comprises a driver manager and client-side ODBC driver.
+ The Multi-Tier server component comprises a request broker and one or more database agents.</p>
+<p>The request broker is a generic, listening process.
+ It responds to ODBC requests made by the Multi-Tier client driver.
+ The broker reviews these requests and spawns the appropriate database agent.
+ The database agent is the only portion of the Multi-Tier product portfolio that is written to a specific CLI.
+ Specifically, the database agent speaks the CLI of the database to which it is meant to connect.
+ Hence, the agent is able to submit the SQL request to the database, retrieve its results, and convey those results to the client application.</p>
+
+<h3>
+          <a id="Configuring">
+      </a> Configuring OpenLink Data Source Names</h3>
+<p>Users must create ODBC data source names to establish connectivity between client applications and SQL data stores.
+ ODBC data source names are collections of parameters, which enable the OpenLink driver to identify and connect to the data store.
+ There are several means, which users may employ to create ODBC data source names.</p>
+<h4>
+          <a id="Configuring%20Darwin%20Data%20Source%20Names">
+      </a>Configuring Darwin Data Source Names</h4>
+<p>There are three methods, which users may employ to configure Darwin data source names.
+ Expert users may configure the <code>odbc.ini</code> file using <tt>vi</tt> or a similar text editor.
+ Novice users may use the HTTP-Based iODBC Data Sources Administrator, or they may use the Multi-Tier Administrative Assistant.</p>
+<h4>
+          <a id="The%20odbc.ini%20File">
+      </a> The odbc.ini File</h4>
+<p>The odbc.ini file appears in the /bin sub-directory of the OpenLink client installation.
+ Users may open this file with vi or a similar text editor.
+The following table describes sections, which users will encounter in odbc.ini.</p>
+
+<table class="wikitable">
+<tr>
+       <th id="6">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=6&amp;col=1">Section </a>
+       </th>
+       <th id="7">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=7&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> ODBC Data Sources</td>
+            <td> This section names each of the ODBC data sources that appear in the odbc.ini file. It also pairs the appropriate ODBC driver name with the data source name.</td>
+          </tr>
+<tr>
+            <td> Data Source Specifications</td>
+            <td> This section lists the actual data source names. Each data source name is composed of a formal name and a parameter list.</td>
+          </tr>
+</table>
+<h4>
+          <a id="ODBC%20Data%20Sources">
+      </a>ODBC Data Sources</h4>
+<p>The ODBC Data Sources section lists the names of the individual data sources and pairs the names with the appropriate ODBC client driver.
+ These data sources names are associated with formal data source specifications, which appear later in the file.</p>
+<p>Here is the ODBC Data Sources format:</p>
+<pre>[ODBC Data Sources] 
+data_source_name=ODBC_client_driver_name
+</pre>
+        <p> Here is a sample ODBC Data Sources section with data source names:</p>
+<pre>[ODBC Data Sources]
+ora81_lite = OpenLink Oracle 8.1 Lite Driver (multi threaded)
+pgr7_lite = OpenLink PostgreSQL Lite Driver (multi threaded)
+</pre>
+<h4>
+          <a id="Data%20Source%20Specification">
+      </a> Data Source Specification</h4>
+<p>Each [ODBC Data Sources] data source name has a corresponding data source specification.
+ The data source specification lists parameters, which are necessary to establish the ODBC connection.
+ Here is the OpenLink data source specification format:</p>
+
+<pre>[data_source_name]
+Driver = driver_path
+ServerType = openlink_domain_alias
+Username = database_username
+Password = database_password
+Database = database_name_or_oracle_sid
+Options = three_tier_or_sockets_connection_parameters
+FetchBufferSize = buffer_size
+ReadOnly = enable_disable_readonly_access_to_database
+DeferLongFetch = enable_disable_deferlongfetch_option
+JetFix = enable_disable_jetfix_option
+Description = data_source_description
+</pre>
+        <p> Here is a sample data source specification:</p>
+
+<pre>[Oracle]
+Driver = /usr/openlink/lib/ora81_st_lt.sl
+ServerType = Oracle 8.1.x
+Username = scott
+Password = tiger
+Database = ORCL
+Options = 
+FetchBufferSize = 99
+ReadOnly = Yes
+DeferLongFetch = No
+JetFix = No
+Description = Oracle DSN
+</pre>
+        <p> The following table explains the parameters that appear in the data source specification sections.</p>
+
+<table class="wikitable">
+<tr>
+       <th id="8">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=8&amp;col=1">Parameter                        </a>
+       </th>
+       <th id="9">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=9&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> <code>[Data Source Name]</code>    </td>
+            <td> Passes a descriptive data source title. This title must match the title passed under the <code>[ODBC Data Sources]</code> heading.   </td>
+          </tr>
+<tr>
+            <td> <code>Driver</code>                </td>
+            <td> Passes the full path to the ODBC client driver.   </td>
+          </tr>
+<tr>
+            <td> <code>ServerType</code>       </td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Single-Tier <code>openlink.ini</code> file or Multi-Tier <code>oplrqb.ini</code> file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+<tr>
+            <td> <code>Username</code>              </td>
+            <td> Passes a valid database username. If the Multi-Tier <code>OPSYSLOGIN</code> parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> <code>Password</code>              </td>
+            <td> Passes a valid database password. If the Multi-Tier <code>OPSYSLOGIN</code> parameter is enabled, this parameter passes a valid operating system password.</td>
+          </tr>
+<tr>
+            <td> <code>Database</code>              </td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.   </td>
+          </tr>
+<tr>
+            <td> <code>Options</code>               </td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.   </td>
+          </tr>
+<tr>
+            <td> <code>FetchBufferSize</code>  </td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.   </td>
+          </tr>
+<tr>
+            <td> <code>ReadOnly</code>         </td>
+            <td> Passes a <code>Yes</code> or <code>No</code> value to enable or disable <code>READONLY</code> access to the data store.   </td>
+          </tr>
+<tr>
+            <td> <code>DeferLongFetch</code>   </td>
+            <td> Passes a <code>Yes</code> or <code>No</code> value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.   </td>
+          </tr>
+<tr>
+            <td> <code>JetFix</code>           </td>
+            <td> Passes a <code>Yes</code> or <code>No</code> value to enable or disable JetFix. JetFix facilitates translation of data types by Microsoft&#39;s Jet Engine. This feature is intended primarily for use with Microsoft client applications on Windows.   </td>
+          </tr>
+<tr>
+            <td> <code>Description</code>           </td>
+            <td> Passes a description of the use or nature of the data source name.   </td>
+          </tr>
+</table>
+<p>The following table explains additional values, which may be added to Multi-Tier data source name specifications.</p>
+
+<table class="wikitable">
+<tr>
+       <th id="10">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=10&amp;col=1">Parameter </a>
+       </th>
+       <th id="11">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=11&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> <code>Protocol</code>  </td>
+            <td> Passes a valid OpenLink network protocol. The default is TCP/IP.</td>
+          </tr>
+<tr>
+            <td> <code>Hostname</code>  </td>
+            <td> Passes the hostname or IP address of the machine, which contains the OpenLink request broker.</td>
+          </tr>
+<tr>
+            <td> <code>Port</code>  </td>
+            <td> Passes the TCP port on which the request broker listens. This TCP port is associated with the <code>ListenPort</code> parameter, and it appears in the <code>[Protocol TCP]</code> section of the Multi-Tier Rules Book (<code>oplrqb.ini</code>).</td>
+          </tr>
+</table>
+<p> OpenLink produces the HTTP-Based iODBC Data Sources Administrator for Darwin and other platforms.
+ This Web-based administrator is a stand-alone GUI interface to the iODBC driver manager.
+ It is similar to the Microsoft ODBC Data Sources Administrator, and it allows users to create OpenLink and non-OpenLink data source names.</p>
+<p>Use the following instructions to create data source names with the iODBC Data Sources Administrator.</p>
+<ul>
+          <li>cd into the <code>/bin/w3config</code> sub-directory of the client&#39;s OpenLink installation.
+</li>
+<li>Use a text editor to open the <code>www_sv.ini</code> file.
+</li>
+<li>Locate the <code>[Startup]</code> section.
+</li>
+<li>Record the value passed to <code>HttpPort</code>.
+ For example: <br />
+            <pre>
+              <br />[Startup]
+HttpPort          = 8000
+</pre>
+            <br />
+          </li>
+<li>Exit the file.
+</li>
+<li>cd into the <code>/bin</code> sub-directory of the client&#39;s OpenLink installation.
+</li>
+<li>Run the following command: <br />
+            <pre>
+              <br />./iodbc-admin-httpd.sh start
+</pre>
+            <br />
+          </li>
+<li>Open a Web browser.
+</li>
+<li>Enter the following URL: <code>http://localhost:HttpPort_from_www_sv.ini</code> </li>
+<li>Expand the following menu items: Client Components Administration -&gt; Data Source Name Configuration -&gt; Edit Data Sources by Wizard -&gt; Edit ODBC Data Sources.
+</li>
+<li>Provide the administrator username and password.
+ Both fields default to admin.
+</li>
+<li>Click Add.
+</li>
+<li>Select the appropriate OpenLink ODBC driver.
+</li>
+<li>Click Next.
+</li>
+<li>Use setup screens 1 to 5 to provide connection parameters and to disable or enable optional features.
+Figures 1-3 describes Single-Tier parameters and options.
+ Figure 1-4 describes Multi-Tier parameters and options.</li>
+</ul>
+        <ul>
+          <li>Figure 1-3 - Single-Tier Parameters &amp; Options*</li>
+</ul>
+<table class="wikitable">
+<tr>
+       <th id="12">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=12&amp;col=1">Parameter                               </a>
+       </th>
+       <th id="13">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=13&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> <code>Name</code>                         </td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> <code>Comment</code>                      </td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> <code>Database Name</code>                </td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> <code>Server</code>                       </td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> <code>Username</code>                     </td>
+            <td> Passes a valid database username. If the Multi-Tier OPSYSLOGIN parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> <code>Read-only connection</code>         </td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> <code>No Login Dialog Box</code>          </td>
+            <td> Enables or disables the login popup box.</td>
+          </tr>
+<tr>
+            <td> <code>Defer Fetching of long data</code>  </td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+<tr>
+            <td> <code>Row buffer size</code>              </td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch operation.</td>
+          </tr>
+<tr>
+            <td> <code>Jet Fix</code>                      </td>
+            <td> Passes a Yes or No value to enable or disable JetFix. JetFix facilitates translation of data types by Microsoft&#39;s Jet Engine. This feature is intended for use with MS Access client applications.</td>
+          </tr>
+<tr>
+            <td> <code>Environment</code>                  </td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Single-Tier openlink.ini file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+</table>
+<ul>
+          <li>Note:* The Server parameter name changes to reflect the database to which you are trying to connect.
+ For instance, the setup routine will replace Server with Net 8 Service Name, if you choose an Oracle Single-Tier driver.</li>
+</ul>
+        <ul>
+          <li>Figure 1-4 - Multi-Tier Parameters &amp; Options*</li>
+</ul>
+<table class="wikitable">
+<tr>
+       <th id="14">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=14&amp;col=1">Parameter </a>
+       </th>
+       <th id="15">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=15&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Name</td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> Comment</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Domain</td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Multi-Tier oplrqb.ini file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+<tr>
+            <td> Hostname</td>
+            <td> Passes the hostname or IP address of the machine, which contains the OpenLink request broker.</td>
+          </tr>
+<tr>
+            <td> Port</td>
+            <td> Passes the TCP port, on which the request broker listens. This TCP port is associated with the ListenPort parameter, and it appears in the [Protocol TCP] section of the Multi-Tier Rules Book (oplrqb.ini).</td>
+          </tr>
+<tr>
+            <td> Protocol</td>
+            <td> Passes a valid OpenLink network protocol. The default is TCP/IP.</td>
+          </tr>
+<tr>
+            <td> Database Name</td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> Server</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username. If the Multi-Tier OPSYSLOGIN parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> Read-only Connection</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> No Login Dialog Box</td>
+            <td> Enables or disables login popup box.</td>
+          </tr>
+<tr>
+            <td> Defer Fetching of long data</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+<tr>
+            <td> Row buffer size</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.</td>
+          </tr>
+</table>
+<ul>
+          <li>Note:* The Server parameter name changes to reflect the database to which you are trying to connect.
+ For instance, the setup routine will replace Server with Net 8 Service Name, if you choose an Oracle domain.</li>
+</ul>
+        <ul>
+          <li>Click the Save button, which appears on the sixth setup screen.
+</li>
+<li>Click the Finish button, which appears on the last setup screen.</li>
+</ul>
+        <h4>
+          <a id="The%20Multi-Tier%20Administrative%20Assistant">
+      </a> The Multi-Tier Administrative Assistant</h4>
+<p>OpenLink produces the Multi-Tier Administrative Assistant for all server operating systems, which it supports.
+ This Web-based assistant is powered by OpenLink&#39;s server components, and it provides utilities to configure these components.
+ However, the assistant also provides a GUI interface to the iODBC driver manager.
+ This interface is similar to the Microsoft ODBC Data Sources Administrator, and it allows users to create OpenLink data source names.</p>
+<p>Use the following instructions to create data source names with the Multi-Tier Administrative Assistant.</p>
+<ul>
+          <li>cd into the /bin/w3config sub-directory of the server&#39;s OpenLink installation.
+</li>
+<li>Use a text editor to open the www_sv.ini file.
+</li>
+<li>Locate the [Startup] section.
+</li>
+<li>Record the value passed to HttpPort.
+ For example: <br />
+            <pre>
+              <br />[Startup]
+HttpPort          = 8000
+</pre>
+            <br />
+          </li>
+<li>Exit the file.
+</li>
+<li>cd into the /bin sub-directory of the server&#39;s OpenLink installation.
+</li>
+<li>Run the following command: oplrqb </li>
+<li>Open a Web browser.
+</li>
+<li>Enter the following URL: <br />
+            <pre>
+              <br />http://localhost:HttpPort_from_www_sv.ini
+</pre>
+            <br />
+          </li>
+<li>Expand the following menu items: Client Components Administration -&gt; Data Source Name Configuration -&gt; Edit Data Sources by Wizard -&gt; Edit ODBC Data Sources.
+</li>
+<li>Provide the administrator username and password.
+ Both fields default to admin.
+</li>
+<li>Click Add.
+</li>
+<li>Select the OpenLink Generic ODBC driver.
+</li>
+<li>Click Next.
+</li>
+<li>Use setup screens 1 to 5 to provide connection parameters and to disable or enable optional features.</li>
+</ul>
+        <p>Figure 1-5 describes Multi-Tier parameters and options</p>
+<ul>
+          <li>Figure 1-5 - Multi-Tier Parameters &amp; Options*</li>
+</ul>
+
+<table class="wikitable">
+<tr>
+       <th id="16">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=16&amp;col=1">Parameter </a>
+       </th>
+       <th id="17">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=17&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Name</td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> Comment</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Domain</td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Multi-Tier oplrqb.ini file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+<tr>
+            <td> Hostname</td>
+            <td> Passes the hostname or IP address of the machine, which contains the OpenLink request broker.</td>
+          </tr>
+<tr>
+            <td> Port</td>
+            <td> Passes the TCP port, on which the request broker listens. This TCP port is associated with the ListenPort parameter, and it appears in the [Protocol TCP] section of the Multi-Tier Rules Book (oplrqb.ini).</td>
+          </tr>
+<tr>
+            <td> Protocol</td>
+            <td> Passes a valid OpenLink network protocol. The default is TCP/IP.</td>
+          </tr>
+<tr>
+            <td> Database Name</td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> Server</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username. If the Multi-Tier OPSYSLOGIN parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> Read-only Connection</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> No Login Dialog Box</td>
+            <td> Enables or disables login popup box.</td>
+          </tr>
+<tr>
+            <td> Defer Fetching of long data</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+<tr>
+            <td> Row buffer size</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.</td>
+          </tr>
+</table>
+<ul>
+          <li>Note:* The Server parameter name changes to reflect the database to which you are trying to connect.
+ For instance, the setup routine will replace Server with Net 8 Service Name, if you choose an Oracle domain.</li>
+</ul>
+<ul>
+          <li>Click the Save button, which appears on the sixth setup screen.
+</li>
+<li>Click the Finish button, which appears on the last setup screen.</li>
+</ul>
+        <h4>
+          <a id="Configuring%20Mac%20Classic%20Data%20Source%20Names">
+      </a>Configuring Mac Classic Data Source Names</h4>
+<p>OpenLink Software provides Multi-Tier client software for the Mac Classic operating system.
+ The following instructions will enable users to create Multi-Tier data source names on Mac Classic.</p>
+<ul>
+          <li>Expand the Apple menu.
+</li>
+<li>Expand the Control Panels menu.
+</li>
+<li>Select the ODBC Setup PPC menu item.
+</li>
+<li>Click on the System DSN, User DSN, or File DSN tab.
+</li>
+<li>Click Add.
+</li>
+<li>Select the OpenLink Generic ODBC driver.
+</li>
+<li>Click Finish.
+</li>
+<li>Use the Generic ODBC Setup dialog to provide connection parameters and to disable or enable optional features.
+Figure 1-6 describes Multi-Tier parameters and options</li>
+</ul>
+        <ul>
+          <li>Figure 1-6 - Multi-Tier Parameters &amp; Options*</li>
+</ul>
+<table class="wikitable">
+<tr>
+       <th id="18">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=18&amp;col=1">Parameter </a>
+       </th>
+       <th id="19">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=19&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Name</td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> Comment</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Domain</td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Multi-Tier oplrqb.ini file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+<tr>
+            <td> Hostname</td>
+            <td> Passes the hostname or IP address of the machine, which contains the OpenLink request broker.</td>
+          </tr>
+<tr>
+            <td> Port</td>
+            <td> Passes the TCP port, on which the request broker listens. This TCP port is associated with the ListenPort parameter, and it appears in the [Protocol TCP] section of the Multi-Tier Rules Book (oplrqb.ini).</td>
+          </tr>
+<tr>
+            <td> Protocol</td>
+            <td> Passes a valid OpenLink network protocol. The default is TCP/IP.</td>
+          </tr>
+<tr>
+            <td> Database Name</td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> Server</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username. If the Multi-Tier OPSYSLOGIN parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> Read-only Connection</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> No Login Dialog Box</td>
+            <td> Enables or disables login popup box.</td>
+          </tr>
+<tr>
+            <td> Defer Fetching of long data</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+<tr>
+            <td> Row buffer size</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.</td>
+          </tr>
+</table>
+<ul>
+          <li>Note:* The Optional Server parameter name changes to reflect the database to which you are trying to connect.
+ For instance, the setup routine will replace Server with Net 8 Service Name, if you choose an Oracle domain.</li>
+</ul>
+        <ul>
+          <li>Click OK to save your data source name.</li>
+</ul>
+        <h4>
+          <a id="Configuring%20Mac%20OS%20X%20Data%20Source%20Names">
+      </a>Configuring Mac OS X Data Source Names</h4>
+<p>There are two methods, which users may employ to configure Mac OS X data source names.
+ Expert users may configure the ODBC.preference file with TextEdit or a similar text editor.
+ Novice users may use an Aqua GUI ODBC Administrator.</p>
+<ul>
+          <li>The ODBC.preference File*</li>
+</ul>
+        <p>The ODBC.preference file appears in the /Library/Preferences directory.
+Users may open this file with TextEdit or a similar text editor.
+ The following table describes sections, which users will encounter in ODBC.preference.</p>
+
+
+<table class="wikitable">
+<tr>
+       <th id="20">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=20&amp;col=1">Section </a>
+       </th>
+       <th id="21">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=21&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> ODBC Data Sources</td>
+            <td> This section names each of the ODBC data sources that appear in the ODBC.preference file. It also pairs the appropriate ODBC driver name with the data source name.</td>
+          </tr>
+<tr>
+            <td> Data Source Specifications</td>
+            <td> This section lists the actual data source names. Each data source name is composed of a formal name and a parameter list.</td>
+          </tr>
+</table>
+<h4>
+          <a id="ODBC%20Data%20Sources">
+      </a> ODBC Data Sources</h4>
+<p>The ODBC Data Sources section lists the names of the individual data sources and pairs the names with the appropriate ODBC client driver.
+ These data sources names are associated with formal data source specifications, which appear later in the file.</p>
+<p>Here is the ODBC Data Sources format:</p>
+<pre>[ODBC Data Sources]
+data_source_name=ODBC_client_driver_name
+</pre>
+        <p> Here is a sample ODBC Data Sources section with data source names:</p>
+<pre>[ODBC Data Sources]
+ora81_lite = OpenLink Oracle 8.1 Lite Driver (multi threaded)
+pgr7_lite  = OpenLink PostgreSQL Lite Driver (multi threaded)
+</pre>
+<h4>
+          <a id="Data%20Source%20Specification">
+      </a> Data Source Specification</h4>
+<p>Each [ODBC Data Sources] data source name has a corresponding data source specification.
+ The data source specification lists parameters, which are necessary to establish the ODBC connection.
+ Here is the OpenLink Multi-Tier data source specification format:</p>
+
+<pre>[data_source_name]
+Driver = driver_path
+Description = data_source_description
+ServerType = openlink_domain_alias
+FetchBufferSize = buffer_size
+Host = hostname_of_machine_which_hosts_OpenLink_server_components
+Port = port_on_which_openlink_broker_listens
+Database = database_name_or_oracle_sid
+Protocol = network_communications_protocol
+Options = three_tier_or_sockets_connection_parameters
+ReadOnly = read_only_flag
+Username = database_username
+Password = database_password
+NoLoginBox = enable_disable_login_dialog_box
+DeferLongFetch = enable_disable_deferlongfetch_option
+</pre>
+        <p> Here is a sample, Multi-Tier data source specification:</p>
+
+<pre>[Oracle]
+Driver = /usr/openlink/lib/oplodbc.so.1
+Description = Oracle DSN
+ServerType = Oracle 8.1.x
+FetchBufferSize = 99
+Host = localhost
+Port = 5000
+Database = ORCL
+Protocol = TCP/IP
+Options = 
+ReadOnly = Yes
+Username = scott
+Password = tiger
+NoLoginBox = No
+DeferLongFetch = No
+</pre>
+        <p> The following table explains the parameters that appear in the Multi-Tier data source specification sections.</p>
+
+<table class="wikitable">
+<tr>
+       <th id="22">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=22&amp;col=1">Parameter </a>
+       </th>
+       <th id="23">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=23&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Name</td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> Comment</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Domain</td>
+            <td> Passes a valid OpenLink domain alias. This domain alias must match a valid domain alias in the Multi-Tier oplrqb.ini file. The drivers use these domain aliases as starting points from which to assess rules, environment variables, and agent binaries to instantiate for connections.</td>
+          </tr>
+<tr>
+            <td> Hostname</td>
+            <td> Passes the hostname or IP address of the machine, which contains the OpenLink request broker.</td>
+          </tr>
+<tr>
+            <td> Port</td>
+            <td> Passes the TCP port, on which the request broker listens. This TCP port is associated with the ListenPort parameter, and it appears in the [Protocol TCP] section of the Multi-Tier Rules Book (oplrqb.ini).</td>
+          </tr>
+<tr>
+            <td> Protocol</td>
+            <td> Passes a valid OpenLink network protocol. The default is TCP/IP.</td>
+          </tr>
+<tr>
+            <td> Database Name</td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> Server</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username. If the Multi-Tier OPSYSLOGIN parameter is enabled, this parameter passes a valid operating system username.</td>
+          </tr>
+<tr>
+            <td> Read-only Connection</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> No Login Dialog Box</td>
+            <td> Enables or disables login popup box.</td>
+          </tr>
+<tr>
+            <td> Defer Fetching of long data</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+<tr>
+            <td> Row buffer size</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.</td>
+          </tr>
+</table>
+<p>All OpenLink Single-Tier drivers recognize a common subset of specifications parameters.
+ Individual Single-Tier drivers recognize an additional set of parameters, which are specialized for the database to which they connect.</p>
+<p>Here is a representative Single-Tier data source specification format:</p>
+
+<pre>[data_source_name]
+Driver = driver_path
+Description = data_source_description
+Database =  database_name_or_oracle_sid
+Cursor_Sensitivity = enable_disable_dynamic_cursor_row_version_cache
+FetchBufferSize = buffer_size
+InitialSQL = path_to_script_containing_sql_statements
+UserName = database_username
+Password = database_password
+MaxRows = maximum_number_of_rows_to_return_per_resultset
+NoAutoCommit = enable_disable_autocommit
+NoLoginBox = enable_disable_login_dialog_box
+NoRowsetSizeLimit = enable_disable_norowsetsizelimit
+ReadOnly = enable_disable_read_only_access_to_database
+Options = three_tier_or_sockets_connection_parameters
+DeferLongFetch = enable_disable_deferlongfetch_option
+</pre>
+        <p> Here is a sample, Single-Tier data source specification:</p>
+<pre>[Oracle]
+Driver = /usr/openlink/lib/ora81_st_lt.sl
+Description = Oracle DSN
+Database = ORCL
+Cursor_Sensitivity = Yes
+FetchBufferSize = 99
+InitialSQL = 
+UserName = scott
+Password = tiger
+MaxRows = 
+NoAutoCommit = Yes
+NoLoginBox = No
+NoRowsetSizeLimit = Yes
+ReadOnly = Yes
+Options = 
+DeferLongFetch = No
+</pre>
+        <p> The following table explains the parameters, which all Single-Tier drivers recognize.</p>
+
+
+<table class="wikitable">
+<tr>
+       <th id="24">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=24&amp;col=1">Parameter </a>
+       </th>
+       <th id="25">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=25&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Data Source Name</td>
+            <td> Passes a descriptive data source title. This title must match the title passed under the [ODBC Data Sources] heading.</td>
+          </tr>
+<tr>
+            <td> Driver</td>
+            <td> Passes the full path to the ODBC client driver.</td>
+          </tr>
+<tr>
+            <td> Description</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Cursor_Sensitivity</td>
+            <td> Passes a Yes or No value to enable or disable the row version cache, which is used with dynamic cursors.</td>
+          </tr>
+<tr>
+            <td> FetchBufferSize</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during individual fetch operations.</td>
+          </tr>
+<tr>
+            <td> InitialSQL</td>
+            <td> Passes a path to a file containing SQL statements. These statements are issued against the database upon initial connection. InitialSQL scripts usually contain statements, which set ISOLATION levels.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username.</td>
+          </tr>
+<tr>
+            <td> Password</td>
+            <td> Passes a valid database password</td>
+          </tr>
+<tr>
+            <td> MaxRows</td>
+            <td> Passes an integer, which limits the maximum number of rows that may be returned.</td>
+          </tr>
+<tr>
+            <td> NoAutoCommit</td>
+            <td> Passes a Yes or No value, which enables or disables the driver&#39;s autocommit behaviour.</td>
+          </tr>
+<tr>
+            <td> NoLoginBox</td>
+            <td> Passes a Yes or No value to disable or enable the login pop-up box.</td>
+          </tr>
+<tr>
+            <td> NoRowsetSizeLimit</td>
+            <td> Passes a Yes or No value to enable or disable rowset size limits. Default rowset size limits are enforced by the cursor library. These limits prevent the driver from consuming all available memory in the event that rowsets are inordinately large.</td>
+          </tr>
+<tr>
+            <td> ReadOnly</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> Options</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> DeferLongFetch</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+</table>
+<h5>
+          <a id="MS%20SQL%20Server%20Single-Tier%20drivers%20recognize%20these%20specialized%20parameters.">
+      </a> MS SQL Server Single-Tier drivers recognize these specialized parameters.</h5>
+
+<table class="wikitable">
+<tr>
+       <th id="26">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=26&amp;col=1">Parameter </a>
+       </th>
+       <th id="27">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=27&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> TDSHost</td>
+            <td> Passes the hostname or IP address of the machine that hosts SQLServer.</td>
+          </tr>
+<tr>
+            <td> TDSPort</td>
+            <td> Passes the TCP port on which SQLServer listens.</td>
+          </tr>
+<tr>
+            <td> TDSVersion</td>
+            <td> Passes the TDS Version specification number. Do not alter this value.</td>
+          </tr>
+<tr>
+            <td> SQLServerCatalog</td>
+            <td> Passes Yes to use Microsoft SQLServer implementation of catalog calls. Passes No to use Sybase implementation.</td>
+          </tr>
+</table>
+<h5>
+          <a id="">
+      </a> MySQL Single-Tier drivers recognize these specialized parameters.</h5>
+
+<table class="wikitable">
+<tr>
+       <th id="28">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=28&amp;col=1">Parameter</a>
+       </th>
+       <th id="29">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=29&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Disable ODBC transactions</td>
+            <td> Disables transaction management. Enforces autocommit for all statements.</td>
+          </tr>
+</table>
+<h5>
+          <a id="Oracle%20Single-Tier%20drivers%20recognize%20these%20specialized%20parameters.">
+      </a> Oracle Single-Tier drivers recognize these specialized parameters.</h5>
+
+<table class="wikitable">
+<tr>
+       <th id="30">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=30&amp;col=1">Parameter</a>
+       </th>
+       <th id="31">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=31&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> OraCatalogs</td>
+            <td> Promotes efficient processing of Oracle catalog calls such as SQLForeignKey() and SQLPrimaryKeys(). The appropriate odbccat#.sql script must be run before OraCatalogs is enabled. There is one odbccat#.sql script for each Oracle database version.</td>
+          </tr>
+<tr>
+            <td> ShowRemarks</td>
+            <td> Retrieves contents of SQLColumns REMARKS field.</td>
+          </tr>
+<tr>
+            <td> UserTblsFirst</td>
+            <td> Causes user tables to appear at beginning of SQLTables() table name listing.</td>
+          </tr>
+<tr>
+            <td> CountProcParms</td>
+            <td> Insures that number of parameters passed by stored procedures matches the number of parameters expected by SQLProcedures.</td>
+          </tr>
+<tr>
+            <td> OCIPrefetchRows</td>
+            <td> Passes an integer value, which represents the number of rows to prefetch.</td>
+          </tr>
+<tr>
+            <td> OCIPrefetchMemory</td>
+            <td> Passes an integer value, which represents the amount of memory to use for prefetch operations.</td>
+          </tr>
+<tr>
+            <td> OracleDirectory</td>
+            <td> Passes the full path to the Oracle home directory.</td>
+          </tr>
+</table>
+<h5>
+          <a id="">
+      </a> PostgreSQL Single-Tier drivers recognize these specialized parameters.</h5>
+
+<table class="wikitable">
+<tr>
+       <th id="32">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=32&amp;col=1">Parameter</a>
+       </th>
+       <th id="33">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=33&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Disable ODBC transactions</td>
+            <td> Disables transaction management. Enforces autocommit for all statements.</td>
+          </tr>
+</table>
+<h4>
+          <a id="Aqua%20GUI%20ODBC%20Administrators">
+      </a> Aqua GUI ODBC Administrators</h4>
+<p>Users may encounter one of three, Aqua GUI ODBC administrators on Mac OS X.
+Users may encounter the ODBC Administrator, the iODBC Administrator, or Data Direct&#39;s ODBC Configure.
+ Different driver managers are installed by different OpenLink install bundles and client applications.</p>
+<p>The ODBC Administrator ships with Apple&#39;s Jaguar installers.
+ Users will find the ODBC Administrator&#39;s icon in their /Applications/Utilities folder.
+This administrator is an Apple-native interface to the iODBC dylibs driver manager.
+ Apple dylibs are dynamic shared libraries.
+ One copy of a .dylib or dynamic library may be shared by multiple applications simultaneously.
+These libraries are similar in theory to Unix dynamic libraries.
+ However, their use and implementation are different.</p>
+<p>The iODBC Administrator ships with OpenLink Software&#39;s driver installers.
+Users will find the iODBC Administrator&#39;s icon in their /Applications folder.
+ This administrator is an OpenLink-native interface to the iODBC frameworks driver manager.
+ Apple frameworks are special bundles or packages, which contain dynamic shared libraries, header files, documentation, and other resources that are necessary to use the library.</p>
+<p>The ODBC Configure administrator ships with Filemaker 6.
+ Users will find the ODBC Configure icon in /Applications/Data Direct ODBC Folder.
+ This administrator is a Data Direct-native interface to the Data Direct&#39;s Carbon-based, CFM driver manager.
+ Carbon is an older, Mac OS application environment and API, which Apple modified for use with Mac OS X operating systems.
+ The CFM driver manager is based on Apple&#39;s CFM technology.
+ CFM is an abbreviation for Code Fragment Manager.
+ The Code Fragment Manager loads code fragments (libraries, applications, code, etc.) and prepares them for execution.</p>
+<p>The following instructions will enable users to create OpenLink data sources using any ODBC administrator.</p>
+<ul>
+          <li>Open the appropriate administrator.
+</li>
+<li>Click on the System, User, or File tab.
+</li>
+<li>Click Add.
+</li>
+<li>Select the appropriate OpenLink Single-Tier or Multi-Tier driver.
+</li>
+<li>Click Finish.
+</li>
+<li>Use the ODBC Setup dialog to provide connection parameters and to disable or enable optional features.</li>
+</ul>
+        <p>Figure 1-7 describes Multi-Tier parameters and options*</p>
+<ul>
+          <li>Figure 1-7 - Multi-Tier Parameters &amp; Options*</li>
+</ul>
+<table class="wikitable">
+<tr>
+       <th id="34">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=34&amp;col=1">Parameter </a>
+       </th>
+       <th id="35">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=35&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Data Source Name</td>
+            <td> Passes a descriptive data source title. This title must match the title passed under the [ODBC Data Sources] heading.</td>
+          </tr>
+<tr>
+            <td> Driver</td>
+            <td> Passes the full path to the ODBC client driver.</td>
+          </tr>
+<tr>
+            <td> Description</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+       <td> <nop>Cursor_Sensitivity</nop>
+       </td>
+            <td> Passes a Yes or No value to enable or disable the row version cache, which is used with dynamic cursors.</td>
+          </tr>
+<tr>
+            <td> FetchBufferSize</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during individual fetch operations.</td>
+          </tr>
+<tr>
+            <td> InitialSQL</td>
+            <td> Passes a path to a file containing SQL statements. These statements are issued against the database upon initial connection. InitialSQL scripts usually contain statements, which set ISOLATION levels.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username.</td>
+          </tr>
+<tr>
+            <td> Password</td>
+            <td> Passes a valid database password</td>
+          </tr>
+<tr>
+            <td> MaxRows</td>
+            <td> Passes an integer, which limits the maximum number of rows that may be returned.</td>
+          </tr>
+<tr>
+            <td> NoAutoCommit</td>
+            <td> Passes a Yes or No value, which enables or disables the driver&#39;s autocommit behaviour.</td>
+          </tr>
+<tr>
+            <td> NoLoginBox</td>
+            <td> Passes a Yes or No value to disable or enable the login pop-up box.</td>
+          </tr>
+<tr>
+            <td> NoRowsetSizeLimit</td>
+            <td> Passes a Yes or No value to enable or disable rowset size limits. Default rowset size limits are enforced by the cursor library. These limits prevent the driver from consuming all available memory in the event that rowsets are inordinately large.</td>
+          </tr>
+<tr>
+            <td> ReadOnly</td>
+            <td> Passes a Yes or No value to enable or disable READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> Options</td>
+            <td> Passes Progress SHN sockets parameters. Users may also use the field to pass database native communications parameters to establish three-tier connections. For instance, users may pass Sybase instance names, Oracle aliases, or Ingres vnodes to connect database agents--through local database native clients--to remote databases.</td>
+          </tr>
+<tr>
+            <td> DeferLongFetch</td>
+            <td> Passes a Yes or No value to enable or disable deferred fetching. Deferred fetching causes large, binary objects to be fetched after other, smaller data. This enhances performance.</td>
+          </tr>
+</table>
+<p>*Note:* The optional Server parameter name changes to reflect the database to which you are trying to connect.
+ For instance, the setup routine will replace Server with Net 8 Service Name, if you choose an Oracle domain.</p>
+<p>Figure 1-8 describes common Single-Tier parameters and options</p>
+<p>*Figure 1-8 - Common Single-Tier Parameters &amp; Options*</p>
+
+<table class="wikitable">
+<tr>
+       <th id="36">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=36&amp;col=1">Parameter </a>
+       </th>
+       <th id="37">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=37&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> DSN</td>
+            <td> Passes a descriptive data source title.</td>
+          </tr>
+<tr>
+            <td> Description</td>
+            <td> Passes a description of the use or nature of the data source name.</td>
+          </tr>
+<tr>
+            <td> Hostname</td>
+            <td> Passes the hostname or IP address of the machine, which contains the database server.</td>
+          </tr>
+<tr>
+            <td> Port</td>
+            <td> Passes the TCP port, on which the database server or PostgreSQL postmaster listens.</td>
+          </tr>
+<tr>
+            <td> Username</td>
+            <td> Passes a valid database username.</td>
+          </tr>
+<tr>
+            <td> Password</td>
+            <td> Passes a valid database password.</td>
+          </tr>
+<tr>
+            <td> Row buffer size</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during an individual fetch.</td>
+          </tr>
+<tr>
+            <td> Hide login dialog</td>
+            <td> Enables or disables the login popup box.</td>
+          </tr>
+<tr>
+            <td> Read only connection</td>
+            <td> Enables or disables READONLY access to the data store.</td>
+          </tr>
+<tr>
+            <td> Database</td>
+            <td> Passes the name of a database or Oracle SID. Progress users should pass the full path to their databases.</td>
+          </tr>
+<tr>
+            <td> Initialization SQL</td>
+            <td> Passes a path to a file containing SQL statements. These statements are issued against the database upon initial connection. InitialSQL scripts usually contain statements, which set ISOLATION levels.</td>
+          </tr>
+<tr>
+            <td> Max rows override</td>
+            <td> Passes an integer, which represents the number of rows that the driver will return during individual fetch operations.</td>
+          </tr>
+<tr>
+            <td> Disable autocommit</td>
+            <td> Enables or disables the driver&#39;s autocommit behavior.</td>
+          </tr>
+<tr>
+            <td> Disable rowset size limit</td>
+            <td> Enables or disables rowset size limits. Default rowset size limits are enforced by the cursor library. These limits prevent the driver from consuming all available memory in the event that rowsets are inordinately large.</td>
+          </tr>
+<tr>
+            <td> High cursor sensitivity</td>
+            <td> Enables or disables the row version cache, which is used with dynamic cursors.</td>
+          </tr>
+<tr>
+            <td> Defer Fetching of long data</td>
+            <td> Enables or disables deferred fetching. Deferred fetching causes large, binary objects to be fetched after other data. This enhances performance.</td>
+          </tr>
+</table>
+<p>Figure 1-9 describes additional, database specific Single-Tier parameters and options.</p>
+<ul>
+          <li>Figure 1-9 - Database-Specific Single-Tier Parameters &amp; Options*</li>
+</ul>
+<table class="wikitable">
+<tr>
+       <th id="38">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=38&amp;col=1">Parameter </a>
+       </th>
+       <th id="39">
+              <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX?sort=39&amp;col=2">Description </a>
+       </th>
+          </tr>
+<tr>
+            <td> Character Set</td>
+            <td> MS SQLServer/Sybase</td>
+            <td> Passes the name of a valid character set.</td>
+          </tr>
+<tr>
+            <td> Enable Microsoft Jet Engine options</td>
+            <td> MS SQLServer/Sybase</td>
+            <td> Passes a Yes or No value to enable or disable JetFix. JetFix facilitates translation of data types by Microsoft&#39;s Jet Engine. This feature is intended for use with MS Access client applications.</td>
+          </tr>
+<tr>
+            <td> Language</td>
+            <td> MS SQLServer/Sybase</td>
+            <td> Passes the name of a supported, national language.</td>
+          </tr>
+<tr>
+            <td> Server Type</td>
+            <td> MS SQLServer/Sybase</td>
+            <td> Passes a Database Management System (DBMS) name and version. Choose the closest possible match to your DBMS.</td>
+          </tr>
+<tr>
+            <td> Disable ODBC transactions</td>
+            <td> MySQL/PostgreSQL</td>
+            <td> Disables transaction management. Enforces autocommit for all statements.</td>
+          </tr>
+<tr>
+            <td> Count stored procedures parameters</td>
+            <td> Oracle</td>
+            <td> Insures that number of parameters passed by stored procedures matches the number of parameters expected by SQLProcedures.</td>
+          </tr>
+<tr>
+            <td> Custom catalog views</td>
+            <td> Oracle</td>
+            <td> Promotes efficient processing of Oracle catalog calls such as SQLForeignKey() and SQLPrimaryKeys(). The appropriate odbccat#.sql script must be run before OraCatalogs is enabled. There is one odbccat#.sql script for each Oracle database version.</td>
+          </tr>
+<tr>
+            <td> Net Service</td>
+            <td> Oracle</td>
+            <td> Passes the name of a valid Oracle Net Service.</td>
+          </tr>
+<tr>
+            <td> Net Service name</td>
+            <td> Oracle</td>
+            <td> Passes the name of a valid Oracle Net Service.</td>
+          </tr>
+<tr>
+            <td> OCIPrefetch Memory</td>
+            <td> Oracle</td>
+            <td> Passes an integer value, which represents the amount of memory to use for prefetch operations.</td>
+          </tr>
+<tr>
+            <td> OCIPrefetch Rows</td>
+            <td> Oracle</td>
+            <td> Passes an integer value, which represents the number of rows to prefetch.</td>
+          </tr>
+<tr>
+            <td> Oracle directory</td>
+            <td> Oracle</td>
+            <td> Passes the full path to the Oracle home directory.</td>
+          </tr>
+<tr>
+            <td> Service name/SID</td>
+            <td> Oracle</td>
+            <td> Passes the name of a valid Oracle SID.</td>
+          </tr>
+<tr>
+            <td> Show remarks</td>
+            <td> Oracle</td>
+            <td> Retrieves content of SQLColumns REMARKS field.</td>
+          </tr>
+<tr>
+            <td> Use Oracle 8i release 8.0 Compatible Identification</td>
+            <td> Oracle</td>
+            <td> </td>
+          </tr>
+<tr>
+            <td> User&#39;s own tables first in SQLTables</td>
+            <td> Oracle</td>
+            <td> Causes user tables to appear at beginning of SQLTables() table name listing.</td>
+          </tr>
+</table>
+<ul>
+          <li>Click OK to save your data source name.</li>
+</ul>
+        <h3>
+          <a id="Developing%20ODBC%20Compliant%20Applications">
+      </a> Developing ODBC Compliant Applications</h3>
+<p>OpenLink Software&#39;s Software Development Kits (SDK&#39;s) provide powerful tools for Apple applications developers.
+ While Apple SDK&#39;s provide only the dylibs format driver manager, OpenLink&#39;s SDK&#39;s provide both the dylibs and frameworks format driver managers.
+ This distinction is critical.
+ The frameworks format driver manager provides the applications developer with versatility that is not available with dylibs.</p>
+<p>Frameworks bundles contain multiple revisions of the iODBC driver manager.
+Moreover, the driver manager library name points to the latest revision of the component.
+ Therefore, developers do not need to set environment variables to point to the appropriate file.
+ However, applications developers can choose to instantiate legacy revisions.
+ In other words, developers can hard link applications to older driver managers to access functionality that is not present in recent revisions.</p>
+<p>Finally, OpenLink&#39;s SDK&#39;s enable developers to build Classic, Carbon, and Cocoa native applications.
+ Furthermore, OpenLink&#39;s SDK&#39;s assist developers who need to migrate applications from the Classic API to Carbon.
+ And, OpenLink aids developers who need to compile applications, which run on both Classic and Mac OS X.
+ To proceed, developers simply link their applications against OpenLink&#39;s iODBC libraries.
+ The resulting binary issues calls to the iODBC CFM Bridge.
+ This bridge ships with OpenLink&#39;s iODBC bundles, and it exists in Classic and OS X formats.
+ It identifies the correct driver manager format, which to load.</p>
+<ul>
+          <li>macodbc1.jpg:</li>
+</ul>
+        <img src="ODBCMacOSX/macodbc1.jpg" alt="macodbc1.jpg" />
+        <h3>
+          <a id="">
+      </a> OpenLink Driver Objectives</h3>
+<p>OpenLink Software&#39;s ODBC data access technologies simplify client and server computing.
+ These technologies are based on the principle of interoperability.
+ This principle dictates that one client application can access diverse, back-end database management systems, without knowledge of proprietary database protocols.
+ Thereby, this powerful technology allows application developers to develop, compile, and ship applications, which speak to any, ODBC-compliant data source.
+ The application developer does not need to cater to any specific vendor&#39;s DBMS.
+ Moreover, application developers do not need to attend to any specific client/server architecture.
+ The application and DBMS may reside on one or more machines.
+These machines may comprise similar or dissimilar operating systems and hardware.</p>
+<p>OpenLink Software&#39;s ODBC data access technologies meet their objectives, because they are based on Microsoft&#39;s ODBC specification.
+ The specification defines the ability to:</p>
+<ul>
+          <li>Connect and disconnect to ODBC-compliant data sources.
+</li>
+<li>Retrieve SQL data from ODBC data sources.
+</li>
+<li>Obtain an ODBC driver&#39;s capabilities and characteristics.
+</li>
+<li>Obtain and manipulate ODBC driver options.
+</li>
+<li>Prepare and execute SQL statements.
+</li>
+<li>Retrieve SQL result sets and process results dynamically.
+</li>
+<li>Retrieve result metadata and process metadata dynamically</li>
+</ul>
+        <h3>
+          <a id="">
+      </a> OpenLink Driver Features</h3>
+<p>OpenLink&#39;s Single-Tier and Multi-Tier Data Access Drivers provide ODBC 1.x-3.x compliance.
+ The two driver formats also provide the following features:</p>
+
+<h4>
+          <a id="Single-Tier%20Drivers">
+      </a> Single-Tier Drivers</h4>
+<ul>
+          <li>Blistering performance </li>
+<li>ODBC core, level 1, level 2, and extensions support </li>
+<li>Client-based scrollable cursor support </li>
+<li>Mac OS X client access to Microsoft SQL Server, MySQL, Oracle, PostgreSQL, and Sybase </li>
+<li>Support for all network protocols and server operating environments, which are supported by the database vendors&#39; communications products.</li>
+</ul>
+        <ul>
+          <li>Note:* Single-Tier data access is dependent upon client installation of the database native communications software.
+ For example, Oracle users require a client side installation of Net8.
+ Progress users require a client side installation of Progress Client Networking.
+ OpenLink&#39;s drivers for Microsoft SQL Server and Sybase are an exception.
+ These drivers contain FreeTDS libraries, which enable OpenLink&#39;s Single-Tier drivers to speak directly to Microsoft SQL Server and Sybase databases without Microsoft SQL Server&#39;s NETLIB or Sybase&#39;s Open Client product.</li>
+</ul>
+<h4>
+          <a id="Multi-Tier%20Drivers">
+      </a> Multi-Tier Drivers</h4>
+<ul>
+          <li>Blistering performance </li>
+<li>ODBC core, level 1, level 2, and extensions support </li>
+<li>Built-in, database-independent communications layer </li>
+<li>Sophisticated data encryption </li>
+<li>Concurrent access to heterogeneous ODBC drivers </li>
+<li>Intelligent metadata information handling </li>
+<li>Array fetching </li>
+<li>Network-centric result set management </li>
+<li>Scrollable cursor support </li>
+<li>Implementation of scrollable cursors across non-OpenLink ODBC drivers </li>
+<li>Support for all native backend functionality </li>
+<li>Support for distributed database capabilities of relevant backend database engines </li>
+<li>Implementation of all inter-process communications mechanisms supported by relevant database engines.
+ (Sockets, Shared Memory, Pipes etc.) </li>
+<li>Enforcement of query optimizer configurations across all OpenLink client components </li>
+<li>Enforcement of database engine ISOLATION LEVELS across all OpenLink client components.
+</li>
+</ul>
+    </div>
+   </div>
+    <div class="reset" />
+   <footer id="footer" about="http://www.iodbc.org/">
+    <a href="http://virtuoso.openlinksw.com/">
+        <img style="float: left; margin-left: 1em" src="/skin-iODBC/images/PoweredByVirtuoso.png" alt="Powered by Virtuoso" title="Powered by Virtuoso" />
+    </a>
+    <a href="https://github.com/openlink/iODBC">
+        <img style="float:right; margin-right: 1em; " src="/skin-iODBC/images/GitHub_Logo.png" alt="Fork iODBC on GitHub" />
+    </a>
+    <a href="http://sourceforge.net/projects/iodbc">
+        <img style="float: right; margin-right: 1em" src="http://sflogo.sourceforge.net/sflogo.php?group_id=90493&amp;type=13" width="120" height="30" alt="Get iODBC at SourceForge.net" />
+    </a>
+      <div class="footertext">
+                            Copyright (C)
+                            <a href="http://www.openlinksw.com/">
+          <span property="dct:creator" resource="http://www.openlinksw.com/dataspace/organization/openlink#this">OpenLink
+                                    Software
+                                </span>
+        </a>
+        <span id="ftcopyyear" property="dct:date">2009</span>
+                            .
+                            All rights reserved.
+                        </div>
+   </footer>
+  </div><!--Start OSDI Data Islands-->
+  <script type="text/turtle">@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/> .
+@prefix schema:	<http://schema.org/> .
+ns1:ODBCMacOSX	rdf:type	schema:WebPage ;
+	schema:name	"ODBC and MacOS X" .
+@prefix ns3:	<http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/> .
+ns1:ODBCMacOSX	schema:url	ns3:ODBCMacOSX ;
+	schema:publisher	_:b11646 ;
+	schema:keywords	"iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS" .
+_:b11646	rdf:type	schema:Organization ;
+	schema:name	"OpenLink Software" .
+@prefix ns4:	<http://www.openlinksw.com/#> .
+_:b11646	schema:url	ns4:this .
+
+  </script>
+  <script type="application/ld+json">{ "@context": {
+    "publisher": { "@id": "http://schema.org/publisher", "@type": "@id" },
+    "name": { "@id": "http://schema.org/name" },
+    "keywords": { "@id": "http://schema.org/keywords" },
+    "url": { "@id": "http://schema.org/url", "@type": "@id" } },
+  "@graph": [
+    { "@id": "http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/ODBCMacOSX",
+      "@type": "http://schema.org/WebPage",
+      "name": "ODBC and MacOS X",
+      "url": "http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX",
+      "publisher": 
+	{ "@id": "_:vb11646",
+	  "@type": "http://schema.org/Organization",
+	  "name": "OpenLink Software",
+	  "url": "http://www.openlinksw.com/#this" },
+      "keywords": "iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS" }
+] }
+
+
+  </script>
+  <div class="microdata html5md hidden" style="display: none">
+    <p>This HTML5 document contains 8 embedded RDF statements represented using HTML+Microdata notation.</p>
+    <p>The embedded RDF content will be recognized by any processor of HTML5 Microdata.</p>
+   <table>
+    <tr>
+        <th>Prefix</th>
+        <th>Namespace IRI</th>
+    </tr>
+<tr>
+        <td>schema</td>
+        <td>http://schema.org/</td>
+      </tr>
+<tr>
+        <td>n2</td>
+        <td>http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+<tr>
+        <td>rdf</td>
+        <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+      </tr>
+<tr>
+        <td>n5</td>
+        <td>http://www.openlinksw.com/#</td>
+      </tr>
+<tr>
+        <td>xsdh</td>
+        <td>http://www.w3.org/2001/XMLSchema#</td>
+      </tr>
+<tr>
+        <td>n4</td>
+        <td>http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+   </table>
+   <div parentelement2="http://www.w3.org/1999/xhtml:body">
+      <dt>Subject Item</dt>
+      <dd>n2:ODBCMacOSX</dd>
+      <dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/WebPage">schema:WebPage</a>
+</dd>
+      <dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">ODBC and MacOS X</span>
+</dd>
+      <dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/ODBCMacOSX">n4:ODBCMacOSX</a>
+</dd>
+      <dt>schema:publisher</dt>
+      <dd>
+<a itemprop="http://schema.org/publisher" href="nodeID://b11646">_:vb11646</a>
+</dd>
+      <dt>schema:keywords</dt>
+      <dd>
+<span itemprop="http://schema.org/keywords">iODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS</span>
+</dd>
+   </div>
+   <dl itemscope="itemscope" itemid="nodeID://b11646">
+<dt>Subject Item</dt>
+      <dd>_:vb11646</dd>
+<dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/Organization">schema:Organization</a>
+</dd>
+<dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">OpenLink Software</span>
+</dd>
+<dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.openlinksw.com/#this">n5:this</a>
+</dd>
+   </dl>
+  </div>
+<div class="microdata rdfa hidden" style="display: none">
+
+
+
+RDFa+XHTML document
+This HTML document contains 8 embedded RDF statements represented using (X)HTML+RDFa notation.The embedded RDF content will be recognized by any processor of (X)HTML+RDFa.
+
+Namespace PrefixNamespace URI
+xmlns:schemahttp://schema.org/
+xmlns:n2http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/
+xmlns:rdfhttp://www.w3.org/1999/02/22-rdf-syntax-ns#
+xmlns:n5http://www.openlinksw.com/#
+xmlns:xsdhhttp://www.w3.org/2001/XMLSchema#
+xmlns:n4http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/
+
+
+SubjectPredicateObject
+
+n2:ODBCMacOSXrdf:typeschema:WebPage
+n2:ODBCMacOSXschema:nameODBC and MacOS X
+n2:ODBCMacOSXschema:urln4:ODBCMacOSX
+n2:ODBCMacOSXschema:publisher_:vb11646
+n2:ODBCMacOSXschema:keywordsiODBC,ODBC,database,RDBMS,open-source,middleware,driver manager,ODBC driver manager,unix,linux,BSD,FreeBSD,MacOS X,macOS
+
+
+_:vb11646rdf:typeschema:Organization
+_:vb11646schema:nameOpenLink Software
+_:vb11646schema:urln5:this
+
+
+
+</div>0<!--End OSDI Data Islands-->
+</body>
+</html>

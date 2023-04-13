@@ -1,0 +1,238 @@
+body {
+    background-color: #e5e5e5;
+    font-size: 0.9em;
+    font-family: verdana, sans, sans-serif;
+    padding: 1em;
+}
+
+#outer {
+    border: outset 2px #dadada;
+    background-color: white;
+    padding: 1em;
+}
+
+#header {
+    height: 80px;
+    color: white;
+    margin: 1em;
+    border: none;
+    background: linear-gradient(to bottom, #336699, #5E89B2, #A8C5DD);
+}
+
+#header h1 {
+    color: white;
+    font-size: 200%;
+    font-family: 'urw chancery l', 'baskerville', cursive;
+    font-weight: 100;
+    font-style: italic;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 0.1em;
+    text-align: left;
+}
+
+#rss {
+  color: #FF4500;
+}
+#header h1 a {
+    color: inherit;
+}
+
+#header p {
+    margin: 0; padding: 0;
+}
+
+#headleft {
+    float: left;
+    width: 60%;
+    margin-right: 2em;
+}
+
+#headleft img {
+    float: left;
+}
+
+#headleft a {
+    color: white;
+}
+
+#headright {
+    float: right;
+    text-align: right;
+    width: 30%;
+    height: 65px;
+    border-left: solid 1px #e5e5e5;
+    margin: 1em 5em 0 0;
+}
+
+#headright * a {
+    color: white;
+}
+
+#headright ul {
+    display: inline;
+    margin: 0; padding: 0;
+}
+
+#headright li {
+    display: block;
+    float: right;
+    font-size: 90%;
+    list-style: none;
+    width: 8em;
+    margin: 0; padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
+a:hover {
+    text-decoration: none;
+    colour: #FF8080;
+}
+
+pre {
+    border: solid 1px silver;
+    padding: 5px;
+    margin: 0;
+    background-color: #ddd;
+    font-size: 9pt;
+    font-family: courier, monospace, mono;
+}
+
+tt {
+    font-size: 9pt;
+    font-family: courier, monospace, mono;
+    background-color: #f0f0f0;
+}
+
+#navbar {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    height: 1.5em;
+}
+
+h2 {
+    font-size: 150%;
+    font-family: serif;
+    font-weight: 200;
+    width: 50%;
+    border-bottom: solid 1px #e0e0e0;
+    margin-top: 2em;
+    background-color: #f0f0f0;
+    padding: 2px;
+}
+
+h3 {
+    font-size: 125%;
+    font-family: verdana, sans, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    color: #444;
+    width: 50%;
+    margin-top: 2em;
+}
+
+img {
+    border: none;
+}
+
+div.reset {
+    float: none;
+    clear: both;
+}
+
+#content {
+    padding: 1em;
+    background-color: white;
+    color: black;
+}
+
+#footer {
+    width: 100%;
+    height: 40px;
+    margin-top: 1em;
+    padding-top: 0.25em;
+    padding: 0;
+    background: linear-gradient(to top, #336699, #5E89B2, #A8C5DD);
+    color: white;
+    font-size: 90%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#footer div.footertext { 
+    margin-top: 1em;
+    position: relative;
+    top: 1em;   
+    height: 100%;
+}
+
+#footer img {
+  margin-top: 3px;
+}
+
+#footer a {
+    color: inherit;
+}
+
+hr {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+div.compact {
+    font-size: 80%;
+}
+
+h2.toc {
+		background-color: inherit;
+		font-weight: 400;
+		text-decoration: none;
+		margin: 0; padding: 0;
+		border: none;
+}
+
+div.MACRO_TOC {
+		font-size: 95%;
+		background-color: #f1f4ff;
+		border: none;
+		width: 50%;
+		padding: 5px;
+}
+
+
+div.wikitoc ul {
+    list-style: none;
+    margin-left: 2em;
+}
+
+div.wikitoc ul li {
+    list-style: none;
+    margin-left: -5em;
+}
+
+div.warning {
+  border: solid red 2px;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 5px;
+}
+
+table, table tr, table tr td, table tr th {
+  border-collapse: collapse;
+  border: solid 1px silver;
+}
+
+td, th {
+  border: solid 1px #e0e0e0;
+}

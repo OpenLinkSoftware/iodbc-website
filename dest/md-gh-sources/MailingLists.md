@@ -1,0 +1,23 @@
+<div id="content" class="topic-text" data-wv="http://www.openlinksw.com/Virtuoso/WikiV/" data-vi="http://www.openlinksw.com/virtuoso/xslt/" data-ie="http://www.openlinksw.com/Virtuoso/InclEng/" data-fn2="http://www.w3.org/2004/07/xpath-functions" data-xmlns="http://www.w3.org/1999/xhtml">
+
+In the interests of providing a higher-quality forum for iODBC users and
+developers, we have created several
+[mailing-lists](http://sourceforge.net/mail/?group_id=90493) hosted on
+SourceForge.net, for various general topics of discussion.
+
+These are:
+
+  - [iodbc-announce](http://lists.sourceforge.net/lists/listinfo/iodbc-announce),
+    for announcements we make about new versions, or other important
+    news.
+  - [iodbc-applications](http://lists.sourceforge.net/lists/listinfo/iodbc-applications),
+    for using iODBC with various applications (e.g. scripting languages,
+    etc)
+  - [iodbc-bugs](http://lists.sourceforge.net/lists/listinfo/iodbc-bugs),
+    for discussion of bugs found in iODBC
+  - [iodbc-list](http://lists.sourceforge.net/lists/listinfo/iodbc-list),
+    for miscellaneous iODBC-related discussion
+  - [iodbc-macosx](http://lists.sourceforge.net/lists/listinfo/iodbc-macosx),
+    for discussion of iODBC on the MacOS X platform
+
+</div>

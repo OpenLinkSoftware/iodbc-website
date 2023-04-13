@@ -1,0 +1,113 @@
+<div xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions" xmlns="http://www.w3.org/1999/xhtml" class="topic-text" id="content">
+      <div class="MACRO_TOC">
+        <h2 class="toc">Table of Contents</h2>
+        <ul>
+          <li>
+            <a href="#Introduction">Introduction</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#What%20Is%20It%3F">What Is It?</a>
+              </li>
+              <li>
+                <a href="#Why%3F">Why?</a>
+              </li>
+              <li>
+                <a href="#Benefits">Benefits</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#HOWTO">HOWTO</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#Method">Method</a>
+              </li>
+              <li class="c1">
+                <ul>
+                  <li>
+                    <a href="#Building">Building</a>
+                  </li>
+                  <li>
+                    <a href="#Deploying">Deploying</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Download%20%26%20License">Download &amp;
+            License</a>
+          </li>
+        </ul>
+      </div>
+      <h2><a id="Introduction"/> Introduction</h2>
+      <h3><a id="What%20Is%20It%3F"/> What Is It?</h3>
+      <p><a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a> is a library for intercepting
+      MySQL API calls and redirecting them via ODBC.</p>
+      <h3><a id="Why%3F"/> Why?</h3>
+      <p>Historically the open-source community has produced many
+      useful applications tied to the LAMP stack (Linux, Apache,
+      MySQL and PHP) or similar variants. Often, however, the
+      reliance on MySQL as the database layer of choice has been
+      baked-in with little scope for substituting another
+      RDBMS.</p>
+      <p>On the other hand, ODBC has long provided flexible choice
+      of backend RDBMS - by talking ODBC, an application can switch
+      between PostgreSQL, MySQL, Oracle, SQL Server, OpenLink
+      Virtuoso and many more at will.</p>
+      <p><a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a> is one way to break free of
+      vendor lock-in and restore database-independence via ODBC
+      :)</p>
+      <h3><a id="Benefits"/> Benefits</h3>
+      <ul>
+        <li>Cost-Effectiveness - <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a> saves having to rewrite
+          the whole database access layer in a potentially large
+          application
+        </li>
+        <li>Database-Independence: Freedom of Choice</li>
+      </ul>
+      <h2><a id="HOWTO"/> HOWTO</h2>
+      <p><a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a> provides a substitute
+      libmysqlclient library.</p>
+      <h3><a id="Method"/> Method</h3>
+      <h4><a id="Building"/> Building <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a></h4>
+      <ul>
+        <li>Download mysql2odbc-0.99.2.tar.gz</li>
+        <li>unpack it somewhere in your usual source directory tar
+        xvpfz mysql2odbc-0.99.2.tar.gz</li>
+        <li>check the options to configure by running
+        <code>./configure --help</code> - you can choose which ODBC
+        Driver Manager to work with, either unixODBC or iODBC</li>
+        <li>./configure --with-iodbc=/usr/local/iodbc
+        --prefix=/usr/local/mysql2odbc</li>
+        <li>make</li>
+        <li>sudo make install</li>
+      </ul>
+      <h4><a id="Deploying"/> Deploying <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a></h4>
+      <p>Your application needs to be told to use the <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/MySQL2ODBC" class="wikiword">MySQL2ODBC</a> implementation of
+      libmysqlclient in preference to the existing version. To do
+      this, either</p>export
+      LD_LIBRARY_PATH=/usr/local/mysql2odbc/lib
+      <p>or</p>export
+      LD_PRELOAD=/usr/local/mysql2odbc/lib/libmysqlclient.so
+      <p>and restart the application. You might want to create a
+      shell-script wrapper to preserve this.</p>
+      <h2><a id="Download%20%26%20License"/> Download &amp;
+      License</h2>
+      <p>The source can be downloaded from github as a zip archive:
+      <a href="https://github.com/openlink/mysql2odbc/archive/refs/heads/develop.zip" class="absuri">MySQL2ODBC source zip</a>.</p>
+      <p>Alternatively you can clone the repository:</p>git clone
+      https://github.com/openlink/mysql2odbc.git
+      <p>The project is licensed under the terms of the GNU
+      <a href="https://www.gnu.org/licenses/old-licenses/lgpl-2.0.html" class="absuri">Library General Public License (LGPL)
+      v2</a>.</p>
+      <p>Patches are welcomed - please either send us a merge
+      request via github or email the OpenLink iODBC source archive
+      manager at <a href="mailto:iodbc@openlinksw.com">iodbc@openlinksw.com</a>,
+      including documentation. Thank you for your contributions
+      :)</p>
+    </div>

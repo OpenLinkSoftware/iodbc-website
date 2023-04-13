@@ -1,0 +1,468 @@
+<div xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions" xmlns="http://www.w3.org/1999/xhtml" class="topic-text" id="content">
+      <div class="MACRO_TOC">
+        <h2 class="toc">Table of Contents</h2>
+        <ul>
+          <li>
+            <a href="#About%20iODBC.org">About iODBC.org</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#What%20does%20iODBC%20stand%20for%3F">What does
+                iODBC stand for?</a>
+              </li>
+              <li>
+                <a href="#Under%20what%20license%20is%20iODBC%20available%3F">
+                Under what license is iODBC available?</a>
+              </li>
+              <li>
+                <a href="#How%20do%20I%20get%20support%20for%20iODBC">How
+                do I get support for iODBC</a>
+              </li>
+              <li>
+                <a href="#What%20is%20the%20relationship%20between">What is
+                the relationship between</a>
+              </li>
+              <li>
+                <a href="#What%20happened%20to%20the%20Forum%20Archive%20%28wwwboard%29%3F">
+                What happened to the Forum Archive (wwwboard)?</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Technical">Technical</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#What%27s%20an%20odbc.ini%20and%20what%20do%20I%20put%20in%20it%3F">
+                What's an odbc.ini and what do I put in it?</a>
+              </li>
+              <li>
+                <a href="#Just%20get%20me%20connected%21">Just get
+                me connected!</a>
+              </li>
+              <li>
+                <a href="#I%27ve%20got%20this%20linux%20box%20with%20PHP%20and%20Apache...">
+                I've got this linux box with PHP and Apache...</a>
+              </li>
+              <li>
+                <a href="#What%27s%20a%20libiodbc%20and%20what%20goes%20in%20my%20Driver%3D%20lines%20in%20odbc.ini%3F">
+                What's a libiodbc and what goes in my Driver= lines
+                in odbc.ini?</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Common%20Error%20Messages">Common Error
+            Messages</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#%5BiODBC%5D%5BDriver%20Manager%5DData%20source%20name%20not%20found%20and%20no%20default%20driver%20specified.%20Driver%20could%20not%20be%20loaded%2C%20SQLSTATE%3DIM002">
+                [iODBC][Driver Manager]Data source name not found
+                and no default driver specified. Driver could not
+                be loaded, SQLSTATE=IM002</a>
+              </li>
+              <li>
+                <a href="#%5BiODBC%5D%20%5BDriver%20Manager%5DSpecified%20driver%20could%20not%20be%20loaded">
+                [iODBC] [Driver Manager]Specified driver could not
+                be loaded</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Driver-Specific%20Errors">Driver-Specific
+            Errors</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#MyODBC%3A%20%5BTCX%5D%5BMyODBC%5DNo%20DSN%20entered%20%280%29%20SQLSTATE%3DS1000">
+                MyODBC: [TCX][MyODBC]No DSN entered (0)
+                SQLSTATE=S1000</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Segfault%20with%20Perl%20DBD%3A%3AODBC">Segfault with
+            Perl DBD::ODBC</a>
+          </li>
+          <li>
+            <a href="#Tracing%20Application%20Behavior">Tracing
+            Application Behavior</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#Tracing%20Application%20Behavior">Tracing
+                Application Behavior</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <p>This document is a list of Frequently Asked Questions
+      concerning the iODBC project. It is currently maintained by
+      <code>iodbc@openlinksw.com</code>; please feel free to send
+      nominations for FAQ-worthy topics to this address.</p>
+      <h2><a id="About%20iODBC.org"/> About iODBC.org</h2>
+      <h3><a id="What%20does%20iODBC%20stand%20for%3F"/> What
+      does iODBC stand for?</h3>
+      <p>iODBC is an acronym for "Independent Open Database
+      Connectivity". See <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/About" class="wikiword">About iODBC</a> for more.</p>
+      <h3><a id="Under%20what%20license%20is%20iODBC%20available%3F"/>
+      Under what license is iODBC available?</h3>
+      <p>iODBC is dual-licensed under both the <a href="http://www.opensource.org/licenses/bsd-license.php" class="absuri">BSD</a> and <a href="http://www.opensource.org/licenses/lgpl-license.php" class="absuri">LGPL</a> licenses.</p>
+      <p>Please see the <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/License" class="wikiword">License Page</a> for more details.</p>
+      <h3><a id="How%20do%20I%20get%20support%20for%20iODBC"/>How do I get
+      support for iODBC</h3>
+      <p>Support for iODBC is available through <a href="https://sourceforge.net/p/iodbc/mailman/">several
+      mailing-lists hosted by SourceForge.net</a>, where the wider
+      community (and OpenLink employees) contribute to the best of
+      their ability. The previous forum has been archived but may
+      contain useful reference material. Commercial support may
+      also be contracted from OpenLink Software.</p>
+      <h3><a id="What%20is%20the%20relationship%20between"/>What
+      is the relationship between OpenLink Software and iODBC?</h3>
+      <p><a href="http://www.openlinksw.com/" class="absuri">OpenLink Software</a> is a software company
+      specializing in data access, management, and integration
+      technologies including ODBC, JDBC, ADO.NET, OLE DB, XMLA,
+      SQL, SPARQL, and others. Products include <a href="http://uda.openlinksw.com/" class="absuri">UDA, a suite of
+      data access drivers/providers/connectors</a> and <a href="http://virtuoso.openlinksw.com/" class="absuri">Virtuoso
+      Universal Server</a> a multi-model RDBMS.</p>
+      <p>iODBC is an open-source project (released under the LGPL
+      or BSD licenses) hosted by OpenLink Software for the benefit
+      of the wider community, to implement and improve a free and
+      Open ODBC Driver Manager component for Linux, macOS,
+      Unix-like, VMS, and other platforms.</p>
+      <p>iODBC copyright is co-owned by Ke Jin and OpenLink
+      Software. OpenLink are the sole project custodian and
+      sponsor.</p>
+      <p><b>Advertising:</b> OpenLink may benefit from the
+      publicity of hosting iODBC.org, with its links to various
+      vendors of ODBC drivers for assorted platforms and RDBMS, but
+      we don't set out to abuse the open-source project for
+      commercial gain. There are plenty of free and open-source
+      database drivers for free databases (MySQL, PostgreSQL,
+      Firebird, and others). The OpenLink philosophy is to
+      facilitate OS- and database-independent connectivity through
+      ODBC, to which end having an open-source driver-manager
+      component is advantageous.</p>
+      <p><b>Resources:</b> Various OpenLink employees work on
+      actively developing and maintaining the authoritative CVS
+      sources of the iODBC project, administering the server on
+      which the site runs, maintaining the www.iodbc.org website,
+      responding to posts on the public forums, etc.</p>
+      <p><b>Executive summary:</b> Think <i>nice <code>.com</code>
+      hosts free <code>.org</code></i> and you'll not be far from
+      the truth.</p>
+      <h3><a id="What%20happened%20to%20the%20Forum%20Archive%20%28wwwboard%29%3F">
+      </a>What happened to the Forum Archive (wwwboard)?</h3>
+      <p>After a long innings, wwwboard proved too susceptible to
+      spam and other undesirable phenomena, and the underlying
+      wwwboard implementation was unpleasant to maintain, becoming
+      corrupt with increasing frequency. As such, it has been
+      replaced with the mailing-lists, hosted by SourceForge.</p>
+      <p>In the process, the old wwwboard has been left in stasis;
+      a small cleanup operation was mounted to remove off-topic and
+      dubious / offensive / illegal material and links, but not
+      extending as far as censorship: if someone said iODBC or
+      OpenLink suck, you'll see it represented as-stated there.</p>
+      <p>Since then, the wwwboard service has succumbed to bitrot.
+      Old postings may be reviewed via <a href="https://web.archive.org/web/20010302094845/http://195.153.164.12:80/wwwboard/wwwboard.html" class="absuri">archive.org</a>.</p>
+      <h2><a id="Technical"/>Technical</h2>
+      <h3><a id="What%27s%20an%20odbc.ini%20and%20what%20do%20I%20put%20in%20it%3F">
+      </a>What's an odbc.ini and what do I put in it?</h3>
+      <p>An <code>odbc.ini</code> is the main configuration file in
+      which all your DSNs and much of the ODBC configuration
+      parameters are stored. iODBC has a search-path for finding
+      such a configuration file: first, the environment variable
+      <code>ODBCINI</code> is inspected to see if it points at a
+      suitable file, or <code>~/.odbc.ini</code> (analagous to User
+      DSNs on Windows) then <code>/etc/odbc.ini</code>
+      ("system-wide") are fall-back locations.</p>
+      <p>The <code>odbc.ini</code> file comprises 3 parts: a set of
+      ODBC options, a list of DSNs, and then the datasource
+      definitions themselves, thus:</p>
+      <pre>[ODBC Data Sources]
+PostgreSQL native localhost = PostgreSQL native driver
+PostgreSQL OpenLink localhost = PostgreSQL over OpenLink multi-tier
+
+[PostgreSQL native localhost]
+Driver     = /usr/lib/postgresql/lib/libodbcpsql.so
+Host       = localhost
+Server     = localhost
+ServerName = localhost
+Database   = tim
+UserName   = tim
+UID        = tim
+Port       = 5432
+
+[PostgreSQL OpenLink localhost]
+Description     = PostgreSQL, over openlink MT
+Driver          = /opt/openlink/lib/oplodbc.so
+ServerType      = PostgreSQL95
+Host            = localhost
+Database        = tim
+Username        = tim
+LastUser        = tim
+User            = tim
+FetchBufferSize = 99
+
+[ODBC]
+;Trace = 1
+;TraceFile = /tmp/odbctrace.log
+;Debug = 1
+;DebugFile = /tmp/odbcdebug.log
+</pre>
+      <p>The list of ODBC Data Sources correlate with the file
+      <code>odbcinst.ini</code> (or environment variable
+      <code>ODBCINSTINI</code>): for every value used as a
+      description of the driver, there should be a corresponding
+      section in <code>odbcinst.ini</code> listing both the
+      <code>Driver</code> and <code>Setup</code> library (to assist
+      with graphical configuration using <code>iodbcadm-gtk</code>,
+      and also used to display an input box in the event of
+      insufficient options being presented at connection-time).</p>
+      <p>The list of attributes is driver-dependent, as the above
+      shows: the native <code>postgresql</code> driver calls them
+      different things from OpenLink UDA Enterprise Edition, so you
+      have to check your driver's documentation.</p>
+      <p>With iODBC, assuming you downloaded/installed/compiled it,
+      you have a GTK-based GUI for configuring your ODBC DSNs, too:
+      run <code>iodbcadm-gtk</code>.</p>
+      <h3><a id="Just%20get%20me%20connected%21"/>Just get me
+      connected!</h3>
+      <p>This is the succinct overview:</p>
+      <p>Grab the source. Unpack it. Run</p>
+      <pre>./configure &amp;&amp; nice make &amp;&amp; sudo make install
+</pre>
+      <p>Install an ODBC driver for your backend database.
+      Configure <code>odbc.ini</code> to use this driver. Export
+      the environment variable <span class="c1">ODBCINI</span> to
+      point to that <code>odbc.ini</code>. Run <span class="c1">iodbctest</span> and attempt to connect. Voila.</p>
+      <h3><a id="I%27ve%20got%20this%20linux%20box%20with%20PHP%20and%20Apache...">
+      </a>I've got this linux box with PHP and Apache...</h3>
+      <p>...and you want to connect to SQL Server or MS Access from
+      it. The overview of the architecture is as follows:
+      <code>apache</code> invokes <code>php</code> to handle
+      scripts, <code>php</code> is linked against
+      <code>libiodbc</code> in order to handle the
+      <code>odbc_*</code> functions in your script,
+      <code>libiodbc</code> loads either a native SQL Server driver
+      for linux or some generic ODBC-proxy for MS Access, and
+      you're done.</p>
+      <p>OpenLink produce an <i>odbc agent</i> that facilitates the
+      latter sort of connection.</p>
+      <p>The <a href="http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/IODBCPHPHOWTO" class="absuri">iODBC+PHP+Apache HOWTO</a> document on this
+      site will guide you through a working set of configure
+      options for <code>libiodbc</code>, <code>apache</code>, and
+      <code>php</code> in order.</p>
+      <h3><a id="What%27s%20a%20libiodbc%20and%20what%20goes%20in%20my%20Driver%3D%20lines%20in%20odbc.ini%3F">
+      </a>What's a libiodbc and what goes in my Driver= lines in
+      odbc.ini?</h3>
+      <p>The ODBC architecture separates the application, the
+      driver-manager and the driver components, each one calling
+      the next in a chain.</p>
+      <p>The <code>libiodbc.so</code> library only implements a
+      driver manager; you need a separate driver for each kind of
+      backend database to which you connect, but your application
+      will at least see one consistent interface across all of
+      them. If you attempt to use <code>Driver=libiodbc.so</code>
+      in the <code>odbc.ini</code>, it will fail.</p>
+      <p>The <code>Driver=</code> parameter should be a full name
+      to a shared-library implementing the driver for the backend
+      database to which you're connecting:</p>
+      <pre>[pglocal]
+Driver     = /usr/local/lib/psqlodbc.so
+Port       = 5432
+ServerName = localhost
+Database   = me
+UserName   = me
+Password   =
+
+[OpenLink]
+Description     = PostgreSQL, over openlink multi-tier
+Driver          = /opt/openlink/bin/oplodbc.so
+ServerType      = PostgreSQL95
+Host            = otherbox
+Database        = me
+Username        = me
+FetchBufferSize = 99
+</pre>
+      <p>More recent versions of iODBC permit use of <code>{
+      }</code> for quotations and symbolic names for the driver
+      (referencing the <code>odbcinst.ini</code> file), such as</p>
+      <pre>Driver = {SQL Server}
+</pre>
+      <p>Older versions of iODBC implemented neither of these; the
+      <code>Driver=</code> parameter had to be a full path directly
+      to the shared library.</p>
+      <h2><a id="Common%20Error%20Messages"/>Common Error
+      Messages</h2>
+      <h3><a id="%5BiODBC%5D%5BDriver%20Manager%5DData%20source%20name%20not%20found%20and%20no%20default%20driver%20specified.%20Driver%20could%20not%20be%20loaded%2C%20SQLSTATE%3DIM002">
+      </a>[iODBC][Driver Manager]Data source name not found and no
+      default driver specified. Driver could not be loaded,
+      SQLSTATE=IM002</h3>
+      <p>There are several reasons why this message could occur.
+      The best solution is to trace through what's happening: your
+      application has been linked against <code>libiodbc</code>,
+      which has tried to find an <code>odbc.ini</code> file one way
+      or another - either through the <code>ODBCINI</code>
+      environment variable or the fall-back paths (typically
+      <code>/etc/odbc.ini</code>, depending on how it was
+      compiled). You should check that such a file exists in a
+      suitable location, and that it is accessible (particularly if
+      your application runs with different user privileges - such
+      as <code>apache</code>/<code>php</code> running as a www-data
+      user).</p>
+      <p>Additionally, it could be that iODBC has found a suitable
+      <code>odbc.ini</code> file, but none of the file(s) found
+      contain the DSN you've requested. Check the syntax of your
+      request - is the ODBC connect-string correct, and does the
+      DSN you're requesting exist? See also the section of this FAQ
+      entitled <i><a href="#What%27s%20an%20odbc.ini%20and%20what%20do%20I%20put%20in%20it%3F" class="c2">What's an odbc.ini and what do I put in
+      it?</a></i></p>
+      <h3><a id="%5BiODBC%5D%20%5BDriver%20Manager%5DSpecified%20driver%20could%20not%20be%20loaded">
+      </a>[iODBC] [Driver Manager]Specified driver could not be
+      loaded</h3>
+      <p>As in the previous error case, there are a few reasons why
+      this could occur, and thinking through the architecture
+      helps. Your application has loaded <code>libiodbc</code>
+      successfully, and it has found an <code>odbc.ini</code> file
+      (or equivalent through the <code>ODBCINI</code> environment
+      variable), and it has found a DSN within that
+      <code>odbc.ini</code> that matches the name requested in your
+      connection.</p>
+      <p>However, the driver manager has had problems loading the
+      library specified in the <code>Driver=</code> line of that
+      DSN definition. Either it doesn't exist, or its permissions
+      are insufficient to allow your application to load it (it
+      must be readable and executable, and the directories leading
+      down to it must be executable), or maybe the file is not a
+      dynamic library -- it could be a static library (a
+      <code>*.a</code> file, except on AIX) -- or is otherwise
+      corrupted. These are all things to check, or you may be best
+      off reinstalling the driver if all the permissions check
+      out.</p>
+      <p>Note also the prior point: the <code>Driver=</code>
+      parameter <b>must</b> lead to a shared-library
+      (<code>*.so</code>) implementing an ODBC driver for the
+      database to which you're connecting.</p>
+      <h2><a id="Driver-Specific%20Errors"/>Driver-Specific
+      Errors</h2>
+      <h3><a id="MyODBC%3A%20%5BTCX%5D%5BMyODBC%5DNo%20DSN%20entered%20%280%29%20SQLSTATE%3DS1000">
+      </a>MyODBC: [TCX][MyODBC]No DSN entered (0)
+      SQLSTATE=S1000</h3>
+      <p>This error is raised whenever you attempt to connect to
+      MyODBC using the <code>SQLDriverConnect()</code> function
+      with the <code>SQL_DRIVER_PROMPT</code> option. Normally,
+      <code>SQL_DRIVER_PROMPT</code> means the driver should invoke
+      a graphical dialog to request missing information
+      (<code>DSN=</code>, or username and password if not
+      included); however, MyODBC has no graphical library and does
+      not distinguish the case that a graphical prompt is
+      unavailable from when there is insufficient information, so
+      you always see this error message.</p><code>iodbctest</code>
+      and <code>iodbctestw</code> from versions 3.52.1 and 3.52.2
+      both request connections using
+      <code>SQL_DRIVER_PROMPT</code>, causing this problem with
+      MyODBC.
+      <p>The workaround is to edit <code>iodbctest.c</code> such
+      that the <code>SQLDriverConnect()</code> and
+      <code>SQLDriverConnectW()</code> calls use
+      <code>SQL_DRIVER_COMPLETE</code> instead. This still allows
+      drivers with graphical setup routines to ask for additional
+      information, but works better with drivers that have no
+      graphical routines, such as MyODBC. See the following
+      diff:</p>
+      <pre>Index: iodbctest.c
+===================================================================
+RCS file: /opldev/opensource/iODBC/samples/iodbctest.c,v
+retrieving revision 1.22
+retrieving revision 1.21
+diff -u -u -r1.22 -r1.21
+--- iodbctest.c 2005/07/19 10:19:01     1.22
++++ iodbctest.c 2005/02/15 17:08:13     1.21
+@@ -297,12 +297,12 @@
+#ifdef UNICODE
+strcpy_A2W (wdataSource, (char *) dataSource);
+status = SQLDriverConnectW (hdbc, 0, (SQLWCHAR *) wdataSource, SQL_NTS,
+-      (SQLWCHAR *) outdsn, NUMTCHAR (outdsn), &amp;buflen, SQL_DRIVER_COMPLETE);
++      (SQLWCHAR *) outdsn, NUMTCHAR (outdsn), &amp;buflen, SQL_DRIVER_PROMPT);
+if (status != SQL_SUCCESS)
+ODBC_Errors ("SQLDriverConnectW");
+#else
+status = SQLDriverConnect (hdbc, 0, (SQLCHAR *) dataSource, SQL_NTS,
+-      (SQLCHAR *) outdsn, NUMTCHAR (outdsn), &amp;buflen, SQL_DRIVER_COMPLETE);
++      (SQLCHAR *) outdsn, NUMTCHAR (outdsn), &amp;buflen, SQL_DRIVER_PROMPT);
+if (status != SQL_SUCCESS)
+ODBC_Errors ("SQLDriverConnect");
+#endif
+</pre>
+      <p>This change is included in the iODBC 3.52.3 and later.</p>
+      <h2><a id="Segfault%20with%20Perl%20DBD%3A%3AODBC"/>Segfault with
+      Perl DBD::ODBC</h2>
+      <p>Certain platforms (most notably Debian GNU/Linux 5.0.4
+      ("Lenny", currently stable)) ship with version 1.13-5 of
+      Perl's <code>DBD::ODBC</code> module. On 64-bit OS, this has
+      a bug that causes a segfault. The solution is to upgrade to
+      at least 1.17 (may be found in "Squeeze", currently the
+      Testing distribution).</p>
+      <h2><a id="Tracing%20Application%20Behavior"/>Tracing
+      Application Behavior</h2>
+      <p>In the above <code>odbc.ini</code> snippet, we saw
+      commented-out lines concerning tracing. These lines would
+      enable us to analyze what ODBC calls the driver manager sees
+      an application make, with details including parameters,
+      return states, etc.</p>
+      <p>To enable this, uncomment the lines in your
+      <code>odbc.ini</code>:</p>
+      <pre>[ODBC]
+Trace = 1 
+TraceFile = /tmp/odbctrace.log 
+Debug = 1 
+DebugFile = /tmp/odbcdebug.log
+</pre>
+      <p>In iODBC version 3.51.0 and above, the
+      <code>TraceFile</code> option now understands a handful of
+      variables:</p>
+      <pre>$P        Process ID
+$U        User ID under which the process is currently running
+$T        Timestamp in YYYYMMDDHHMMSS format
+$H        Home directory of the user that started the process
+</pre>
+      <p>Also, from version 3.52.7 onwards, <code>TraceFile</code>
+      now takes an option</p>
+      <pre>$S        Sequence number
+</pre>
+      <p>These are case-insensitive. Hence you could specify --</p>
+      <pre>TraceFile=/tmp/iodbc-$U-$P-$T.log
+</pre>
+      <p>-- and it would include your userid, the application
+      process-id, and the timestamp when ODBC was invoked, in the
+      trace log filename.</p>
+      <h3><a id="Tracing%20Application%20Behavior"/>Tracing
+      Application Behavior</h3>
+      <p>As of release 3.52.5, iODBC has support for File DSNs -
+      where the connection parameters are stored in a separate file
+      per DSN, under a standard directory.</p>
+      <p>To configure these, either use the <b>FileDSN</b> tab
+      alongside System and User DSNs in the iODBC graphical
+      administrator (<code>iodbcadm-gtk</code> or the macOS GUI),
+      or edit files in <code>/etc/ODBCDataSources/</code> for
+      yourself.</p><img src="FAQ/iodbcadm-gtk-filedsn.png" alt=""/>
+      <p>Note that this directory must have suitable permissions
+      for those you wish to be able to create, edit, and remove
+      files to do so. For example, <code>1775</code> might be
+      suitable - the owner and members of the group owning the
+      directory can create, remove, and edit their own DSNs, but
+      not those owned by a different user.</p>
+      <p>To use a File DSN, replace the <code>DSN=</code> parameter
+      in your ODBC connection string with <code>FileDSN=</code>,
+      for example</p>
+      <pre>iodbctest FileDSN=localvirtuoso;UID=dba;PWD=secret
+</pre>
+    </div>

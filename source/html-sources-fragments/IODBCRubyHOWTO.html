@@ -1,0 +1,584 @@
+<div xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions" xmlns="http://www.w3.org/1999/xhtml" class="topic-text" id="content">
+      <div class="MACRO_TOC">
+        <h2 class="toc">Table of Contents</h2>
+        <ul>
+          <li>
+            <a href="#Abstract">Abstract</a>
+          </li>
+          <li>
+            <a href="#Required%20Components">Required
+            Components</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#iODBC%20Driver%20Manager">iODBC Driver
+                Manager</a>
+              </li>
+              <li class="c1">
+                <ul>
+                  <li>
+                    <a href="#Linux">Linux</a>
+                  </li>
+                  <li>
+                    <a href="#Mac%20OS%20X">Mac OS X</a>
+                  </li>
+                  <li>
+                    <a href="#Other%20Unix%20operating%20systems">Other
+                    Unix operating systems</a>
+                  </li>
+                  <li>
+                    <a href="#Configuring%20and%20Testing%20iODBC">Configuring
+                    and Testing iODBC</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#Ruby">Ruby</a>
+              </li>
+              <li class="c1">
+                <ul>
+                  <li>
+                    <a href="#Linux">Linux</a>
+                  </li>
+                  <li>
+                    <a href="#Mac%20OS%20X">Mac OS X</a>
+                  </li>
+                  <li>
+                    <a href="#From%20Source">From Source</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#Ruby%2FODBC%20Binding">Ruby/ODBC
+                Binding</a>
+              </li>
+              <li class="c1">
+                <ul>
+                  <li>
+                    <a href="#Linux">Linux</a>
+                  </li>
+                  <li>
+                    <a href="#Mac%20OS%20X%2C%20other%20Unix%20platforms%3A%20build%20from%20source">
+                    Mac OS X, other Unix platforms: build from
+                    source</a>
+                  </li>
+                  <li>
+                    <a href="#Testing">Testing</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="#Ruby%2FDBI%20DBD%3A%3AODBC%20Driver">Ruby/DBI
+                DBD::ODBC Driver</a>
+              </li>
+              <li class="c1">
+                <ul>
+                  <li>
+                    <a href="#Cross-platform%3A%20Ruby%20GEM">Cross-platform:
+                    Ruby GEM</a>
+                  </li>
+                  <li>
+                    <a href="#Linux%20Packages">Linux Packages</a>
+                  </li>
+                  <li>
+                    <a href="#Mac%20OS%20X%20and%20other%20Unix-like%20systems%3A%20building%20from%20source">
+                    Mac OS X and other Unix-like systems: building
+                    from source</a>
+                  </li>
+                  <li class="c1">
+                    <ul>
+                      <li>
+                        <a href="#DBI">DBI</a>
+                      </li>
+                      <li>
+                        <a href="#DBD%3A%3AODBC">DBD::ODBC</a>
+                      </li>
+                      <li>
+                        <a href="#Testing%20Ruby%2C%20DBI%2C%20ODBC">Testing
+                        Ruby, DBI, ODBC</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h2><a id="Abstract"/>Abstract</h2>
+      <p>This HOWTO is intended to walk you through the process of
+      installing and configuring iODBC, Ruby and the Ruby/ODBC
+      bridge module with a goal of writing and executing simple
+      scripts to effect a database connection. It is currently
+      maintained by Tim Haynes of <a href="http://www.openlinksw.com/" class="absuri">OpenLink
+      Software</a>, &lt;&lt;none&gt;&gt;, that is
+      <code>iodbc</code> at <code>openlinksw.com</code>.</p>
+      <p>We assume you have some familiarity with using either
+      Terminal on Apple Mac OS X or the shell on a GNU/Linux
+      platform such as Ubuntu, Debian, RedHat, or Fedora Core,
+      etc.</p>
+      <h2><a id="Required%20Components"/>Required
+      Components</h2>
+      <h3><a id="iODBC%20Driver%20Manager"/>iODBC Driver
+      Manager</h3>
+      <p>We start by installing the iODBC Driver Manager.</p>
+      <h4><a id="Linux"/>Linux</h4>
+      <p>Some Linux distributions (Debian, Ubuntu, Gentoo) have
+      their own packages for iODBC, so you should only need to type
+      a command such as one of</p>
+      <ul>
+        <li><code>sudo apt-get install libiodbc2 iodbc</code></li>
+        <li><code>sudo emerge libiodbc</code></li>
+        <li><code>sudo yum install iodbc</code></li>
+      </ul>
+      <p>to install it, and possibly some dependencies (GTK+
+      libraries for the adminstrator utility), automatically.</p>
+      <h4><a id="Mac%20OS%20X"/> Mac OS X</h4>
+      <p>For Mac OS X users, we provide a DMG installer on our
+      <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/Downloads" class="wikiword">Downloads</a> page. This will install the
+      iODBC Framework, development environment and graphical
+      configuration utility.</p>
+      <p>Note that this supersedes the version of iODBC supplied by
+      Apple with Mac OS X, as it resolves two bugs:</p>
+      <ul>
+        <li>on 64-bit machines, ruby would be built in 64-bit mode
+        by default but the system libiodbc is only 32-bit, making
+        building the ruby-odbc bridge impossible;</li>
+        <li>the handling of SQLError() in ruby-odbc.</li>
+      </ul>
+      <h4><a id="Other%20Unix%20operating%20systems"/>Other Unix
+      operating systems</h4>
+      <p>On other unix operating systems, you need to compile iODBC
+      from source. This is generally easy:</p>
+      <ul>
+        <li>
+          <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/Downloads" class="wikiword">Download</a> the iODBC source tarball
+        </li>
+        <li>unpack it using a command such as <code>gzip -cd
+        libiodbc-3.52.7.tar.gz| tar xvf -</code></li>
+        <li><code>./configure
+        --prefix=/usr/local/iODBC/</code></li>
+        <li><code>make</code></li>
+        <li>become root and run <code>make install</code>, e.g.,
+        <code>su root -c 'make install'</code></li>
+      </ul>
+      <p>Of course you can also build the same way on linux; the
+      <code>./configure</code> script takes a few options you might
+      want to vary, notably <code>--with-prefix=</code> for where
+      the files will be installed and <code>--enable-gui</code> for
+      whether to build the GTK+ Administrator or not.</p>
+      <p>If you wish to build from source on Mac OS X, after
+      unpacking the archive, run</p>
+      <ul>
+        <li><code>cd mac</code></li>
+        <li><code>make</code></li>
+        <li><code>sudo make install</code></li>
+      </ul>
+      <p>This will build the Framework version and create a
+      subdirectory under /usr/local/iODBC/ so that other
+      applications (eg PHP, Perl, Ruby) can link against it without
+      having to modify them to look for frameworks.</p>
+      <h4><a id="Configuring%20and%20Testing%20iODBC"/>Configuring and
+      Testing iODBC</h4>
+      <p>It is wise to test that iODBC works directly before trying
+      to layer any Ruby ODBC module on top. Either:</p>
+      <ul>
+        <li>use the graphical Administrator application
+        (<b>iodbcadm-gtk</b> on linux/unix or <b>iODBC
+        Administrator.app</b> (/Applications/iODBC/) on Mac OS X)
+        to register an ODBC driver, add a System or User DSN using
+        the driver, and test it, or</li>
+        <li>edit your own <code>odbc.ini</code>
+        (<code>/etc/odbc.ini</code>, <code>~/.odbc.ini</code>, or
+        <code>$ODBCINI</code> environment variable) to contain
+        something similar to the following:</li>
+      </ul>
+      <pre>[ODBC Data Sources]
+pgdata = Native PostgreSQL ODBC driver
+
+[pgdata]
+Driver=/usr/lib/odbc/psqlodbcw.so
+Host       = data
+Server     = data
+ServerName = data
+Database   = me
+UserName   = me
+UID        = me
+Port       = 5432
+</pre>
+      <p>From the commandline you should be able to run
+      <code>iodbctest DSN=pgdata</code> and it should attempt to
+      connect:</p>
+      <pre>zsh, ubuntu libiodbc-3.52.7/ % iodbctest DSN=pgdata 
+iODBC Demonstration program
+This program shows an interactive SQL processor
+Driver Manager: 03.52.0709.0909
+Driver: 08.03.0200 (psqlodbcw.so)
+
+SQL&gt;
+</pre>
+      <p>The <code>SQL&gt;</code> prompt there shows iodbctest has
+      connected and is now awaiting a SQL command as input;
+      additionally it understands the command `<code>tables</code>'
+      which lists tables visible in the current database.</p>
+      <p>Note the `DSN=pgdata' parameter: this is part of an ODBC
+      connection string, not just a data-source name. As such it
+      takes the form</p>
+      <pre>DSN=somedsn;[param=value[;]]*
+</pre>
+      <p>where the parameters are specific to the ODBC driver being
+      used. In this case, the PostgreSQL native ODBC driver
+      requires Host, Database and Port, above. For MySQL and
+      OpenLink drivers, the parameters vary.</p>
+      <p>The <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/FAQ" class="wikiword">iODBC FAQ</a> contains a section of common
+      error messages in the event of something going wrong at this
+      stage.</p>
+      <h3><a id="Ruby"/>Ruby</h3>
+      <p>Ruby is an open-source, interpreted, dynamic,
+      object-oriented scripting language in the same space as Perl,
+      Python on the desktop and with the famous Ruby-on-Rails
+      engine in web-space (to compare with PHP).</p>
+      <p>There are two ways in which Ruby interfaces with ODBC: a
+      ruby-odbc binding module which presents the ODBC API at the
+      Ruby layer with little abstraction, maintained by Christian
+      Werner; and a DBD::ODBC module that provides a driver
+      compatible with DBI (a database-interaction specification
+      familiar to Perl users, now implemented in Ruby). The
+      DBD::ODBC driver depends upon the ruby-odbc binding, so we
+      continue building the packages in hierarchical order.</p>
+      <h4><a id="Linux"/>Linux</h4>
+      <p>Most Linux distributions have packages for <a href="http://www.ruby-lang.org/en/" class="absuri">Ruby</a>
+      already. Remember if your distribution distinguishes between
+      runtime and development versions packages, you will need to
+      install the development libraries in order to compile other
+      packages from source against them.</p>
+      <ul>
+        <li>Debian/Ubuntu: <code>sudo apt-get install ruby
+        ruby-dev</code></li>
+        <li>Gentoo: <code>sudo emerge -av ruby</code></li>
+      </ul>
+      <h4><a id="Mac%20OS%20X"/>Mac OS X</h4>
+      <p>Mac OS X, from Tiger onwards, comes with Ruby 1.8 by
+      default. No further installation is required, unless you
+      really want to build it from source yourself.</p>
+      <h4><a id="From%20Source"/>From Source</h4>
+      <p>For other unix environments, it might be required to build
+      Ruby from source. That process is not documented here except
+      to say that it follows a similar path to iODBC from source:
+      download, unpack, run <code>./configure</code>,
+      <code>make</code> and <code>sudo make install</code>.</p>
+      <h3><a id="Ruby%2FODBC%20Binding"/>Ruby/ODBC Binding</h3>
+      <p>Christian Werner maintains the <a href="http://ch-werner.de/rubyodbc/" class="absuri">ruby-odbc
+      binding module</a>.</p>
+      <h4><a id="Linux"/>Linux</h4>
+      <p>Some GNU/Linux distributions (debian and ubuntu in
+      particular) have already packaged the ruby-odbc binding, so a
+      simple</p>
+      <pre>zsh, ubuntu ruby/ % sudo apt-get install libodbc-ruby1.8 
+</pre>
+      <p>is all that's required.</p>
+      <p>However, for better handling of SQLError(), we recommend
+      you use the latest iODBC (3.52.7) and ruby-odbc module
+      (0.9997) so you might still need to build from source, as
+      follows.</p>
+      <h4><a id="Mac%20OS%20X%2C%20other%20Unix%20platforms%3A%20build%20from%20source">
+      </a> Mac OS X, other Unix platforms: build from source</h4>
+      <p>The following instructions apply equally to Linux, Mac OS
+      X, and other Unix-like operating systems, as we're building
+      from source here.</p>
+      <p>Download this and unpack it as usual:</p>
+      <pre>zsh, pizza C/ % tar xvfz ruby-odbc-0.9997.tar.gz
+./ruby-odbc-0.9997/
+./ruby-odbc-0.9997/doc/
+./ruby-odbc-0.9997/doc/odbc.html
+./ruby-odbc-0.9997/test/
+...
+zsh, pizza C/ % cd ruby-odbc-0.9997 
+zsh, pizza ruby-odbc-0.9997/ % 
+</pre>
+      <p>To configure it, run</p>
+      <pre>zsh, pizza ruby-odbc-0.9997/ % ruby extconf.rb --with-odbc-dir=/usr/local/iODBC
+checking for version.h... yes
+checking for sql.h... yes
+checking for sqlext.h... yes
+checking for SQLTCHAR in sqltypes.h... yes
+checking for SQLLEN in sqltypes.h... yes
+checking for SQLULEN in sqltypes.h... yes
+checking for odbcinst.h... yes
+checking for SQLAllocConnect() in -liodbc... yes
+</pre>
+      <p><b>Note</b> three things:</p>
+      <ul>
+        <li>first, we tell it where to find the iODBC libraries
+        using --with-odbc-dir (which works well with Mac OS X,
+        where ordinarily libraries are provided using frameworks,
+        so to avoid needing to use those, the iODBC installer
+        package provides a /usr/local/iODBC/ directory with
+        symbolic links into the Frameworks directory);</li>
+        <li>secondly, it must report successful checking using
+        <code>-liodbc</code>, not -lodbc - unless you've symlinked
+        the two libraries together;</li>
+        <li>thirdly, you need iODBC version 3.52.7 and ruby-odbc
+        version 0.9997 to fix a bug in the handling of
+        SQLError()</li>
+      </ul>
+      <p>We continue to build and install it:</p>
+      <pre>zsh, pizza ruby-odbc-0.9997/ % make
+/usr/bin/gcc-4.0 -I. -I. -I/usr/local/ruby/1.8/powerpc-darwin8 -I. \
+        -DHAVE_VERSION_H -DHAVE_SQL_H -DHAVE_SQLEXT_H -DHAVE_TYPE_SQLTCHAR \
+        -DHAVE_TYPE_SQLLEN -DHAVE_TYPE_SQLULEN -DHAVE_ODBCINST_H \ 
+        -DHAVE_SQLINSTALLERERROR -I/usr/local/iODBC/include -I/opt/local/include \ 
+        -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  -I/opt/local/include -fno-common \
+        -O2  -fno-common -pipe -fno-common   \
+        -c init.c
+...
+zsh, pizza ruby-odbc-0.9997/ % sudo make install
+Password:
+/usr/bin/install -m 0755 odbc.bundle /usr/local/ruby/site_ruby/1.8/powerpc-darwin8
+</pre>
+      <p>To check that it built correctly, run one of the following
+      commands to see the shared library dependencies; there should
+      be a mention of `iodbc' somewhere in the output:</p>
+      <p>On Mac OS X:</p>
+      <pre>zsh, pizza ruby-odbc-0.9997/ % otool -L /usr/local/ruby/site_ruby/1.8/powerpc-darwin8/odbc.bundle 
+/usr/local/ruby/site_ruby/1.8/powerpc-darwin8/odbc.bundle:
+        /usr/local/lib/libruby.dylib (compatibility version 1.8.0, current version 1.8.7)
+        /usr/local/lib/libiodbcinst.1.dylib (compatibility version 2.0.0, current version 2.0.0)
+        /usr/local/lib/libiodbc.1.dylib (compatibility version 2.0.0, current version 2.0.0)
+</pre>
+      <p>On Linux/Unix:</p>
+      <pre>zsh, ubuntu ruby-odbc-0.9997/ % ldd /usr/lib/ruby/site_ruby/1.8/i486-linux/odbc.so 
+[...]
+        libc.so.6 =&gt; /lib/libc.so.6 (0xb7d0e000)
+        libiodbc.so.2 =&gt; /usr/local/lib/libiodbc.so.2 (0xb7cc6000)
+        libiodbcinst.so.2 =&gt; /usr/local/lib/libiodbcinst.so.2 (0xb7cb3000)
+        /lib/ld-linux.so.2 (0xb7fd2000)
+</pre>
+      <h4><a id="Testing"/>Testing</h4>
+      <p>Having installed the ruby-odbc binding module, you can
+      write a simple ruby script to test it such as the attached
+      which makes a connection and probes some metadata available
+      through the ODBC connection:</p>
+      <ul>
+        <li>
+          <a href="IODBCRubyHOWTO/odbc-metadata.rb" class="c2">odbc-metadata.rb</a>
+        </li>
+      </ul>
+      <pre>zsh, ubuntu ruby/ % ./odbc-metadata.rb pgdata "" ""
+Connecting to [pgdata, , ]
+Connected: true
+
+Data-types:
+
+Type integer:
+Native: int4
+  TYPE_NAME:           int4
+  DATA_TYPE:           4
+  PRECISION:           10
+  LITERAL_PREFIX:      
+  LITERAL_SUFFIX:      
+  CREATE_PARAMS:       
+  NULLABLE:            1
+  CASE_SENSITIVE:      0
+  SEARCHABLE:          2
+  UNSIGNED_ATTRIBUTE:  0
+  MONEY:               0
+  AUTO_INCREMENT:      0
+  LOCAL_TYPE_NAME:     
+  MINIMUM_SCALE:       0
+  MAXIMUM_SCALE:       0
+  SQL_DATA_TYPE:       4
+  SQL_DATETIME_SUB:    
+  NUM_PREC_RADIX:      10
+  INTERVAL_PRECISION:  0
+...
+
+Trying type SQL_CURSOR_ROLLBACK_BEHAVIOR (String): ret=[2]
+
+Trying type SQL_DYNAMIC_CURSOR_ATTRIBUTES1 (String): ret=[0]
+
+Trying type SQL_KEYWORDS (String): ret=[]
+
+Trying type SQL_LIKE_ESCAPE_CLAUSE (String): ret=[N]
+
+Trying type SQL_COLUMN_ALIAS (String): ret=[Y]
+
+Trying type SQL_ORDER_BY_COLUMNS_IN_SELECT (String): ret=[N]
+</pre>
+      <h3><a id="Ruby%2FDBI%20DBD%3A%3AODBC%20Driver"/>Ruby/DBI
+      DBD::ODBC Driver</h3>
+      <p>The second method to connect Ruby to ODBC is using the DBI
+      interface; this provides a higher-level interface, consisting
+      of an controlling module (DBI) that invokes drivers for
+      specific databases (DBD::&lt;something&gt; modules) as
+      required, one of which is DBD::ODBC.</p>
+      <h4><a id="Cross-platform%3A%20Ruby%20GEM"/>Cross-platform: Ruby
+      GEM</h4>
+      <p>Ruby has its own packaging system, known as rubygems,
+      which includes the dbi module.</p>
+      <pre>zsh, pizza C/ % sudo gem install dbi dbd-odbc  --remote
+Password:
+Successfully installed dbi-0.4.3
+Successfully installed dbd-odbc-0.2.5
+2 gems installed
+Installing ri documentation for dbi-0.4.3...
+Installing ri documentation for dbd-odbc-0.2.5...
+Installing RDoc documentation for dbi-0.4.3...
+Installing RDoc documentation for dbd-odbc-0.2.5...
+</pre>
+      <p>If you are using gems for maintaining ruby packages, no
+      further installation is required after this.</p>
+      <h4><a id="Linux%20Packages"/>Linux Packages</h4>
+      <p>As before, some GNU/Linux distributions (Debian and
+      Ubuntu) already have packages for Ruby's DBI and DBD modules,
+      so a simple</p>
+      <pre>sudo apt-get install libdbd-odbc-ruby1.8 
+</pre>
+      <p>suffices, and will include the DBI module as a dependency
+      too.</p>
+      <h4><a id="Mac%20OS%20X%20and%20other%20Unix-like%20systems%3A%20building%20from%20source">
+      </a> Mac OS X and other Unix-like systems: building from
+      source</h4>
+      <p>On other platforms, if not using the gems above, you have
+      the option to build DBI &amp; DBD::ODBC from source.</p>
+      <h5><a id="DBI"/>DBI</h5>
+      <p>Download the ruby-dbi module from <a href="http://ruby-dbi.rubyforge.org/" class="absuri">ruby-forge</a> and unpack it:</p>
+      <pre>zsh, ubuntu C/ % tar xvfz dbi-0.4.3.tar.gz
+dbi-0.4.3/
+dbi-0.4.3/build/
+dbi-0.4.3/build/rake_task_lib.rb
+dbi-0.4.3/build/Rakefile.dbi.rb
+dbi-0.4.3/Rakefile
+...
+zsh, ubuntu C/ % cd dbi-0.4.3 
+zsh, ubuntu dbi-0.4.3/ % ls
+bin/    ChangeLog  lib/     Rakefile  setup.rb
+build/  examples/  LICENSE  README    test/
+</pre>
+      <p>Then run the following 3 commands to build and install
+      it:</p>
+      <ul>
+        <li><code>ruby setup.rb config</code></li>
+        <li><code>ruby setup.rb setup</code></li>
+        <li><code>sudo ruby setup.rb install</code></li>
+      </ul>
+      <pre>zsh, ubuntu dbi-0.4.3/ % ruby setup.rb config
+---&gt; bin
+&lt;--- bin
+---&gt; lib
+---&gt; lib/dbi
+---&gt; lib/dbi/utils
+&lt;--- lib/dbi/utils
+---&gt; lib/dbi/handles
+&lt;--- lib/dbi/handles
+---&gt; lib/dbi/base_classes
+&lt;--- lib/dbi/base_classes
+---&gt; lib/dbi/sql
+&lt;--- lib/dbi/sql
+&lt;--- lib/dbi
+&lt;--- lib
+
+zsh, ubuntu dbi-0.4.3/ % ruby setup.rb setup 
+---&gt; bin
+updating shebang: test_broken_dbi
+updating shebang: dbi
+&lt;--- bin
+---&gt; lib
+---&gt; lib/dbi
+---&gt; lib/dbi/utils
+&lt;--- lib/dbi/utils
+---&gt; lib/dbi/handles
+&lt;--- lib/dbi/handles
+---&gt; lib/dbi/base_classes
+&lt;--- lib/dbi/base_classes
+---&gt; lib/dbi/sql
+&lt;--- lib/dbi/sql
+&lt;--- lib/dbi
+&lt;--- lib
+
+zsh, ubuntu dbi-0.4.3/ % sudo ruby setup.rb install
+rm -f InstalledFiles
+---&gt; bin
+mkdir -p /usr/local/stow/ruby/bin
+install test_broken_dbi /usr/local/stow/ruby/bin/
+install dbi /usr/local/stow/ruby/bin/
+&lt;--- bin
+---&gt; lib
+mkdir -p /usr/local/stow/ruby/lib/ruby/site_ruby/1.9.1
+install dbi.rb /usr/local/stow/ruby/lib/ruby/site_ruby/1.9.1/
+...
+</pre>
+      <h5><a id="DBD::ODBC"/>DBD::ODBC</h5>
+      <p>The installation of ruby dbd-odbc follows a similar path
+      to the dbi module.</p>
+      <p>Download and unpack dbd-odbc from <a href="http://rubyforge.org/frs/?group_id=234&amp;release_id=36729" class="absuri">ruby-forge</a>:</p>
+      <pre>zsh, ubuntu C/ % tar xvfz dbd-odbc-0.2.5.tar.gz 
+dbd-odbc-0.2.5/
+dbd-odbc-0.2.5/ChangeLog
+dbd-odbc-0.2.5/README
+dbd-odbc-0.2.5/lib/
+dbd-odbc-0.2.5/lib/dbd/
+dbd-odbc-0.2.5/lib/dbd/odbc/
+zsh, ubuntu dbd-odbc-0.2.5/ % ls
+build/  ChangeLog  lib/  LICENSE  Rakefile  README  setup.rb  test/
+</pre>
+      <p>Then run the following 3 commands to build and install
+      it:</p>
+      <ul>
+        <li><code>ruby setup.rb config</code></li>
+        <li><code>ruby setup.rb setup</code></li>
+        <li><code>sudo ruby setup.rb install</code></li>
+      </ul>
+      <pre>zsh, ubuntu dbd-odbc-0.2.5/ % ruby setup.rb config
+---&gt; lib
+---&gt; lib/dbd
+---&gt; lib/dbd/odbc
+&lt;--- lib/dbd/odbc
+&lt;--- lib/dbd
+&lt;--- lib
+
+zsh, ubuntu dbd-odbc-0.2.5/ % ruby setup.rb setup 
+---&gt; lib
+---&gt; lib/dbd
+---&gt; lib/dbd/odbc
+&lt;--- lib/dbd/odbc
+&lt;--- lib/dbd
+&lt;--- lib
+
+zsh, ubuntu dbd-odbc-0.2.5/ % sudo ruby setup.rb install
+rm -f InstalledFiles
+---&gt; lib
+mkdir -p /usr/local/stow/ruby/lib/ruby/site_ruby/1.9.1
+---&gt; lib/dbd
+mkdir -p /usr/local/stow/ruby/lib/ruby/site_ruby/1.9.1/dbd
+install ODBC.rb /usr/local/stow/ruby/lib/ruby/site_ruby/1.9.1/dbd
+---&gt; lib/dbd/odbc
+... 
+</pre>
+      <h5><a id="Testing%20Ruby%2C%20DBI%2C%20ODBC"/>Testing
+      Ruby, DBI, ODBC</h5>
+      <p>The attached script is a quick demonstration of some of
+      DBI's capabilities, going via the ODBC driver.</p>
+      <ul>
+        <li>
+          <a href="IODBCRubyHOWTO/odbc-test-dbd.rb" class="c2">odbc-test-dbd.rb</a>
+        </li>
+      </ul>
+      <pre>zsh, ubuntu C/ % ./odbc-test-dbd.rb pgdata "" ""
+[1, "This is a varchar 10"]
+[2, "This is a varchar 40"]
+[3, "This is a varchar 90"]
+[4, "This is a varchar 160"]
+[5, "This is a varchar 250"]
+[6, "This is a varchar 360"]
+[7, "This is a varchar 490"]
+[8, "This is a varchar 640"]
+[9, "This is a varchar 810"]
+[10, "This is a varchar 1000"]
+</pre>
+      <p>First the script connects; then it drops and recreates a
+      table called `test'; then it inserts 10 rows and selects them
+      back, before closing off the statement and connection
+      handles.</p>
+    </div>

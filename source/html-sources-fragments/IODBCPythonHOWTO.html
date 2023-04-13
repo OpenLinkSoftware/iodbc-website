@@ -1,0 +1,340 @@
+<div xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions" xmlns="http://www.w3.org/1999/xhtml" class="topic-text" id="content">
+      <div class="MACRO_TOC">
+        <h2 class="toc">Table of Contents</h2>
+        <ul>
+          <li>
+            <a href="#Disclaimer">Disclaimer</a>
+          </li>
+          <li>
+            <a href="#ODBC%20Overview">ODBC Overview</a>
+          </li>
+          <li>
+            <a href="#Preface">Preface</a>
+          </li>
+          <li>
+            <a href="#Installing%20Python">Installing Python</a>
+          </li>
+          <li>
+            <a href="#Installing%20iODBC">Installing iODBC</a>
+          </li>
+          <li class="c1">
+            <ul>
+              <li>
+                <a href="#Compiling%20iODBC%20from%20source">Compiling
+                iODBC from source</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#Testing%20ODBC">Testing ODBC</a>
+          </li>
+          <li>
+            <a href="#Building%20Egenix%27%20mxODBC%20module">Building
+            Egenix' mxODBC module</a>
+          </li>
+          <li>
+            <a href="#Sample%20script%20to%20use%20the%20module">Sample
+            script to use the module</a>
+          </li>
+          <li>
+            <a href="#References">References</a>
+          </li>
+        </ul>
+      </div>
+      <h2><a id="Disclaimer"/>Disclaimer</h2>
+      <p>The following is a HOWTO document for installing Python
+      with iODBC on Linux or Unix. Feel free to criticize, suggest
+      modifications, or ask further questions. It is currently
+      maintained by Tim Haynes of Openlink Software
+      (iodbc@openlinksw.com)</p>
+      <p>Prerequisites include basic Unix familiarity, such as
+      creating directories and users, using an editor, etc.</p>
+      <p>This HOWTO is intended to assist in connecting python to
+      back-end databases via ODBC in a development environment and
+      should not take the place of thorough testing before
+      deployment on a production system.</p>
+      <h2><a id="ODBC%20Overview"/> ODBC Overview</h2>
+      <p>ODBC (Open Database Connectivity) is an operating system-
+      and database- independent communication API for database
+      connectivity. It enables ODBC compliant client applications
+      to connect transparently to back-end databases via ODBC
+      function calls which are implemented by ODBC Drivers for
+      target back-end databases.</p>
+      <p>ODBC provides your applications with
+      database-independence; consequentially, you no longer have to
+      incur the development and maintenance cost of inextricably
+      binding your application to backend database engines via
+      their proprietary data-access (aka native) APIs.</p>
+      <p>ODBC connections involve an ODBC-compliant Application or
+      Data Access Layer, ODBC Driver Manager, ODBC Driver, and
+      back-end Database. The ODBC Driver Manager for Microsoft
+      Windows platforms is administered via the ODBC Administrator
+      Control Panel applet at setup and configuration time. The
+      Driver Manager registers a set of ODBC driver connection
+      parameters called a Data Source Name (DSN), and maintains (in
+      persistent form) a relationship between the DSN and an
+      underlying ODBC Driver that will honor data access request
+      via that DSN.</p>
+      <p>At runtime an application looks to the driver manager for
+      a DSN, and then passes the connection parameters specified in
+      the DSN to the appropriate driver, which makes the actual
+      database connection. Under non-Windows platforms you may need
+      to install a Driver Manager if this isn't delivered as an
+      integral part of your operating environment. Platform
+      independent ODBC (aka iODBC) is an Open Source ODBC project
+      (dual license LGPL / BSD)for non Windows platforms maintained
+      by OpenLink Software that consists of an ODBC SDK (libraries
+      and header files) and ODBC Runtime components (Administrator
+      and Driver Manager).</p>
+      <h2><a id="Preface"/> Preface</h2>
+      <p>You will also need an ODBC Driver and Database to complete
+      the architecture.</p>
+      <p>If you need ODBC drivers to connect to a third-party
+      database on the same or another machine, OpenLink ODBC
+      Drivers are available, and may be downloaded from <a href="http://www.openlinksw.com" class="absuri">http://www.openlinksw.com</a></p>
+      <p>The Virtuoso database may also be downloaded from <a href="http://virtuoso.openlinksw.com/" class="absuri">http://virtuoso.openlinksw.com/</a></p>
+      <p>Both sets of ODBC Drivers are available on a free 30 day
+      evaluation basis.</p>
+      <p>Support for setting up the OpenLink Drivers may be
+      obtained at <a href="http://support.openlinksw.com/" class="absuri">http://support.openlinksw.com/</a></p>
+      <h2><a id="Installing%20Python"/> Installing Python</h2>
+      <p>If you already have Python installed and running, you
+      probably do not need to rebuild it. Otherwise, you can
+      compile it from source if you wish, thus:</p>
+      <p>First, download the latest source distribution from
+      <a href="http://www.python.org/" class="absuri">http://www.python.org/</a> - currently this is
+      version 2.2.3.</p>
+      <p>Unpack it into a build directory with the command</p>
+      <pre>gzip -cd &lt; Python-2.2.3.tgz | tar xvpf -
+</pre>
+      <p>Enter the build directory, and run configure, specifying
+      any optional configurations as desired:</p>
+      <pre>cd Python-2.2.3/
+zsh, purple  2:50PM Python-2.2.3/ % ./configure --help
+Usage: configure [options] [host]
+Options: [defaults in brackets after descriptions]
+Configuration:
+--cache-file=FILE       cache test results in FILE
+[snip]
+Directory and file names:
+--prefix=PREFIX         install architecture-independent files in PREFIX
+[/usr/local]
+[snip]
+--with-libs='lib1 ...'          link against additional libs
+--with-signal-module            disable/enable signal module
+--with-dec-threads              use DEC Alpha/OSF1 thread-safe libraries
+--with(out)-threads[=DIRECTORY] disable/enable thread support
+[snip]
+zsh, purple  2:50PM Python-2.2.3/ % ./configure --prefix=/usr/local/stow/python-2.2.3
+creating cache ./config.cache
+checking MACHDEP... linux2
+checking for --without-gcc... no
+checking for --with-cxx=&lt;compiler&gt;... no
+checking for c++... g++
+checking whether the C++ compiler (g++  ) works... yes
+checking whether the C++ compiler (g++  ) is a cross-compiler... no
+[snip]
+creating Makefile.pre
+creating Modules/Setup.config
+creating pyconfig.h
+creating Setup
+creating Setup.local
+creating Makefile
+zsh, purple  2:52PM Python-2.2.3/ % make
+gcc -c -DNDEBUG -g -O3 -Wall -Wstrict-prototypes -I. -I./Include -DHAVE_CONFIG_H  -o Modules/python.o Modules/python.c
+gcc -c -DNDEBUG -g -O3 -Wall -Wstrict-prototypes -I. -I./Include -DHAVE_CONFIG_H  -o Parser/acceler.o Parser/acceler.c
+running build_scripts
+creating build/scripts-2.2
+copying and adjusting /home/tim/public_html/docs/python-HOWTO/Python-2.2.3/Tools/scripts/pydoc -&gt; build/scripts-2.2
+zsh, purple  2:59PM Python-2.2.3/ % su
+bash-2.05b# make install
+[snip]
+Creating directory /usr/local/stow/python-2.2.3/man
+Creating directory /usr/local/stow/python-2.2.3/man/man1
+/bin/install -c -m 644 ./Misc/python.man        /usr/local/stow/python-2.2.3/man/man1/python.1
+</pre>
+      <h2><a id="Installing%20iODBC"/> Installing iODBC</h2>
+      <p>If you do not already have iODBC installed, either install
+      an RPM from <a href="http://www.iodbc.org/" class="absuri">iODBC.org</a>, or install from source:</p>
+      <h3><a id="Compiling%20iODBC%20from%20source"/> Compiling
+      iODBC from source</h3>
+      <p>Requirements: C-compiler; optionally gtk+-1.2 (required if
+      building from CVS).</p>
+      <p>As before, unpack the iODBC sources, enter the build
+      directory, configure, make and make install:</p>
+      <pre>zsh, purple  4:13PM C/ % tar xvpfz libiodbc-3.51.1.tar.gz
+libiodbc-3.51.1/
+libiodbc-3.51.1/admin/
+libiodbc-3.51.1/admin/Makefile.am
+libiodbc-3.51.1/admin/Makefile.in
+libiodbc-3.51.1/admin/acinclude.m4
+[snip]
+libiodbc-3.51.1/samples/Makefile.in
+libiodbc-3.51.1/samples/iodbctest.c
+zsh, purple  4:14PM C/ % cd libiodbc-3.51.1
+zsh, purple  4:14PM libiodbc-3.51.1/ % ./configure --prefix=/usr/local/stow/iodbc-3.51.1
+checking for a BSD-compatible install... /bin/install -c
+checking whether build environment is sane... yes
+checking for gawk... gawk
+[snip]
+config.status: executing depfiles commands
+config.status: executing default commands
+zsh, purple  4:15PM libiodbc-3.51.1/ % make
+Making all in admin
+make[1]: Entering directory `/home/tim/C/libiodbc-3.51.1/admin'
+[snip]
+make[1]: Leaving directory `/home/tim/C/libiodbc-3.51.1'
+zsh, purple  4:15PM libiodbc-3.51.1/ % su root -c 'make install'
+</pre>
+      <p>It's advisable to install into /usr/local, or stow your
+      installation into /usr/local, as that is searched by most
+      other applications trying to locate iODBC.</p>
+      <h2><a id="Testing%20ODBC"/> Testing ODBC</h2>
+      <p>Now is a good time to configure iODBC, by adding a DSN -
+      create a file ~/.odbc.ini, edit it to look something like
+      this:</p>
+      <pre>[ODBC Data Sources]
+PostgreSQL native localhost = PostgreSQL native driver
+Local Virtuoso Demo = localhost virtuoso (demo instance)
+Local Virtuoso = localhost virtuoso
+
+[Local Virtuoso Demo]
+Description = Virtuoso 3.1
+Driver      = /home/tim/virtuoso/lib/virtodbc31.so
+Address     = localhost:1112
+UserName    = dba
+User        = dba
+
+[Local Virtuoso]
+Description = Virtuoso 3.1
+Driver      = /home/tim/virtuoso/lib/virtodbc31.so
+Address     = localhost:1111
+UserName    = dba
+User        = dba
+
+[PostgreSQL native localhost]
+Driver     = /usr/lib/postgresql/lib/libodbcpsql.so
+Host       = localhost
+Server     = localhost
+ServerName = localhost
+Database   = tim
+UserName   = tim
+UID        = tim
+Port       = 5432
+</pre>
+      <p>It is advisable to export the environment variable ODBCINI
+      to point to this file, too - depending on your shell,
+      either:</p>
+      <pre>echo 'export ODBCINI=$HOME/.odbc.ini' &gt;&gt; .bashrc
+</pre>
+      <p>or</p>
+      <pre>echo 'setenv ODBCINI $HOME/.odbc.ini' &gt;&gt; .tcshrc
+</pre>
+      <p>as appropriate.</p>
+      <p>You can now make a test connection with the <span class="c2">iodbctest</span> utility, thus:</p>
+      <pre>zsh, purple  4:54PM libiodbc-3.51.1/ % which iodbctest
+/usr/local/bin//iodbctest
+zsh, purple  4:54PM libiodbc-3.51.1/ % iodbctest      
+iODBC Demonstration program
+This program shows an interactive SQL processor
+Driver Manager: 03.51.0001.0908
+
+Enter ODBC connect string (? shows list): ?
+
+DSN                            | Description                   
+---------------------------------------------------------------
+Local Virtuoso                 | localhost virtuoso 
+Local Virtuoso Demo            | localhost virtuoso (demo instance)
+MySQL                          | MySQL native driver           
+PostgreSQL native localhost    | PostgreSQL native driver      
+PostgreSQL OpenLink localhost  | PostgreSQL over OpenLink multi-tier
+Virtuoso30                     | OpenLink Virtuoso 3.0         
+
+Enter ODBC connect string (? shows list): DSN=Local Virtuoso Demo;UID=dba;PWD=cens0red
+Driver: 03.50.2505 OpenLink Virtuoso ODBC Driver
+
+SQL&gt;
+</pre>
+      <p>If you see the SQL&gt; prompt there, then all has gone
+      well.</p>
+      <h2><a id="Building%20Egenix%27%20mxODBC%20module"/>
+      Building Egenix' mxODBC module</h2>
+      <p>The last infrastructure hurdle to overcome is the building
+      of Egenix's mxODBC module; download the sources from <a href="http://www.egenix.com/files/python/mxODBC.html," class="absuri">http://www.egenix.com/files/python/mxODBC.html,</a>
+      and run the following:</p>
+      <pre>zsh, purple  4:21PM egenix-mx-commercial-2.0.6/ % python setup.py install
+</pre>
+      <p>This requires root privileges, and will install in your
+      python site-packages directory, thus:</p>
+      <pre>zsh, purple  4:24PM tim/ % ls /usr/lib/python2.2/site-packages/mx/ODBC 
+COPYRIGHT  LazyModule.py   Misc/     ODBC.pyo     __init__.pyc  unixODBC/
+Doc/       LazyModule.pyc  ODBC.py   README       __init__.pyo
+LICENSE    LazyModule.pyo  ODBC.pyc  __init__.py  iODBC/
+</pre>
+      <h2><a id="Sample%20script%20to%20use%20the%20module"/>
+      Sample script to use the module</h2>
+      <p>Finally, a small script to link it all together. You can
+      use this to test simple functionality of iODBC, mxODBC and
+      Python.</p>
+      <pre>#!/usr/bin/python
+
+import mx.ODBC.iODBC
+
+dsn="Local Virtuoso Demo"
+
+conn=mx.ODBC.iODBC.Connect (dsn, "dba", "cens0red")
+
+print "Content-Type: text/plain
+
+"
+print "Database Type: " + conn.getinfo (17)[1] + "
+"
+
+curshandle=conn.cursor()
+
+print "Top 10 in Shippers table:"
+curshandle.execute ("select top 10 * from Demo.demo.Shippers")
+for i in curshandle.fetchall():
+print i
+
+#print curshandle.fetchall()
+
+print "
+Creating and populating timtest table:"
+
+try:
+curshandle.execute ("drop table timtest") 
+except: 
+pass
+
+curshandle.execute ("create table timtest (id integer, str varchar (255))")
+curshandle.execute ("insert into timtest values (99, 'testing')")
+curshandle.execute ("select * from timtest")
+
+for i in curshandle.fetchall():
+print i
+</pre>
+      <p>On running it, you should see the following output:</p>
+      <pre>zsh, purple 11:22AM python/ % ./dbi-test.py
+Database Type: OpenLink Virtuoso
+
+Top 10 in Shippers table:
+(1, 'Speedy Express', '(503) 555-9831')
+(2, 'United Package', '(503) 555-3199')
+(3, 'Federal Shipping', '(503) 555-9931')
+
+Creating and populating timtest table:
+(99, 'testing')
+</pre>
+      <h2><a id="References"/> References</h2>
+      <ul>
+        <li>
+          <a href="http://www.iodbc.org" class="absuri">iODBC</a>
+        </li>
+        <li>History of <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/ODBCOnUnix" class="wikiword">ODBC on Unix</a>
+        </li>
+        <li>
+          <a href="http://www.openlinksw.com/" class="absuri">OpenLink Software</a> - <a href="http://www.openlinksw.com/support/suppindx.htm" class="absuri">Support</a> , <a href="http://www.openlinksw.com/support/teclinks.htm" class="absuri">links</a> and <a href="http://www.openlinksw.com/info/docs/odbcwhp/tableof.htm" class="absuri">white-papers</a>
+        </li>
+      </ul>
+    </div>

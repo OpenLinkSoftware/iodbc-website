@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" itemscope="itemscope" itemtype="http://schema.org/TechArticle" xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions">
+ <head profile="http://www.w3.org/2005/11/profile">
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="/skin-iODBC/css/style.css" type="text/css" />
+  <title property="dc:title">iODBC Driver Manager:
+                     Using Virtuoso Open Source Edition GIT Tree</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  <meta name="theme-color" content="#ffffff" />
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+          </script>
+  <script type="text/javascript">
+                    _uacct = &quot;UA-139779-5&quot;;
+                    urchinTracker();
+                </script>
+  <script type="text/javascript"><!--
+                        function fixcopyright() {
+                        var nw=new Date();
+                        var el=document.getElementById('ftcopyyear');
+                        el.innerHTML=nw.getFullYear();
+                        }
+                        //
+                    -->
+  </script>
+  <link rel="canonical" href="http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/GitSource" />
+ </head>
+<body onload="fixcopyright()">
+  <div id="outer">
+   <div id="header">
+    <div id="headleft">
+     <a href="http://www.iodbc.org/">
+          <img src="/skin-iODBC/images/iodbc-logo.png" alt="iODBC logo" id="logo" title="iODBC" />
+          <h1>iODBC.org</h1>
+          <p>
+                                    Independent Open DataBase Connectivity for Linux, MacOS X and
+                                    Unix systems
+                                </p>
+     </a>
+    </div>
+    <div id="headright">
+     <ul>
+      <li>
+            <a href="/">Home</a>
+      </li>
+      <li>
+            <a href="About">About</a>
+      </li>
+      <li>
+            <a href="Downloads">Downloads</a>
+      </li>
+      <li>
+            <a href="GitSource">Git</a>
+      </li>
+      <li>
+            <a href="MailingLists">Forums</a>
+      </li>
+      <li>
+            <a href="IODBCPerl">Perl</a>
+      </li>
+      <li>
+            <a href="IODBCPython">Python</a>
+      </li>
+      <li>
+            <a href="IODBCPHP">PHP</a>
+      </li>
+      <li>
+            <a href="IODBCRuby">Ruby</a>
+      </li>
+      <li>
+            <a href="MySQL2ODBC">MySQL2ODBC</a>
+      </li>
+      <li>
+            <a href="ODBCBench">ODBCBench</a>
+      </li>
+      <li>
+            <a href="http://www.openlinksw.com/">OpenLink</a>
+      </li>
+          <li>
+                                    [
+                                    <a href="https://www.iodbc.org/wiki/resources/gems.vsp?cluster=iodbcWiki&amp;type=rss20" id="rss">
+                                        RSS
+                                    </a>
+                                    ]
+                                </li>
+     </ul>
+    </div>
+   </div>
+   <div id="content">
+      <div class="topic-text">
+<div class="MACRO_TOC">  <h2 class="toc">Table of Contents</h2>   <ul> <li>
+              <a href="#Introduction">Introduction</a>
+            </li> <li>
+              <a href="#Git%20Archive%20Server%20Access">Git Archive Server Access</a>
+            </li>
+<ul>
+        <li>
+                <a href="#GitHub">GitHub</a>
+        </li> <li>
+                <a href="#SourceForge">SourceForge</a>
+              </li> </ul>
+       <li>
+              <a href="#Git%20Tag-Signing%20Key">Git Tag-Signing Key</a>
+       </li> <li>
+              <a href="#Further%20Documentation">Further Documentation</a>
+            </li>
+          </ul>   </div>
+<h2>
+          <a id="Introduction">
+      </a> Introduction</h2>
+<p>Developers who want to actively track progress of the iODBC source code and contribute bugfixes or enhancements to the project need Git access.</p>
+<p>This access requires basic knowledge of git itself; the general layout of open source and GNU projects; the use of autoconf and automake; and other things which are beyond the scope of this document.</p>
+<p>If you have any questions, please email the &lt;none&gt;.</p>
+
+<h2>
+          <a id="Git%20Archive%20Server%20Access">
+      </a> Git Archive Server Access</h2>
+<h3>
+          <a id="GitHub">
+      </a>GitHub</h3>
+<p>For main development, we will publish the iODBC open-source tree to <a href="http://github.com/" class="absuri">GitHub</a>.
+ We encourage everyone who is interested in tracking the project to make an account there.</p>
+<p>Users who mainly just want to look at the code can use the <a href="https://github.com/openlink/iODBC" class="absuri">GitHub Web interface</a> or track the archive by checking out a local copy of the tree, with a command such as:</p>
+<pre>$ git clone git://github.com/openlink/iODBC.git
+</pre>
+        <p> At this point, you can create your own work-branch based on any available branch; create bugfixes; commit them to your own branch; and then use the command <code>git format-patch</code> to generate appropriate diffs to email to the &lt;none&gt;.</p>
+<p>Developers are encouraged to fork the project using GitHub; create your own branches to make enhancements/bugfixes; and then send pull requests using the excellent GitHub interface, so we can examine and incorporate those fixes into the master tree for future release.</p>
+<p>For more information, please read the <a href="http://help.github.com/" class="absuri">GitHub
+Documentation</a> on how to fork a project, send pull requests, track a project, etc.</p>
+<h3>
+          <a id="SourceForge">
+      </a>SourceForge</h3>
+<p>OpenLink will continue to use <a href="http://sourceforge.net/projects/iodbc/" class="absuri">sourceforge.net</a> to release source tarballs and certain binaries.</p>
+<p>SourceForge also contains the frozen <a href="http://virtuoso.cvs.sourceforge.net/viewvc/virtuoso/virtuoso-opensource/" class="absuri">CVS Archive</a> for historical reference, and for completeness, read-only <a href="http://virtuoso.git.sourceforge.net/git/gitweb.cgi?p=virtuoso/virtuoso-opensource" class="absuri">Git Archive</a> access will also be available there.</p>
+<p>For more information, please see the <a href="https://sourceforge.net/scm/?type=git&amp;group_id=161622" class="absuri">SourceForge Git Documentation</a>.</p>
+
+<h2>
+          <a id="Git%20Tag-Signing%20Key">
+      </a>Git Tag-Signing Key</h2>
+<p>To verify signed releases, you should import our Git public GPG key, either by:</p>
+<ul>
+          <li>running <br />
+            <pre>
+              <br />$ gpg --recv-keys 089DE67A
+</pre>
+            <br /> </li>
+<li>or by downloading the attached <code>
+              <a href="GitSource/089DE67A.asc" style="wikiautogen">089DE67A.asc</a>
+            </code> file, and running <br />
+            <pre>
+              <br />$ gpg --import 089DE67A.asc
+</pre>
+            <br /> </li>
+<li>or by running <br />
+            <pre>
+              <br />$ echo &#39;-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mQENBE9pILIBCACpRFwsoYwyfswRt7QMWtifJb/L1Zo9955pKyOnnI/vZ2S2uFv0
+OALpyUoR/WhQzIrtmzVYfBSmmBhAr5sh05tcXjFmyulhecAllYfaNAHEYAfgczaj
+7TMYkHOd4xU2dl2PEPpWYaQJ/tuokZICC5BBakpHDN12TUrZTyCe1qEUgJvM6e3A
+8BAwZSB9wbdwhxVwZEbeNYcINsBXL9kc/oy0v61XEIr17n/GS2Lmh533XP97kTz5
+IJhTwrGf3lQUpEYRWptepUI2bnBSO3ZJ8G4x5w4ESP0f+Uw1ihx/yqTmOeeJfvX1
+rhnLF5kOjN8xXtvI4nrYm/ctVtr68A33hjP9ABEBAAG0Q09wZW5MaW5rIFNvZnR3
+YXJlIFNpZ25pbmcgS2V5IChHaXQgdGFncykgPGdpdC5hZG1pbkBvcGVubGlua3N3
+LmNvbT6JAT4EEwECACgFAk9pILICGy8FCQeGH4AGCwkIBwMCBhUIAgkKCwQWAgMB
+Ah4BAheAAAoJEHtptnAIneZ6TJ8IAIytxv4t2umvjWFSOULLLTiQu11WMnYdPWS7
+fMPVznZDpIs9RR1egmj4QAC0x/ImgtRGn3uoebNv2E9WBRYQw+OL4+AnY/y6Grfm
+plkOO/EW3GZYMMWjm6Ih7EhlLooW3Epv1oP8tdikVHKTPl4SiWSPOt1j+W1QyeFO
+7EjWi1zSPL6R0kwqBY/Lpf2SXiiXU40FwoU2J2gPFcWYuBal1Jc3iiBq3hF9W5LZ
+kuJ0D09VXoS6hwc0GkEv2ibFmtBVOsjsjH6N3ENApLT5YK9Pgm2sk5kYXRLDsj1V
+3ojRNFlZbFHr2Hwjwrh0vo9y5XeXUebMu+QPkIQmMeECFkcdl7Y=
+=zD+s
+-----END PGP PUBLIC KEY BLOCK-----
+&#39; | gpg --import
+</pre>
+            <br />
+          </li>
+</ul>
+        <p>The fingerprint of this key is <tt>7D6E 3898 F670 9F7A C25C 19D0 7B69 B670 089D E67A</tt>.</p>
+<h2>
+          <a id="Further%20Documentation">
+      </a>Further Documentation</h2>
+<p>Please see our <a href="https://www.iodbc.org/dataspace/iodbc/wiki/iodbcWiki/GitStrategy" class="wikiword">Git Usage</a> document concerning the usage of branches and tags.</p>
+<p>For an introduction to Git, see our <a href="http://virtuoso.openlinksw.com/dataspace/dav/wiki/Main/GitQuickstartTips" class="absuri">Git Quickstart and Tips</a> [virtuoso.openlinksw.com] guide.</p>
+</div>
+   </div>
+    <div class="reset" />
+   <footer id="footer" about="http://www.iodbc.org/">
+    <a href="http://virtuoso.openlinksw.com/">
+        <img style="float: left; margin-left: 1em" src="/skin-iODBC/images/PoweredByVirtuoso.png" alt="Powered by Virtuoso" title="Powered by Virtuoso" />
+    </a>
+    <a href="https://github.com/openlink/iODBC">
+        <img style="float:right; margin-right: 1em; " src="/skin-iODBC/images/GitHub_Logo.png" alt="Fork iODBC on GitHub" />
+    </a>
+    <a href="http://sourceforge.net/projects/iodbc">
+        <img style="float: right; margin-right: 1em" src="http://sflogo.sourceforge.net/sflogo.php?group_id=90493&amp;type=13" width="120" height="30" alt="Get iODBC at SourceForge.net" />
+    </a>
+      <div class="footertext">
+                            Copyright (C)
+                            <a href="http://www.openlinksw.com/">
+          <span property="dct:creator" resource="http://www.openlinksw.com/dataspace/organization/openlink#this">OpenLink
+                                    Software
+                                </span>
+        </a>
+        <span id="ftcopyyear" property="dct:date">2009</span>
+                            .
+                            All rights reserved.
+                        </div>
+   </footer>
+  </div><!--Start OSDI Data Islands-->
+  <script type="text/turtle">@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/> .
+@prefix schema:	<http://schema.org/> .
+ns1:GitSource	rdf:type	schema:TechArticle ;
+	schema:name	"Using Virtuoso Open Source Edition GIT Tree" .
+@prefix ns3:	<http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/> .
+ns1:GitSource	schema:url	ns3:GitSource ;
+	schema:publisher	_:b11626 .
+_:b11626	rdf:type	schema:Organization ;
+	schema:name	"OpenLink Software" .
+@prefix ns4:	<http://www.openlinksw.com/#> .
+_:b11626	schema:url	ns4:this .
+
+  </script>
+  <script type="application/ld+json">{ "@context": {
+    "publisher": { "@id": "http://schema.org/publisher", "@type": "@id" },
+    "name": { "@id": "http://schema.org/name" },
+    "url": { "@id": "http://schema.org/url", "@type": "@id" } },
+  "@graph": [
+    { "@id": "http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/GitSource",
+      "@type": "http://schema.org/TechArticle",
+      "name": "Using Virtuoso Open Source Edition GIT Tree",
+      "url": "http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/GitSource",
+      "publisher": 
+	{ "@id": "_:vb11626",
+	  "@type": "http://schema.org/Organization",
+	  "name": "OpenLink Software",
+	  "url": "http://www.openlinksw.com/#this" } }
+] }
+
+
+  </script>
+  <div class="microdata html5md hidden" style="display: none">
+    <p>This HTML5 document contains 7 embedded RDF statements represented using HTML+Microdata notation.</p>
+    <p>The embedded RDF content will be recognized by any processor of HTML5 Microdata.</p>
+   <table>
+    <tr>
+        <th>Prefix</th>
+        <th>Namespace IRI</th>
+    </tr>
+<tr>
+        <td>schema</td>
+        <td>http://schema.org/</td>
+      </tr>
+<tr>
+        <td>n2</td>
+        <td>http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+<tr>
+        <td>rdf</td>
+        <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+      </tr>
+<tr>
+        <td>n5</td>
+        <td>http://www.openlinksw.com/#</td>
+      </tr>
+<tr>
+        <td>xsdh</td>
+        <td>http://www.w3.org/2001/XMLSchema#</td>
+      </tr>
+<tr>
+        <td>n4</td>
+        <td>http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/</td>
+      </tr>
+   </table>
+   <div parentelement2="http://www.w3.org/1999/xhtml:body">
+      <dt>Subject Item</dt>
+      <dd>n2:GitSource</dd>
+      <dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/TechArticle">schema:TechArticle</a>
+</dd>
+      <dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">Using Virtuoso Open Source Edition GIT Tree</span>
+</dd>
+      <dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/GitSource">n4:GitSource</a>
+</dd>
+      <dt>schema:publisher</dt>
+      <dd>
+<a itemprop="http://schema.org/publisher" href="nodeID://b11626">_:vb11626</a>
+</dd>
+   </div>
+   <dl itemscope="itemscope" itemid="nodeID://b11626">
+<dt>Subject Item</dt>
+      <dd>_:vb11626</dd>
+<dt>rdf:type</dt>
+      <dd>
+<a itemprop="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" href="http://schema.org/Organization">schema:Organization</a>
+</dd>
+<dt>schema:name</dt>
+      <dd>
+<span itemprop="http://schema.org/name">OpenLink Software</span>
+</dd>
+<dt>schema:url</dt>
+      <dd>
+<a itemprop="http://schema.org/url" href="http://www.openlinksw.com/#this">n5:this</a>
+</dd>
+   </dl>
+  </div>
+<div class="microdata rdfa hidden" style="display: none">
+
+
+
+RDFa+XHTML document
+This HTML document contains 7 embedded RDF statements represented using (X)HTML+RDFa notation.The embedded RDF content will be recognized by any processor of (X)HTML+RDFa.
+
+Namespace PrefixNamespace URI
+xmlns:schemahttp://schema.org/
+xmlns:n2http://www.iodbc.org/dataspace/doc/iodbc/wiki/iodbcWiki/
+xmlns:rdfhttp://www.w3.org/1999/02/22-rdf-syntax-ns#
+xmlns:n5http://www.openlinksw.com/#
+xmlns:xsdhhttp://www.w3.org/2001/XMLSchema#
+xmlns:n4http://www.iodbc.org/doc/dataspace/iodbc/wiki/iodbcWiki/
+
+
+SubjectPredicateObject
+
+n2:GitSourcerdf:typeschema:TechArticle
+n2:GitSourceschema:nameUsing Virtuoso Open Source Edition GIT Tree
+n2:GitSourceschema:urln4:GitSource
+n2:GitSourceschema:publisher_:vb11626
+
+
+_:vb11626rdf:typeschema:Organization
+_:vb11626schema:nameOpenLink Software
+_:vb11626schema:urln5:this
+
+
+
+</div>0<!--End OSDI Data Islands-->
+</body>
+</html>

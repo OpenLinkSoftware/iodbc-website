@@ -1,0 +1,389 @@
+<div xmlns:wv="http://www.openlinksw.com/Virtuoso/WikiV/" xmlns:vi="http://www.openlinksw.com/virtuoso/xslt/" xmlns:ie="http://www.openlinksw.com/Virtuoso/InclEng/" xmlns:fn2="http://www.w3.org/2004/07/xpath-functions" xmlns="http://www.w3.org/1999/xhtml" class="topic-text" id="content">
+      <div class="MACRO_TOC">
+        <h2 class="toc">Table of Contents</h2>
+        <ul>
+          <li>
+            <a href="#Disclaimer">Disclaimer</a>
+          </li>
+          <li>
+            <a href="#ODBC%20Overview">ODBC Overview</a>
+          </li>
+          <li>
+            <a href="#Preface">Preface</a>
+          </li>
+          <li>
+            <a href="#Compiling%20PHP%20with%20linked%20iODBC%20Driver%20Manager%20as%20an%20Apache%20shared%20module">
+            Compiling PHP with linked iODBC Driver Manager as an
+            Apache shared module</a>
+          </li>
+          <li>
+            <a href="#Building%20Apache">Building Apache</a>
+          </li>
+          <li>
+            <a href="#Compiling%20PHP">Compiling PHP</a>
+          </li>
+          <li>
+            <a href="#Restarting%20Apache">Restarting Apache</a>
+          </li>
+          <li>
+            <a href="#Checking%20your%20PHP%20installation">Checking your
+            PHP installation</a>
+          </li>
+          <li>
+            <a href="#Environment%20Variable%20concerns">Environment
+            Variable concerns</a>
+          </li>
+          <li>
+            <a href="#Sample%20PHP%20script">Sample PHP script</a>
+          </li>
+          <li>
+            <a href="#Concerns%20and%20Improvements">Concerns and
+            Improvements</a>
+          </li>
+          <li>
+            <a href="#References">References</a>
+          </li>
+        </ul>
+      </div>
+      <h2><a id="Disclaimer"/>Disclaimer</h2>
+      <p>The following is a HOWTO document for installing PHP with
+      iODBC as an Apache module on Linux or Unix. Feel free to
+      criticize, suggest modifications, or ask further questions.
+      It is currently maintained by Tim Haynes of Openlink Software
+      (<code>iodbc@openlinksw.com</code>).</p>
+      <p>Prerequisites include basic Unix familiarity, such as
+      creating directories and users, using an editor, etc.</p>
+      <p>This HOWTO is intended to assist in connecting
+      <code>php</code>/<code>apache</code> to back end databases
+      via ODBC in a development environment and should not take the
+      place of thorough testing before deployment on a production
+      system.</p>
+      <h2><a id="ODBC%20Overview"/> ODBC Overview</h2>
+      <p>ODBC (Open Database Connectivity) is an operating system-
+      and database-independent communication API that allows a
+      client application (productivity tool, other database, web
+      page, custom application, etc.) to communicate via
+      standards-based function calls to a backend database without
+      relying on that vendor's proprietary communication
+      protocols.</p>
+      <p>ODBC connections involve an application, driver manager,
+      driver, and database. The driver manager under Microsoft
+      Windows platforms is the ODBC Control Panel. The driver
+      manager registers a set of ODBC driver connection parameters
+      called a Data Source Name (DSN). An application looks to the
+      driver manager for a DSN, and then passes the connection
+      parameters specified in the DSN to the appropriate driver,
+      which makes the connection. Under non-Windows platforms you
+      may need to install a Driver Manager.</p>
+      <p>iODBC is an Open Source Driver Manager maintained by
+      OpenLink Software. It is released under a dual LGPL / BSD
+      license.</p>
+      <h2><a id="Preface"/> Preface</h2>
+      <p>You will also need an ODBC Driver and Database to complete
+      the architecture.</p>
+      <p>If you need ODBC drivers to connect to a third-party
+      database on the same or another machine, <a href="http://uda.openlinksw.com/odbc/" class="absuri">OpenLink
+      ODBC Drivers</a> are available, and may be <a href="https://shop.openlinksw.com/license_generator/uda/" class="absuri">downloaded for free trial</a>.</p>
+      <p>The <a href="http://virtuoso.openlinksw.com/" class="absuri">Virtuoso database</a> may also be <a href="https://shop.openlinksw.com/license_generator/virtuoso/" class="absuri">downloaded for free trial</a>.</p>
+      <p>Support with downloading, installing, configuring, and
+      testing these OpenLink products may be obtained through the
+      <a href="http://community.openlinksw.com/" class="absuri">OpenLink Community Space</a>.</p>
+      <h2><a id="Compiling%20PHP%20with%20linked%20iODBC%20Driver%20Manager%20as%20an%20Apache%20shared%20module">
+      </a> Compiling PHP with linked iODBC Driver Manager as an
+      Apache shared module</h2>
+      <p>The process is fairly straightforward. You will need to be
+      a user who has sufficient privileges to perform all of these
+      steps as well. Root privileges can be obtained by typing
+      <code>su root</code> and entering your root password, but be
+      forewarned that you can easily destroy your system as
+      <code>root</code>. If you use root privileges, please do so
+      on a test machine.</p>
+      <p>Set up a build location, and get the latest builds of
+      <a href="http://www.iodbc.org/" class="absuri">iODBC</a>,
+      <a href="http://httpd.apache.org/" class="absuri">Apache</a>,
+      and <a href="http://www.php.net/" class="absuri">PHP</a>.</p>
+      <p>Set some environment variables:</p>
+      <pre>export LD_LIBRARY_PATH=/usr/local/src/odbcsdk/lib:$LD_LIBRARY_PATH
+</pre>
+      <p>- this tells the compiler where to find the driver
+      manager.</p>
+      <p>If you prefer to statically link iODBC then remove or
+      rename <code>libiodbc.so</code> from the above path, and
+      <code>libiodbc.a</code> will be statically linked
+      instead.</p>
+      <h2><a id="Building%20Apache"/> Building Apache</h2>
+      <p>We build <code>apache</code> with support for dynamic
+      modules and APXS:</p>
+      <pre>cd httpd-1.3.*
+./configure --prefix=/usr/local/apache --enable-module=so --enable-mods-shared=[list of modules]
+nice make &amp;&amp; su root -c 'make install'
+</pre>
+      <p>Choose the list of modules to go with whatever you expect
+      to be loading from your <code>httpd.conf</code> (or similar).
+      Among other things, authentication, dav (in the case of
+      Apache 2.x), ssl, virtualhosting, user-tracking,
+      spelling-correction, proxying, SSI, fine control of MIME
+      data, etc. -- these are all configurable at this time.</p>
+      <p>After a while, Apache should finish compiling and install
+      itself into <code>/usr/local/apache/</code>.</p>
+      <h2><a id="Compiling%20PHP"/> Compiling PHP</h2>
+      <p>Unpack the PHP sources with a command like --</p>
+      <pre>tar xvpfj php-4.3.2.tar.bz2
+</pre>
+      <p>-- and change into the resultant directory.</p>
+      <p>Note: if you are using iodbc-3.51.0, this will expose a
+      problem in PHP's configure script whereby it assumes the only
+      library required is <code>-liodbc</code>, when it should be
+      calling "<code>iodbc-config --libs</code>" to determine the
+      <code>LDFLAGS</code> required. This causes a
+      <code>debug.log</code> to be created as PHP is configured,
+      and while it may build seemingly to completion, the resultant
+      PHP library will give unresolved symbol errors, and apache
+      will fail to start. <a href="IODBCPHPHOWTO/php-configure-iodbc.diff" class="c1">This
+      patch</a> can be applied to PHP's <code>./configure</code>
+      script to avoid the problem.</p>
+      <p>PHP needs to be configured with a pointer both to Apache
+      that you installed earlier, and to the ODBC SDK
+      (<code>iodbc</code> directory):</p>
+      <pre>bash$ ./configure --prefix=$HOME/php5 \
+--enable-discard-path \
+--with-layout=GNU \
+--with-openlink=/usr/local/openlink/odbcsdk \
+--enable-experimental-zts \
+--with-regex=php \
+--enable-experimental-zts  \
+--enable-debug  \
+--enable-calendar \
+--with-iodbc=/usr/local/openlink/odbcsdk  \
+--without-mysql \
+--disable-sockets \
+--disable-cli \
+--with-apxs=/usr/local/apache/sbin/apxs \
+--enable-embed=share{,d}
+
+bash$ nice make
+bash$ su root -c 'make install'
+</pre>
+      <p>The process of installing here will invoke
+      <code>apxs</code>, Apache's utility for making installation
+      of modules an awful lot easier. This should also include
+      making minor changes to your <code>httpd.conf</code> (so to
+      be safe, back it up first) - namely these:</p>
+      <pre>LoadModule php5_module    extramodules/libphp5.so
+</pre>
+      <p>and</p>
+      <pre>AddModule mod_php5.c
+</pre>
+      <p>Also, the following should be set:</p>
+      <pre>AddType  application/x-httpd-php         .php .php4 .php3 .phtml   
+AddType  application/x-httpd-php-source  .phps
+</pre>
+      <h2><a id="Restarting%20Apache"/> Restarting Apache</h2>
+      <p>Use the command:</p>
+      <pre>/usr/local/apache/sbin/apachectl start
+</pre>
+      <p>to start apache.</p>
+      <p>Should it fail to start, you'll be best off checking
+      <code>logs/error_log</code> to see why it failed: there are a
+      multitude of possible configuration errors, from typos,
+      through failure to access files to which it should have
+      permission, processes already using the socket configured for
+      listening, and more.</p>
+      <h2><a id="Checking%20your%20PHP%20installation"/>
+      Checking your PHP installation</h2>
+      <p>Create a simple PHP starter script, e.g.,
+      <code>info.php</code>, containing nothing but the line:</p>
+      <pre>&lt;?php phpinfo(); ?&gt;
+</pre>
+      <p>Ensure that the permissions are acceptable -
+      <code>644</code> (owner read+write, everyone else read-only)
+      should suffice.</p>
+      <p>Put it in your <code>htdocs/</code> directory, or
+      somewhere else accessible under your webserver configuration
+      (e.g., <code>~/public_html/</code>).</p>
+      <p>Point your browser to <a href="http://localhost/info.php" class="absuri">http://localhost/info.php</a> to see all PHP's
+      configuration information.</p>
+      <h2><a id="Environment%20Variable%20concerns"/>
+      Environment Variable concerns</h2>
+      <p>There are two files that your ODBC-using PHP scripts must
+      be able to access:</p>
+      <p>* <code>libiodbc.so</code> - PHP requires this to be in
+      the list of directories searched, so if you export
+      <code>LD_LIBRARY_PATH</code> either before starting
+      <code>apache</code>, or using the <code>SetEnv</code>
+      directive in <code>httpd.conf</code>, it should be able to
+      access the driver manager.</p>
+      <p>* <code>odbc.ini</code> - this is accessed by the driver
+      manager, <code>libiodbc.so</code>, and contains a list of all
+      your DSNs and their connect info, etc. In order to find this,
+      iODBC uses the <code>ODBCINI</code> environment variable, or
+      failing that it will search <code>/etc/odbc.ini</code> or
+      <code>~/.odbc.ini</code> instead. You can either export this
+      in <code>httpd.conf</code>, or before Apache starts, or from
+      within your PHP script itself with the <code>setenv()</code>
+      function call.</p>
+      <h2><a id="Sample%20PHP%20script"/> Sample PHP script</h2>
+      <p>The following script effects a connection to a database
+      (<code>Local Virtuoso Demo</code> is the default DSN), and
+      either executes a query or lists tables present in that
+      database.</p>
+      <pre>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt; 
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;OpenLink Virtuoso test of ODBC access through PHP hosting&lt;/title&gt;
+&lt;link type="text/css" rel="STYLESHEET" 
+media="ALL" href="../../tutorial.css" /&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;h1&gt;Testing ODBC connectivity from PHP hosted within Virtuoso&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;?php
+# set global variables based on the form thing - see `register global
+# variables' and PHP security updates
+$query=$_POST['query'];
+$uid=$_POST['uid'];
+$passwd=$_POST['passwd'];
+$listtables=$_POST['listtables'];
+$DSN=$_POST['DSN'];
+$exec=$_POST['exec'];
+?&gt;
+
+&lt;p&gt;Enter the parameters for your query here:&lt;/p&gt;
+
+&lt;form action="odbc-sample.php" method="post"&gt; 
+&lt;div&gt; 
+&lt;span class="caption"&gt;DSN&lt;/span&gt; 
+&lt;input type="text" name="DSN" value="&lt;?php
+print ($DSN&lt;&gt;"")?$DSN:"Local Virtuoso Demo"
+?&gt;" /&gt; 
+
+&lt;span class="caption"&gt;UserID&lt;/span&gt;
+&lt;input type="text" name="uid" value="&lt;?php print ($uid&lt;&gt;"")?$uid:"demo" ?&gt;" /&gt;
+
+&lt;span class="caption"&gt;Password&lt;/span&gt;
+&lt;input type="password" name="passwd" value="&lt;?php print ($passwd&lt;&gt;"")?$passwd:"demo"?&gt;" /&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class="caption"&gt;Query&lt;/span&gt; 
+&lt;input type="text" name="query" value="&lt;?php
+print ($query&lt;&gt;"")?$query:"select top 100 * from Demo..Customers"
+?&gt;" /&gt; 
+&lt;/div&gt;
+&lt;div&gt;
+&lt;input type="submit" name="exec" value="Execute query" /&gt;
+or
+&lt;input type="submit" name="listtables" value="List Tables" /&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;hr /&gt;
+
+&lt;?php
+if($query&lt;&gt;"" &amp;&amp; $DSN&lt;&gt;"" &amp;&amp; $exec!=NULL) {
+
+print "&lt;h2&gt;Results:&lt;/h2&gt;
+";
+print "&lt;p&gt;Connecting... ";
+$handle=odbc_connect ("$DSN", "$uid", "$passwd");
+
+if(!$handle) {
+print "&lt;p&gt;Uh-oh! Failure to connect to DSN [$DSN]: &lt;br /&gt;";
+odbc_errormsg();
+}
+else {
+print "done&lt;/p&gt;
+";
+$resultset=odbc_exec ($handle, "$query");
+odbc_result_all($resultset, "border=2");
+odbc_close($handle);
+}
+}
+
+if($listtables!=NULL) {
+print "&lt;h2&gt;List of tables&lt;/h2&gt;";
+print "&lt;p&gt;Connecting... ";
+$handle=odbc_connect ("$DSN", "$uid", "$passwd");
+print "done&lt;/p&gt;
+";
+
+if(!$handle) {
+print "&lt;p&gt;Uh-oh! Failure to connect to DSN [$DSN]: &lt;br /&gt;";
+odbc_errormsg();
+}
+else {
+$resultset=odbc_tables($handle);
+odbc_result_all($resultset, "border=2");
+odbc_close($handle);
+}
+}
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+      <h2><a id="Concerns%20and%20Improvements"/> Concerns and
+      Improvements</h2>
+      <p>Historically, iODBC has not been fully supported in PHP.
+      We made a patch addressing these issues:</p>
+      <ul>
+        <li>ODBC 3.52 datatypes are now used, to comply with ODBC64
+        spec on Win64 and 64-bit *nix platforms</li>
+        <li>Enabled use of <code>SQLDriverConnect()</code>, array
+        fetching, and other advanced PHP API functions</li>
+        <li>Made the static cursor model the default (instead of
+        dynamic), to speed up advanced drivers. The cursor model
+        can be selected by a setting in <code>php.ini</code>.</li>
+      </ul>
+      <p>This patch has been incorporated into PHP around version
+      5.2.11 and above.</p>
+      <p>To use this patch with older versions of PHP, first
+      download it: <code><a href="IODBCPHPHOWTO/iodbc-php5.diff" class="c1">iodbc-php5.diff</a></code></p>
+      <p>Second, apply it using <code>patch(1)</code>:</p>
+      <pre>bash$ tar xvfpj php-5.2.5.tar.bz2
+php-5.2.5/
+php-5.2.5/ext/
+php-5.2.5/ext/gd/
+php-5.2.5/ext/gd/gd.c
+php-5.2.5/ext/gd/gd_ctx.c
+...
+bash$ patch -p0 &lt; ../iodbc-php5.diff
+patching file ext/odbc/php_odbc.c
+Hunk #26 succeeded at 1644 (offset 1 line).
+Hunk #27 succeeded at 1715 (offset 1 line).
+Hunk #28 succeeded at 1777 (offset 1 line).
+Hunk #29 succeeded at 1863 (offset 1 line).
+Hunk #47 succeeded at 3603 (offset 1 line).
+patching file ext/odbc/php_odbc.h
+patching file ext/odbc/php_odbc_includes.h
+</pre>
+      <p>You can now resume the build process from the
+      "<code>./configure</code>" step above.</p>
+      <h2><a id="References"/> References</h2>
+      <ul>
+        <li>PHP on macOS <a href="http://www.php.net/manual/en/install.macosx.php" class="absuri">installation instructions</a>
+        </li>
+        <li>
+          <a href="http://www.iodbc.org" class="absuri">iODBC.org</a>
+        </li>
+        <li>History of <a href="http://www.iodbc.org/odbcstory.htm" class="absuri">ODBC on Unix</a>
+        </li>
+        <li>
+          <a href="http://www.php.net/support.php" class="absuri">PHP main site</a>
+        </li>
+        <li>
+          <a href="http://www.openlinksw.com/" class="absuri">OpenLink Software</a>
+          <ul>
+            <li>
+              <a href="http://community.openlinksw.com/" class="absuri">Community Space</a>
+            </li>
+            <li>
+              <a href="http://support.openlinksw.com/" class="absuri">Support Center and Case System</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
